@@ -32,19 +32,29 @@ export default function BootSequence({ progress }: BootSequenceProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
 
     let rotation = 0;
     let animationId: number;
 
     const drawGlobe = () => {
+      // Clear with slight fade for trail effect if desired, or solid clear
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const radius = Math.min(canvas.width, canvas.height) * 0.25;
+
+      // Responsive radius calculation
+      const isMobile = window.innerWidth < 768;
+      const scaleFactor = isMobile ? 0.35 : 0.25;
+      const radius = Math.min(canvas.width, canvas.height) * scaleFactor;
 
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.lineWidth = 1;
@@ -53,7 +63,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
       for (let i = -2; i <= 2; i++) {
         const y = centerY + (i * radius * 0.4);
         const r = Math.sqrt(radius * radius - (y - centerY) * (y - centerY));
-        
+
         ctx.beginPath();
         ctx.ellipse(centerX, y, r, r * 0.3, 0, 0, Math.PI * 2);
         ctx.stroke();
@@ -63,7 +73,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
       for (let i = 0; i < 6; i++) {
         const angle = (i * Math.PI / 3) + rotation;
         const x = centerX + Math.cos(angle) * radius;
-        
+
         ctx.beginPath();
         ctx.ellipse(centerX + (x - centerX) * 0.5, centerY, radius * 0.3, radius, angle, 0, Math.PI * 2);
         ctx.stroke();
@@ -78,7 +88,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
       ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
       ctx.font = '10px monospace';
       ctx.textAlign = 'center';
-      
+
       const labels = ['Z', 'P', 'R', 'N', 'V', 'K', 'S', 'B'];
       labels.forEach((label, i) => {
         const angle = (i * Math.PI / 4) + rotation;
@@ -94,6 +104,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
     drawGlobe();
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
     };
   }, []);
@@ -101,7 +112,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
   // Update system statuses based on progress
   useEffect(() => {
     const newStatuses = [...systemStatuses];
-    
+
     if (progress > 10) {
       newStatuses[0].progress = Math.min(100, (progress - 10) * 2);
       newStatuses[0].status = newStatuses[0].progress >= 100 ? 'ACTIVE' : 'PENDING';
@@ -159,47 +170,47 @@ export default function BootSequence({ progress }: BootSequenceProps) {
       {!showTerminal && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-            {/* Red orbital paths */}
-            <ellipse
-              cx="50"
-              cy="50"
-              rx="35"
-              ry="15"
-              fill="none"
-              stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.2"
-              transform="rotate(20 50 50)"
-              style={{
-                opacity: progress > 20 ? 1 : 0,
-                transition: 'opacity 0.5s ease',
-              }}
-            />
-            <ellipse
-              cx="50"
-              cy="50"
-              rx="40"
-              ry="10"
-              fill="none"
-              stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.2"
-              transform="rotate(-30 50 50)"
-              style={{
-                opacity: progress > 30 ? 1 : 0,
-                transition: 'opacity 0.5s ease',
-              }}
-            />
+            {/* Red orbital paths - Responsive sizing */}
             <ellipse
               cx="50"
               cy="50"
               rx="30"
-              ry="20"
+              ry="14"
               fill="none"
               stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.2"
-              transform="rotate(60 50 50)"
+              strokeWidth="0.15"
+              transform="rotate(20 50 50)"
+              className="opacity-0 motion-safe:transition-opacity duration-500"
               style={{
-                opacity: progress > 40 ? 1 : 0,
-                transition: 'opacity 0.5s ease',
+                opacity: progress > 15 ? 1 : 0,
+              }}
+            />
+            <ellipse
+              cx="50"
+              cy="50"
+              rx="34"
+              ry="9"
+              fill="none"
+              stroke="rgba(239, 68, 68, 0.6)"
+              strokeWidth="0.15"
+              transform="rotate(-30 50 50)"
+              className="opacity-0 motion-safe:transition-opacity duration-500"
+              style={{
+                opacity: progress > 25 ? 1 : 0,
+              }}
+            />
+            <ellipse
+              cx="50"
+              cy="50"
+              rx="26"
+              ry="19"
+              fill="none"
+              stroke="rgba(239, 68, 68, 0.6)"
+              strokeWidth="0.15"
+              transform="rotate(60 50 50)"
+              className="opacity-0 motion-safe:transition-opacity duration-500"
+              style={{
+                opacity: progress > 35 ? 1 : 0,
               }}
             />
           </svg>
@@ -208,16 +219,25 @@ export default function BootSequence({ progress }: BootSequenceProps) {
 
       {/* Loading progress bar */}
       {!showTerminal && (
-        <div className="absolute bottom-20 left-6 right-6">
-          <div className="flex items-center gap-4 text-[10px] font-mono">
-            <span className="text-white/60 whitespace-nowrap">LOADING A QUALITY ASSESSMENT APP</span>
-            <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+        <div className="absolute bottom-10 md:bottom-20 left-6 right-6 flex justify-center">
+          <div className="w-full max-w-2xl flex flex-col gap-2">
+            <div className="flex items-end justify-between text-[#00ffb4] font-bold tracking-widest" style={{ fontFamily: 'Orbitron, monospace' }}>
+              <span className="text-sm md:text-base animate-pulse">VERGE LOADING</span>
+              <span className="text-xs md:text-sm">{Math.round(progress)}%</span>
+            </div>
+
+            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
+              {/* Glow effect */}
               <div
-                className="h-full bg-gradient-to-r from-cosmic-blue to-cosmic-purple transition-all duration-100"
+                className="absolute top-0 bottom-0 bg-[#00ffb4] blur-[4px] transition-all duration-100 ease-out"
+                style={{ width: `${progress}%`, opacity: 0.6 }}
+              />
+              {/* Main bar */}
+              <div
+                className="h-full bg-[#00ffb4] transition-all duration-100 ease-out shadow-[0_0_10px_#00ffb4]"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-white/80 w-8 text-right">{Math.round(progress)}%</span>
           </div>
         </div>
       )}
@@ -284,7 +304,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
                 strokeWidth="0.5"
               />
             ))}
-            
+
             {/* Waveform */}
             <path
               d={`M 0,30 ${Array.from({ length: 50 }, (_, i) => {
@@ -297,7 +317,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
               strokeWidth="1"
             />
           </svg>
-          
+
           {/* Y-axis labels */}
           <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[8px] text-white/30 font-mono -ml-6">
             <span>10M</span>
@@ -305,7 +325,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
             <span>500K</span>
             <span>0</span>
           </div>
-          
+
           {/* X-axis labels */}
           <div className="absolute bottom-0 left-0 right-0 flex justify-between text-[8px] text-white/30 font-mono -mb-4">
             {['1810', '1830', '1850', '1870', '1890', '1910', '1930', '1950', '1970', '1980', '2000', '2020', '2040', '2060', '2080', '2100'].map((year) => (

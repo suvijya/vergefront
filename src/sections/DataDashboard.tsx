@@ -259,9 +259,14 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Responsive radius state
+    let earthRadius = 350;
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      // Adjust radius based on screen width
+      earthRadius = window.innerWidth < 768 ? 180 : 350;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -297,7 +302,7 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const earthRadius = 350; // Larger Earth for better visibility
+      // earthRadius is now updated by resize()
 
       // Draw Earth Image
       if (image.complete) {
@@ -358,8 +363,12 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
       particlesRef.current.forEach((particle) => {
         particle.orbitAngle += particle.orbitSpeed;
 
-        const x = centerX + Math.cos(particle.orbitAngle) * particle.orbitRadius;
-        const y = centerY + Math.sin(particle.orbitAngle) * particle.orbitRadius * 0.4;
+        // Adjust debris orbit scale based on earth radius to keep proportions
+        const scaleFactor = earthRadius / 350;
+        const currentOrbitRadius = particle.orbitRadius * scaleFactor;
+
+        const x = centerX + Math.cos(particle.orbitAngle) * currentOrbitRadius;
+        const y = centerY + Math.sin(particle.orbitAngle) * currentOrbitRadius * 0.4;
         const z = Math.sin(particle.orbitAngle);
 
         const scale = 0.5 + (z + 1) * 0.5;
@@ -375,11 +384,13 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
       ctx.strokeStyle = 'rgba(239, 68, 68, 0.2)';
       ctx.lineWidth = 1;
 
+      // Scale orbital rings too
+      const ringScale = earthRadius / 350;
       [250, 320, 400].forEach((radius, i) => {
         ctx.beginPath();
         ctx.ellipse(
           centerX, centerY,
-          radius, radius * 0.4,
+          radius * ringScale, radius * 0.4 * ringScale,
           rotation * (i % 2 === 0 ? 1 : -1) * 0.5,
           0, Math.PI * 2
         );

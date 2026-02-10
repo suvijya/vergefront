@@ -120,23 +120,23 @@ function App() {
       <div className="fixed bottom-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm border-t border-white/10">
         <div className="relative flex justify-between items-center text-[10px] font-mono tracking-wider text-white/60">
           <div className="flex items-center gap-8">
-            <span>SINUSOID OF SPREADING: <span className="text-cosmic-green">ACTIVE</span></span>
+            <span className="hidden md:inline">SINUSOID OF SPREADING: <span className="text-cosmic-green">ACTIVE</span></span>
             <span className="flex items-center gap-2">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
                 <ellipse cx="12" cy="12" rx="10" ry="4" />
                 <ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(60 12 12)" />
                 <ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(-60 12 12)" />
               </svg>
-              QUALITY ASSESSMENT: <span className="text-cosmic-green">ACTIVE</span>
+              <span className="hidden md:inline">QUALITY ASSESSMENT: </span><span className="text-cosmic-green">ACTIVE</span>
             </span>
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 text-white/80 whitespace-nowrap">
+          <div className="absolute left-1/2 -translate-x-1/2 text-white/80 whitespace-nowrap hidden md:block">
             Made with <span className="text-red-500">❤️</span> by Suvijya Arya
           </div>
 
           <div>
-            ALL SYSTEM : <span className={bootComplete ? "text-cosmic-green" : "text-cosmic-amber"}>
+            <span className="hidden md:inline">ALL SYSTEM : </span><span className={bootComplete ? "text-cosmic-green" : "text-cosmic-amber"}>
               {bootComplete ? "ACTIVE" : "PENDING"}
             </span>
           </div>
