@@ -1,0 +1,95 @@
+/* App-specific styles */
+
+/* Ensure smooth scrolling behavior */
+html {
+  scroll-behavior: auto;
+}
+
+/* Main app container */
+#root {
+  min-height: 100vh;
+  background: #000;
+}
+
+/* Section base styles */
+section {
+  position: relative;
+  width: 100%;
+}
+
+/* Canvas elements */
+canvas {
+  display: block;
+}
+
+/* Ensure proper z-indexing for pinned sections */
+.pin-spacer {
+  z-index: 1 !important;
+}
+
+/* Fix for GSAP ScrollTrigger pinned elements */
+[data-scroll-trigger] {
+  will-change: transform;
+}
+
+/* Counter animation styles */
+.counter-animate {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Smooth opacity transitions */
+.fade-transition {
+  transition: opacity 0.3s ease;
+}
+
+/* Hardware acceleration for animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Text rendering optimization */
+.optimize-text {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent text selection during animations */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Custom cursor for interactive elements */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Loading state */
+.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Error state */
+.error {
+  color: #ef4444;
+}
+
+/* Success state */
+.success {
+  color: #22c55e;
+}
+
+/* Warning state */
+.warning {
+  color: #f59e0b;
+}
+
+/* Info state */
+.info {
+  color: #00d4ff;
+}
