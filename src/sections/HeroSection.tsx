@@ -56,7 +56,7 @@ export default function HeroSection() {
         '-=0.3'
       );
 
-    return () => tl.kill();
+    return () => { tl.kill(); };
   }, []);
 
   // Scroll animation - uses sticky positioning instead of pin

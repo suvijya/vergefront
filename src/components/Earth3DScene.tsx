@@ -51,7 +51,7 @@ function CameraController({ scrollProgress }: { scrollProgress: number }) {
     return null;
 }
 
-function EarthMesh({ scrollProgress }: Earth3DProps) {
+function EarthMesh({ scrollProgress: _scrollProgress }: Earth3DProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const atmosphereRef = useRef<THREE.Mesh>(null);
 
