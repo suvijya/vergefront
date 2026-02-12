@@ -12,82 +12,69 @@ interface DaySchedule {
   events: TimelineEvent[];
 }
 
-interface Schedule {
-  hackathon: DaySchedule[];
-  techfest: DaySchedule[];
-}
-
-const scheduleData: Schedule = {
-  hackathon: [
-    {
-      date: 'DAY 1 - 15TH FEB',
-      events: [
-        { time: '09:00', title: 'OPENING CEREMONY', description: 'Kickoff with keynote speakers and problem statement reveal', venue: 'MAIN AUDITORIUM' },
-        { time: '10:30', title: 'HACKING BEGINS', description: '48-hour coding marathon starts. Build, innovate, disrupt!', venue: 'HACKER SPACE' },
-        { time: '14:00', title: 'MENTOR SESSION 1', description: 'One-on-one guidance from industry experts', venue: 'MENTORSHIP ZONE' },
-        { time: '20:00', title: 'MIDNIGHT SNACKS', description: 'Recharge with food, music, and mini-games', venue: 'CHILL ZONE' },
-      ],
-    },
-    {
-      date: 'DAY 2 - 16TH FEB',
-      events: [
-        { time: '10:00', title: 'PROGRESS CHECK-IN', description: 'Team updates and mid-hackathon reviews', venue: 'HACKER SPACE' },
-        { time: '14:00', title: 'FINAL SUBMISSIONS', description: 'Code freeze! Submit your projects', venue: 'ONLINE PORTAL' },
-        { time: '16:00', title: 'DEMO & PITCHING', description: 'Present your solutions to the judges', venue: 'MAIN AUDITORIUM' },
-        { time: '19:00', title: 'AWARDS CEREMONY', description: 'Winners announced, prizes distributed!', venue: 'MAIN AUDITORIUM' },
-      ],
-    },
-  ],
-  techfest: [
-    {
-      date: 'DAY 1 - 15TH FEB',
-      events: [
-        { time: '08:30', title: 'REGISTRATION & CHECK-IN', description: 'Participant Registration & Check-in', venue: 'MAIN ENTRANCE' },
-        { time: '10:00', title: 'INAUGURAL CEREMONY', description: 'Inaugural Ceremony & Keynote Address', venue: 'MAIN AUDITORIUM' },
-        { time: '11:00', title: 'ROOM ALLOCATION', description: 'Room Allocation for Participants', venue: 'RECEPTION' },
-        { time: '12:00', title: 'SRM BUILDS 7.0', description: 'SRM Builds 7.0 Hackathon Begins - 23 hours', venue: 'HACKER SPACE' },
-        { time: '12:15', title: 'DESIGN-A-TEE', description: 'Design Competition - 2 hours 15 mins', venue: 'DESIGN LAB' },
-        { time: '12:30', title: 'INNOWAVE 2.0', description: 'Innovation Challenge - 4 hours 15 mins', venue: 'INNOVATION HUB' },
-        { time: '12:45', title: 'ROBOLIGA', description: 'Robotics Competition - 1 hour 30 mins', venue: 'ARENA GROUND' },
-        { time: '13:00', title: 'RAD 2.0', description: 'Rapid Application Development - 4 hours 30 mins', venue: 'LAB COMPLEX' },
-        { time: '13:00', title: 'BRIDGE O MANIA', description: 'Bridge Building Competition - 1 hour 15 mins', venue: 'ENGINEERING HALL' },
-        { time: '14:30', title: 'TRECERT', description: 'Technical Certification Event - 1 hour', venue: 'SEMINAR HALL' },
-        { time: '14:30', title: 'MSME PANEL', description: 'MSME Industry Panel Discussion - 1 hour', venue: 'CONFERENCE ROOM' },
-        { time: '15:45', title: 'REVVD', description: 'Automotive Event - 1 hour', venue: 'GROUND FLOOR' },
-        { time: '16:00', title: 'SNAP SYNTAX', description: 'Coding Challenge - 1 hour 15 mins', venue: 'CS LAB' },
-        { time: '17:00', title: 'RESULTS ANNOUNCEMENT', description: 'Results for Competitions Before 4 PM - 30 mins', venue: 'MAIN STAGE' },
-        { time: '17:30', title: 'TRANSPORTATION', description: 'Transportation Services (Shuttle Services)', venue: 'PARKING LOT' },
-        { time: '17:45', title: 'CODE BLITZ', description: 'Speed Coding Challenge - 1 hour 30 mins', venue: 'CS LAB' },
-        { time: '18:30', title: 'BUG BOUNTY', description: 'Security Challenge - 2 hours 15 mins', venue: 'CYBER LAB' },
-        { time: '21:15', title: 'ASTROPHOTOGRAPHY', description: 'Night Sky Photography Session - 1 hour', venue: 'ROOFTOP' },
-        { time: '21:30', title: 'JAMMING SESSION', description: 'Music and Networking - 1 hour', venue: 'CENTRAL LAWN' },
-      ],
-    },
-    {
-      date: 'DAY 2 - 16TH FEB',
-      events: [
-        { time: '01:30', title: 'MURDER MYSTERY', description: 'Late Night Mystery Event - 2 hours', venue: 'MYSTERY HALL' },
-        { time: '10:00', title: 'ARTISTIC AURA', description: 'Art Competition - 3 hours', venue: 'ART GALLERY' },
-        { time: '10:00', title: 'VELOCITY', description: 'Speed Challenge - 3 hours', venue: 'RACING TRACK' },
-        { time: '10:30', title: 'BIDDING WAR', description: 'Auction Strategy Game - 2 hours', venue: 'CONFERENCE HALL' },
-        { time: '11:00', title: 'MEMOCRACY', description: 'Meme Making Competition - 1 hour 30 mins', venue: 'MEDIA LAB' },
-        { time: '11:30', title: 'KURUKSHETRA', description: 'Strategy & Debate - 1 hour', venue: 'DEBATE HALL' },
-        { time: '12:00', title: 'MARK I', description: 'Technical Event - 2 hours', venue: 'TECH HUB' },
-        { time: '14:00', title: 'GUEST SPEAKER PANEL', description: 'Guest Speaker Panel Discussion - 3 hours', venue: 'MAIN AUDITORIUM' },
-        { time: '17:00', title: 'AWARDS CEREMONY', description: 'Awards & Recognition Ceremony - 1 hour', venue: 'MAIN AUDITORIUM' },
-        { time: '18:30', title: 'EVENT CONCLUSION', description: 'Event Conclusion & Transportation Services', venue: 'MAIN ENTRANCE' },
-      ],
-    },
-  ],
-};
+const scheduleData: DaySchedule[] = [
+  {
+    date: 'DAY 1 - 15TH FEB',
+    events: [
+      { time: '08:30', title: 'REGISTRATION & CHECK-IN', description: 'Participant Registration & Check-in', venue: 'MAIN ENTRANCE' },
+      { time: '10:00', title: 'INAUGURAL CEREMONY', description: 'Inaugural Ceremony & Keynote Address', venue: 'MAIN AUDITORIUM' },
+      { time: '11:00', title: 'ROOM ALLOCATION', description: 'Room Allocation for Participants', venue: 'RECEPTION' },
+      { time: '12:00', title: 'SRM BUILDS 7.0', description: 'SRM Builds 7.0 Hackathon Begins - 23 hours', venue: 'HACKER SPACE' },
+      { time: '12:15', title: 'DESIGN-A-TEE', description: 'Design Competition - 2 hours 15 mins', venue: 'DESIGN LAB' },
+      { time: '12:30', title: 'INNOWAVE 2.0', description: 'Innovation Challenge - 4 hours 15 mins', venue: 'INNOVATION HUB' },
+      { time: '12:45', title: 'ROBOLIGA', description: 'Robotics Competition - 1 hour 30 mins', venue: 'ARENA GROUND' },
+      { time: '13:00', title: 'RAD 2.0', description: 'Rapid Application Development - 4 hours 30 mins', venue: 'LAB COMPLEX' },
+      { time: '13:00', title: 'BRIDGE O MANIA', description: 'Bridge Building Competition - 1 hour 15 mins', venue: 'ENGINEERING HALL' },
+      { time: '14:30', title: 'TRECERT', description: 'Technical Certification Event - 1 hour', venue: 'SEMINAR HALL' },
+      { time: '14:30', title: 'MSME PANEL', description: 'MSME Industry Panel Discussion - 1 hour', venue: 'CONFERENCE ROOM' },
+      { time: '15:45', title: 'REVVD', description: 'Automotive Event - 1 hour', venue: 'GROUND FLOOR' },
+      { time: '16:00', title: 'SNAP SYNTAX', description: 'Coding Challenge - 1 hour 15 mins', venue: 'CS LAB' },
+      { time: '17:00', title: 'RESULTS ANNOUNCEMENT', description: 'Results for Competitions Before 4 PM - 30 mins', venue: 'MAIN STAGE' },
+      { time: '17:30', title: 'TRANSPORTATION', description: 'Transportation Services (Shuttle Services)', venue: 'PARKING LOT' },
+      { time: '17:45', title: 'CODE BLITZ', description: 'Speed Coding Challenge - 1 hour 30 mins', venue: 'CS LAB' },
+      { time: '18:30', title: 'BUG BOUNTY', description: 'Security Challenge - 2 hours 15 mins', venue: 'CYBER LAB' },
+      { time: '21:15', title: 'ASTROPHOTOGRAPHY', description: 'Night Sky Photography Session - 1 hour', venue: 'ROOFTOP' },
+      { time: '21:30', title: 'JAMMING SESSION', description: 'Music and Networking - 1 hour', venue: 'CENTRAL LAWN' },
+    ],
+  },
+  {
+    date: 'DAY 2 - 16TH FEB',
+    events: [
+      { time: '01:30', title: 'MURDER MYSTERY', description: 'Late Night Mystery Event - 2 hours', venue: 'MYSTERY HALL' },
+      { time: '10:00', title: 'ARTISTIC AURA', description: 'Art Competition - 3 hours', venue: 'ART GALLERY' },
+      { time: '10:00', title: 'VELOCITY', description: 'Speed Challenge - 3 hours', venue: 'RACING TRACK' },
+      { time: '10:30', title: 'BIDDING WAR', description: 'Auction Strategy Game - 2 hours', venue: 'CONFERENCE HALL' },
+      { time: '11:00', title: 'MEMOCRACY', description: 'Meme Making Competition - 1 hour 30 mins', venue: 'MEDIA LAB' },
+      { time: '11:30', title: 'KURUKSHETRA', description: 'Strategy & Debate - 1 hour', venue: 'DEBATE HALL' },
+      { time: '12:00', title: 'MARK I', description: 'Technical Event - 2 hours', venue: 'TECH HUB' },
+      { time: '14:00', title: 'GUEST SPEAKER PANEL', description: 'Guest Speaker Panel Discussion - 3 hours', venue: 'MAIN AUDITORIUM' },
+      { time: '17:00', title: 'AWARDS CEREMONY', description: 'Awards & Recognition Ceremony - 1 hour', venue: 'MAIN AUDITORIUM' },
+      { time: '18:30', title: 'EVENT CONCLUSION', description: 'Event Conclusion & Transportation Services', venue: 'MAIN ENTRANCE' },
+    ],
+  },
+];
 
 export default function TimelineSection() {
-  const [activeTab, setActiveTab] = useState<'hackathon' | 'techfest'>('hackathon');
   const [activeDay, setActiveDay] = useState(0);
+  const [isScrollCaptured, setIsScrollCaptured] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const dwellTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const currentSchedule = scheduleData[activeTab];
-  const currentDay = currentSchedule[activeDay];
+  const currentDay = scheduleData[activeDay];
+
+  const handleMouseEnter = () => {
+    dwellTimerRef.current = setTimeout(() => {
+      setIsScrollCaptured(true);
+    }, 700); // 0.7 seconds dwell threshold
+  };
+
+  const handleMouseLeave = () => {
+    if (dwellTimerRef.current) {
+      clearTimeout(dwellTimerRef.current);
+      dwellTimerRef.current = null;
+    }
+    setIsScrollCaptured(false);
+  };
 
   return (
     <section className="h-screen w-full bg-black relative overflow-hidden flex flex-col">
@@ -116,31 +103,9 @@ export default function TimelineSection() {
         </h2>
       </div>
 
-      {/* Tab Switcher */}
-      <div className="flex justify-center gap-4 pb-6 relative z-10">
-        <button
-          onClick={() => { setActiveTab('hackathon'); setActiveDay(0); }}
-          className={`px-6 py-2 font-mono text-xs tracking-wider border transition-all duration-300 ${activeTab === 'hackathon'
-            ? 'bg-white/10 border-white/40 text-white'
-            : 'border-white/20 text-white/40 hover:border-white/40 hover:text-white/60'
-            }`}
-        >
-          [ HACKATHON ]
-        </button>
-        <button
-          onClick={() => { setActiveTab('techfest'); setActiveDay(0); }}
-          className={`px-6 py-2 font-mono text-xs tracking-wider border transition-all duration-300 ${activeTab === 'techfest'
-            ? 'bg-white/10 border-white/40 text-white'
-            : 'border-white/20 text-white/40 hover:border-white/40 hover:text-white/60'
-            }`}
-        >
-          [ TECHFEST ]
-        </button>
-      </div>
-
       {/* Day Tabs */}
       <div className="flex justify-center gap-6 pb-6 relative z-10">
-        {currentSchedule.map((day, index) => (
+        {scheduleData.map((day, index) => (
           <button
             key={index}
             onClick={() => setActiveDay(index)}
@@ -155,7 +120,12 @@ export default function TimelineSection() {
       </div>
 
       {/* Timeline Container - Scrollable Region */}
-      <div className="flex-1 relative overflow-hidden mx-6 md:mx-12 lg:mx-24 mb-8" style={{ maxHeight: '60vh' }}>
+      <div
+        className="flex-1 relative overflow-hidden mx-6 md:mx-12 lg:mx-24 mb-8"
+        style={{ maxHeight: '60vh' }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {/* Gradient fade top */}
         <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
 
@@ -165,9 +135,14 @@ export default function TimelineSection() {
         {/* Scrollable content */}
         <div
           ref={scrollRef}
-          data-lenis-prevent
-          className="h-full overflow-y-scroll px-4"
-          style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.3) transparent' }}
+          {...(isScrollCaptured ? { 'data-lenis-prevent': true } : {})}
+          className="h-full overflow-y-scroll px-4 transition-all duration-500"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: isScrollCaptured
+              ? 'rgba(34, 211, 238, 0.5) transparent' // Cyan when captured
+              : 'rgba(255, 255, 255, 0.1) transparent'
+          }}
         >
           <div className="py-8 space-y-1">
             {currentDay.events.map((event, index) => (

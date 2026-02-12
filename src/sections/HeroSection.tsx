@@ -2,102 +2,78 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import logo from '../assets/logo.png';
-import earthImg from '../assets/earthback.png';
 
-export default function HeroSection() {
+export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const logoImgRef = useRef<HTMLImageElement>(null);
-  const earthRef = useRef<HTMLDivElement>(null);
-  const [textVisible, setTextVisible] = useState(false);
+
   const [readyForScroll, setReadyForScroll] = useState(false);
 
-  // Timed animation - text types, waits 2s, fades, logo appears
+  // Logo animation - appears immediately
   useEffect(() => {
-    const text = textRef.current;
     const logoEl = logoRef.current;
-    if (!text || !logoEl) return;
+    if (!logoEl) return;
 
-    const tl = gsap.timeline({ delay: 0.5 });
+    const tl = gsap.timeline({ delay: 0.2 });
 
-    tl.set(text, { opacity: 1 })
-      .fromTo(
-        text.querySelectorAll('.char'),
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.05,
-          stagger: 0.03,
-          ease: 'none',
-          onComplete: () => setTextVisible(true),
-        }
-      )
-      // Wait 2 seconds
-      .to({}, { duration: 2 })
-      // Text fades out
-      .to(text, {
-        opacity: 0,
-        y: -30,
-        duration: 0.8,
-        ease: 'power2.inOut',
-      })
-      // Logo appears
-      .fromTo(
-        logoEl,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: 'back.out(1.5)',
-          onComplete: () => setReadyForScroll(true),
-        },
-        '-=0.3'
-      );
+    tl.fromTo(
+      logoEl,
+      { opacity: 0, scale: 0.8 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 1.5,
+        ease: 'power3.out',
+        onComplete: () => setReadyForScroll(true),
+      }
+    );
 
     return () => { tl.kill(); };
   }, []);
 
-  // Scroll animation - uses sticky positioning instead of pin
+  // Scroll animation - Restored with optimized timing
   useEffect(() => {
     if (!readyForScroll) return;
 
     const inner = innerRef.current;
-    const earth = earthRef.current;
     const logoEl = logoRef.current;
     const logoImg = logoImgRef.current;
 
-    if (!inner || !earth || !logoEl || !logoImg) return;
+    if (!inner || !logoEl || !logoImg) return;
+
+    // Collect triggers for scoped cleanup
+    const heroTriggers: ScrollTrigger[] = [];
 
     // Logo Container Fade Out (Text + Decorations) - Exclude VERGE text
-    // We target specific children to fade out, allowing VERGE text to move independently
     const decorations = logoEl.querySelectorAll('.hero-decoration');
-    gsap.to(decorations, {
+    const decTween = gsap.to(decorations, {
       opacity: 0,
       ease: 'power3.in',
       scrollTrigger: {
-        trigger: inner,
+        trigger: sectionRef.current,
         start: 'top top',
-        end: '40% top',
+        end: '10% top', // Very quick fade
         scrub: 1,
       },
     });
+    if (decTween.scrollTrigger) heroTriggers.push(decTween.scrollTrigger);
 
-    // Logo Image Zoom (Only the V logo) & Fade Out
+    // Logo Image Zoom & Fade Out
     const logoTl = gsap.timeline({
       scrollTrigger: {
-        trigger: inner,
+        trigger: sectionRef.current,
         start: 'top top',
-        end: '40% top',
+        end: '20% top', // Finishes quickly
         scrub: 1,
       },
     });
+    if (logoTl.scrollTrigger) heroTriggers.push(logoTl.scrollTrigger);
 
     logoTl.to(logoImg, {
-      scale: 50,
-      ease: 'power3.in',
+      scale: 6.5, // Reduced from 50 to prevent cutting out
+      ease: 'power2.in', // Slightly more linear
       duration: 1,
     })
       .to(logoImg, {
@@ -109,85 +85,54 @@ export default function HeroSection() {
     // VERGE Text Fly Up
     const vergeText = logoEl.querySelector('.verge-text');
     if (vergeText) {
-      gsap.to(vergeText, {
+      const vergeTween = gsap.to(vergeText, {
         y: '-48vh', // Move to header position
         scale: 0.15, // Scale down to header size
-        opacity: 0, // Fade out at the very end to let header text take over
-        ease: 'power3.in',
+        opacity: 0, // Fade out at the very end
+        ease: 'power2.inOut',
         scrollTrigger: {
-          trigger: inner,
+          trigger: sectionRef.current,
           start: 'top top',
-          end: '40% top',
+          end: '20% top',
           scrub: 1,
         },
       });
+      if (vergeTween.scrollTrigger) heroTriggers.push(vergeTween.scrollTrigger);
     }
 
-    // Earth emerges
-    gsap.fromTo(
-      earth,
-      { xPercent: 30, yPercent: 50, opacity: 0 },
-      {
-        xPercent: 0,
-        yPercent: 0,
-        opacity: 1,
-        ease: 'power2.out',
+    // Scroll Indicator Fade Out
+    const scrollIndicator = inner.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+      const scrollTween = gsap.to(scrollIndicator, {
+        opacity: 0,
+        y: 20,
+        ease: 'power3.in',
         scrollTrigger: {
-          trigger: inner,
-          start: '20% top',
-          end: '60% top',
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '5% top',
           scrub: 1,
         },
-      }
-    );
-
-    // Earth fades out at the end
-    gsap.to(earth, {
-      opacity: 0,
-      y: -30,
-      ease: 'power2.in',
-      scrollTrigger: {
-        trigger: inner,
-        start: '90% top',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
+      });
+      if (scrollTween.scrollTrigger) heroTriggers.push(scrollTween.scrollTrigger);
+    }
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      heroTriggers.forEach((st) => st.kill());
     };
   }, [readyForScroll]);
-
-  const heroText = '[SPACE IS THE DREAM OF HUMANITY]';
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[300vh] w-full bg-black"
+      className="relative h-[140vh] w-full bg-black"
       style={{ overflow: 'visible' }}
     >
       {/* Sticky inner container */}
       <div
         ref={innerRef}
-        className="sticky top-0 h-screen w-full"
-        style={{ overflow: 'visible' }}
+        className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden"
       >
-        {/* Hero Text */}
-        <div
-          ref={textRef}
-          className="absolute inset-0 flex items-center justify-center z-20"
-          style={{ opacity: 0 }}
-        >
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-mono tracking-[0.2em] text-white/90">
-            {heroText.split('').map((char, index) => (
-              <span key={index} className="char inline-block">
-                {char === ' ' ? '\u00A0' : char}
-              </span>
-            ))}
-          </h1>
-        </div>
-
         {/* Logo + VERGE 2026 */}
         <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
           {/* Radial glow behind logo area */}
@@ -203,7 +148,8 @@ export default function HeroSection() {
 
           <div
             ref={logoRef}
-            className="flex flex-col items-center gap-4 opacity-0"
+            className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500"
+            onClick={onLogoClick}
           >
             {/* Top decorative line */}
             <div className="flex items-center gap-3 w-full max-w-md hero-decoration">
@@ -279,6 +225,18 @@ export default function HeroSection() {
           </div>
         </div>
 
+        {/* Scroll Down Indicator */}
+        <div
+          className="scroll-indicator absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-30 transition-opacity duration-1000"
+          style={{ opacity: readyForScroll ? 1 : 0 }}
+        >
+          <span className="text-[9px] font-mono text-white/40 tracking-[0.4em] uppercase mb-1">Scroll</span>
+          {/* Scroll Mouse Icon */}
+          <div className="w-6 h-10 border-2 border-white/20 rounded-full p-1 flex justify-center">
+            <div className="w-1 h-2 bg-cosmic-green rounded-full animate-scroll-dot" />
+          </div>
+        </div>
+
         {/* Animated horizontal scan line */}
         <div
           className="absolute inset-0 z-20 pointer-events-none overflow-hidden"
@@ -296,35 +254,26 @@ export default function HeroSection() {
               0% { top: -5%; }
               100% { top: 105%; }
             }
+            @keyframes scroll-dot {
+              0% { transform: translateY(0); opacity: 0; }
+              20% { opacity: 1; }
+              80% { opacity: 1; }
+              100% { transform: translateY(12px); opacity: 0; }
+            }
+            .animate-scroll-dot {
+              animation: scroll-dot 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+            }
           `}</style>
         </div>
 
-        {/* Earth rising from right bottom */}
-        <div
-          ref={earthRef}
-          className="absolute bottom-0 right-0 w-[80%] z-10 pointer-events-none"
-          style={{ opacity: 0 }}
-        >
-          <img
-            src={earthImg}
-            alt="Earth"
-            className="w-full h-auto"
-          />
-          {/* Atmosphere glow */}
-          <div
-            className="absolute inset-x-0 top-0 h-24 pointer-events-none"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(100, 180, 255, 0.4) 0%, transparent 100%)',
-            }}
-          />
-        </div>
+
 
         {/* Sun flare effect */}
         <div
           className="absolute top-0 left-0 w-1/2 h-full pointer-events-none z-5"
           style={{
             background: 'radial-gradient(ellipse at 20% 30%, rgba(255, 200, 100, 0.15) 0%, transparent 50%)',
-            opacity: textVisible ? 1 : 0,
+            opacity: 1,
             transition: 'opacity 2s ease',
           }}
         />

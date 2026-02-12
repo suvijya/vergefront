@@ -154,7 +154,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
   }, [progress]);
 
   // Fade to terminal view when progress is high
-  const showTerminal = progress > 85;
+  const showTerminal = progress > 95;
 
   return (
     <div className="fixed inset-0 z-40 bg-black">
@@ -166,56 +166,7 @@ export default function BootSequence({ progress }: BootSequenceProps) {
         />
       )}
 
-      {/* Orbital paths overlay */}
-      {!showTerminal && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-            {/* Red orbital paths - Responsive sizing */}
-            <ellipse
-              cx="50"
-              cy="50"
-              rx="30"
-              ry="14"
-              fill="none"
-              stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.15"
-              transform="rotate(20 50 50)"
-              className="opacity-0 motion-safe:transition-opacity duration-500"
-              style={{
-                opacity: progress > 15 ? 1 : 0,
-              }}
-            />
-            <ellipse
-              cx="50"
-              cy="50"
-              rx="34"
-              ry="9"
-              fill="none"
-              stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.15"
-              transform="rotate(-30 50 50)"
-              className="opacity-0 motion-safe:transition-opacity duration-500"
-              style={{
-                opacity: progress > 25 ? 1 : 0,
-              }}
-            />
-            <ellipse
-              cx="50"
-              cy="50"
-              rx="26"
-              ry="19"
-              fill="none"
-              stroke="rgba(239, 68, 68, 0.6)"
-              strokeWidth="0.15"
-              transform="rotate(60 50 50)"
-              className="opacity-0 motion-safe:transition-opacity duration-500"
-              style={{
-                opacity: progress > 35 ? 1 : 0,
-              }}
-            />
-          </svg>
-        </div>
-      )}
+      {/* Orbital paths overlay - REMOVED red rings per user request */}
 
       {/* Loading progress bar */}
       {!showTerminal && (
@@ -226,15 +177,20 @@ export default function BootSequence({ progress }: BootSequenceProps) {
               <span className="text-xs md:text-sm">{Math.round(progress)}%</span>
             </div>
 
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden relative">
-              {/* Glow effect */}
+            <div className="h-2 bg-white/5 rounded-full relative">
+              {/* Glow background */}
               <div
-                className="absolute top-0 bottom-0 bg-[#00ffb4] blur-[4px] transition-all duration-100 ease-out"
-                style={{ width: `${progress}%`, opacity: 0.6 }}
+                className="absolute inset-y-0 left-0 bg-[#00ffb4] opacity-20 blur-sm rounded-full transition-all duration-100"
+                style={{ width: `${progress}%` }}
               />
-              {/* Main bar */}
+              {/* Main progress filling */}
               <div
-                className="h-full bg-[#00ffb4] transition-all duration-100 ease-out shadow-[0_0_10px_#00ffb4]"
+                className="h-full bg-[#00ffb4] rounded-full shadow-[0_0_15px_rgba(0,255,180,0.6)] relative z-10"
+                style={{ width: `${progress}%` }}
+              />
+              {/* Shimmer effect */}
+              <div
+                className="absolute inset-0 shimmer opacity-10 rounded-full z-20"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -259,10 +215,10 @@ export default function BootSequence({ progress }: BootSequenceProps) {
                 <span className="text-white/30 w-6 text-right">{index + 1}</span>
                 <span className="text-white/60 flex-1">{status.name}:</span>
                 <span className="text-white/80 w-12 text-right">{Math.round(status.progress)}%</span>
-                <span className={`w-16 text-right ${status.status === 'ACTIVE' ? 'text-cosmic-red' : 'text-white/40'}`}>
+                <span className={`w-16 text-right ${status.status === 'ACTIVE' ? 'text-[#00ffb4]' : 'text-white/40'}`}>
                   {status.status}
                   {status.status === 'ACTIVE' && (
-                    <span className="inline-block w-2 h-2 bg-cosmic-red ml-1 animate-pulse" />
+                    <span className="inline-block w-2 h-2 bg-[#00ffb4] ml-1 animate-pulse" />
                   )}
                 </span>
               </div>

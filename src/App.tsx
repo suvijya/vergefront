@@ -9,6 +9,10 @@ import HeroSection from './sections/HeroSection';
 import DataDashboard from './sections/DataDashboard';
 import TimelineSection from './sections/TimelineSection';
 import EventCardsSection from './sections/EventCardsSection';
+import SponsorsSection from './sections/SponsorsSection';
+import SpeakersSection from './sections/SpeakersSection';
+import HumansSection from './sections/HumansSection';
+import AboutSection from './sections/AboutSection';
 import FinalMessage from './sections/FinalMessage';
 
 import './App.css';
@@ -18,6 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [view, setView] = useState<'main' | 'about'>('main');
   const mainRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -98,7 +103,7 @@ function App() {
       />
 
       {/* Header - always visible */}
-      <Header />
+      <Header onLogoClick={() => setView('main')} />
 
       {/* Boot Sequence */}
       {!bootComplete && (
@@ -106,14 +111,22 @@ function App() {
       )}
 
       {/* Main Content */}
-      {bootComplete && (
+      {bootComplete && view === 'main' && (
         <main className="relative">
-          <HeroSection />
+          <HeroSection onLogoClick={() => setView('about')} />
           <DataDashboard />
           <TimelineSection />
           <EventCardsSection />
+          <SponsorsSection />
+          <SpeakersSection />
+          <HumansSection />
           <FinalMessage />
         </main>
+      )}
+
+      {/* About Section */}
+      {bootComplete && view === 'about' && (
+        <AboutSection onBack={() => setView('main')} />
       )}
 
       {/* Status Bar - always visible */}

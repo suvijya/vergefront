@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import vergeLogo from '../assets/logo.png';
 
-export default function Header() {
+export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoText, setShowLogoText] = useState(false);
 
   // Show header text after scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 800) {
+      if (window.scrollY > 100) {
         setShowLogoText(true);
       } else {
         setShowLogoText(false);
@@ -65,6 +65,7 @@ export default function Header() {
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
             <a
               href="#home"
+              onClick={(e) => { e.preventDefault(); onLogoClick(); }}
               className={`flex items-center transition-all duration-500 ease-in-out ${showLogoText ? 'gap-3' : 'gap-0'}`}
             >
               <img
