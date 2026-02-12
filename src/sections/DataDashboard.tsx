@@ -8,6 +8,7 @@ export default function DataDashboard() {
 
   const prizePool = 1500000;
   const participants = 5000;
+  const footfall = 10000;
 
   const formatCurrency = (num: number) => {
     return '₹ ' + num.toLocaleString('en-IN');
@@ -16,7 +17,7 @@ export default function DataDashboard() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full bg-black overflow-hidden flex flex-col justify-end py-24 md:py-32 pb-8 md:pb-32"
+      className="relative min-h-screen w-full bg-black overflow-hidden flex flex-col justify-end py-24 md:py-32 pb-8 md:pb-12"
     >
       {/* Earth with debris - Background */}
       <div
@@ -32,24 +33,35 @@ export default function DataDashboard() {
 
       {/* Bottom counter and timeline */}
       <div className="relative z-10 px-6 max-w-7xl mx-auto w-full mt-0 md:mt-0 pointer-events-none">
-        <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-16 text-center md:text-left">
-          {/* Prize Pool */}
-          <div ref={counterRef} className="pointer-events-auto flex flex-col items-center md:items-start">
-            <div className="text-[10px] font-mono text-white/40 mb-1 tracking-[0.2em]">
-              TOTAL PRIZE POOL:
+        <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-4 text-center md:text-left w-full">
+
+          {/* Left: Participants */}
+          <div className="pointer-events-auto flex flex-col items-center md:items-start flex-1">
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)' }}>
+              {participants.toLocaleString()}+
             </div>
-            <div className="text-2xl md:text-6xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 20px rgba(0,255,180,0.3)' }}>
-              {formatCurrency(prizePool)}
+            <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
+              Total Participants
             </div>
           </div>
 
-          {/* Participants */}
-          <div className="pointer-events-auto flex flex-col items-center md:items-end md:text-right">
-            <div className="text-[10px] font-mono text-white/40 mb-1 tracking-[0.2em]">
-              TOTAL PARTICIPANTS
+          {/* Center: Prize Pool */}
+          <div ref={counterRef} className="pointer-events-auto flex flex-col items-center flex-1">
+            <div className="text-4xl md:text-7xl font-bold text-white tracking-wider text-center whitespace-nowrap" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 30px rgba(0,255,180,0.5)' }}>
+              {formatCurrency(prizePool)}
             </div>
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace" }}>
-              {participants.toLocaleString()}+
+            <div className="text-xs md:text-sm font-bold font-mono text-emerald-400/80 mt-2 tracking-[0.3em] uppercase">
+              Total Prize Pool
+            </div>
+          </div>
+
+          {/* Right: Footfall */}
+          <div className="hidden md:flex pointer-events-auto flex-col items-center md:items-end md:text-right flex-1">
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)' }}>
+              {footfall.toLocaleString()}+
+            </div>
+            <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
+              Total Footfall
             </div>
           </div>
         </div>
@@ -196,11 +208,11 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     // Radii ~450-550 ensure labels orbit just outside/near the small locations of the Earth surface
     const isMobile = window.innerWidth < 768;
     const fixedPositions = [
-      { radius: isMobile ? 460 : 280, angle: isMobile ? 3.0 : 0,    yOffset: isMobile ? -40 : 40 },     // Left (Mid-High)
+      { radius: isMobile ? 460 : 280, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -40 : 40 },     // Left (Mid-High)
       { radius: isMobile ? 540 : 320, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -20 : -50 },    // Top-Left (High)
-      { radius: isMobile ? 480 : 360, angle: isMobile ? 4.7 : 2.5,  yOffset: isMobile ? 0 : 30 },       // Top (Center)
-      { radius: isMobile ? 540 : 400, angle: isMobile ? 5.6 : 3.8,  yOffset: isMobile ? -20 : -40 },    // Top-Right (High)
-      { radius: isMobile ? 460 : 300, angle: isMobile ? 0.2 : 5.0,  yOffset: isMobile ? -40 : 60 }      // Right (Mid-High)
+      { radius: isMobile ? 480 : 360, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },       // Top (Center)
+      { radius: isMobile ? 540 : 400, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -20 : -40 },    // Top-Right (High)
+      { radius: isMobile ? 460 : 300, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -40 : 60 }      // Right (Mid-High)
     ];
 
     events.forEach((_, i) => {

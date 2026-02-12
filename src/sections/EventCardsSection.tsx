@@ -1,24 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
 
 // Import planet images
-import mercury from '../../asset/mercury.png';
-import venus from '../../asset/venus.png';
-import mars from '../../asset/mars.png';
-import jupiter from '../../asset/jupiter.png';
-import saturn from '../../asset/saturn.png';
-import uranus from '../../asset/uranus.png';
-import neptune from '../../asset/neptune.png';
-import pluto from '../../asset/pluto.png';
-import moon from '../../asset/moon.png';
-import sun from '../../asset/sun.png';
-import dathomir from '../../asset/dathomir.png';
-import kashyk from '../../asset/kashyk.png';
-import genosis from '../../asset/genosis.png';
-import naboo from '../../asset/naboo.png';
-import corell from '../../asset/corell.png';
-import tatoon from '../../asset/tatoon.png';
-import chandrila from '../../asset/chandrila.png';
-import ryloth from '../../asset/ryloth.png';
+import mercury from '../../asset/mercury.webp';
+import venus from '../../asset/venus.webp';
+import mars from '../../asset/mars.webp';
+import jupiter from '../../asset/jupiter.webp';
+import saturn from '../../asset/saturn.webp';
+import uranus from '../../asset/uranus.webp';
+import neptune from '../../asset/neptune.webp';
+import pluto from '../../asset/pluto.webp';
+import moon from '../../asset/moon.webp';
+import sun from '../../asset/sun.webp';
+import dathomir from '../../asset/dathomir.webp';
+import kashyk from '../../asset/kashyk.webp';
+import genosis from '../../asset/genosis.webp';
+import naboo from '../../asset/naboo.webp';
+import corell from '../../asset/corell.webp';
+import tatoon from '../../asset/tatoon.webp';
+import chandrila from '../../asset/chandrila.webp';
+import ryloth from '../../asset/ryloth.webp';
 import earth from '../../asset/earth.png';
 
 interface EventCard {
@@ -245,7 +245,7 @@ export default function EventCardsSection() {
         const scroll = () => {
             if (!isDragging && !isHovered) {
                 // Update our tracked position with sub-pixel precision
-                posRef.current += 1.0; // Speed
+                posRef.current += 0.7; // Speed (Reduced for smoother flow)
 
                 // Infinite loop logic
                 const setWidth = container.scrollWidth / 3;
@@ -306,10 +306,10 @@ export default function EventCardsSection() {
 
             {/* Section Header */}
             <div className="text-center mb-16 px-8 select-none z-30">
-                <div className="text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
+                <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
                     EXPLORE MISSIONS
                 </div>
-                <h2 className="text-4xl font-mono text-white tracking-wider uppercase">
+                <h2 className="text-2xl md:text-4xl font-mono text-white tracking-wider uppercase">
                     Event Catalog
                 </h2>
             </div>
@@ -317,13 +317,13 @@ export default function EventCardsSection() {
             {/* Continuous Scroll Container */}
             <div className="relative w-full group">
                 {/* Gradient Fades for edges */}
-                <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
 
                 {/* The actual scrollable container - Adjusted pt to match planet offset */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-32 pb-12"
+                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-24 md:pt-32 pb-12"
                     onMouseDown={onMouseDown}
                     onMouseLeave={onMouseLeave}
                     onMouseUp={onMouseUp}
@@ -331,21 +331,21 @@ export default function EventCardsSection() {
                     onMouseEnter={() => setIsHovered(true)}
                     style={{ scrollBehavior: 'auto' }}
                 >
-                    <div className="flex w-max px-[25vw]">
+                    <div className="flex w-max px-4 md:px-[25vw]">
                         {marqueeEvents.map((event, index) => (
                             <div
                                 key={`${event.id}-${index}`}
-                                className="relative px-4 w-[380px] flex-shrink-0"
+                                className="relative px-2 md:px-4 w-[220px] md:w-[380px] flex-shrink-0"
                                 onMouseEnter={() => setHoveredCard(`${event.id}-${index}`)}
                                 onMouseLeave={() => setHoveredCard(null)}
                             >
                                 {/* Floating Planet Image - Top Center */}
-                                <div className={`absolute -top-8 left-1/2 -translate-x-1/2 -translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
+                                <div className={`absolute -top-6 md:-top-8 left-1/2 -translate-x-1/2 -translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
                                     }`}>
                                     <img
                                         src={event.planetImage}
                                         alt="Planet"
-                                        className="w-40 h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                                        className="w-24 h-24 md:w-40 md:h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
                                     />
                                 </div>
 
@@ -359,24 +359,24 @@ export default function EventCardsSection() {
                                     }}
                                 >
                                     {/* Content */}
-                                    <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                                        <div className="flex justify-between items-start">
-                                            <span className="text-[10px] font-mono text-white/50 tracking-widest uppercase">
+                                    <div className="absolute inset-0 p-3 md:p-6 flex flex-col justify-between">
+                                        <div className="flex justify-between items-start mt-4 md:mt-0">
+                                            <span className="text-[8px] md:text-[10px] font-mono text-white/50 tracking-wide md:tracking-widest uppercase">
                                                 {event.category}
                                             </span>
                                             <div className="w-1 h-1 rounded-full bg-white/30" />
                                         </div>
 
                                         <div>
-                                            <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-tight">
+                                            <h3 className="text-base md:text-2xl font-bold text-white mb-2 uppercase tracking-tight leading-tight">
                                                 {event.title}
                                             </h3>
-                                            <p className="text-xs font-mono text-white/50 mb-6 h-12 overflow-hidden leading-relaxed">
+                                            <p className="text-[9px] md:text-xs font-mono text-white/50 mb-4 h-10 md:h-12 overflow-hidden leading-relaxed">
                                                 {event.subtitle}
                                             </p>
 
-                                            <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 mb-4 rounded-md">
-                                                <span className="text-[10px] font-mono text-amber-200 uppercase tracking-widest">
+                                            <div className="inline-block px-3 py-1 md:px-4 md:py-2 bg-white/5 border border-white/10 mb-3 md:mb-4 rounded-md">
+                                                <span className="text-[8px] md:text-[10px] font-mono text-amber-200 uppercase tracking-widest">
                                                     PRIZE: {event.prize}
                                                 </span>
                                             </div>
@@ -385,7 +385,7 @@ export default function EventCardsSection() {
                                                 href={event.registerUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="block w-full py-3 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest hover:bg-white/80 transition-all uppercase rounded-md shadow-[0_4px_0_rgb(200,200,200)] active:translate-y-[2px] active:shadow-none"
+                                                className="block w-full py-2 md:py-3 bg-white text-black text-center text-[8px] md:text-[10px] font-bold font-mono tracking-widest hover:bg-white/80 transition-all uppercase rounded-md shadow-[0_4px_0_rgb(200,200,200)] active:translate-y-[2px] active:shadow-none"
                                             >
                                                 Secure Access →
                                             </a>
@@ -403,7 +403,7 @@ export default function EventCardsSection() {
 
             {/* View All Button */}
             <div className="text-center mt-12 select-none">
-                <button className="px-10 py-4 border border-white/20 text-white/60 font-mono text-[10px] tracking-[0.2em] hover:bg-white hover:text-black transition-all uppercase">
+                <button className="px-6 py-3 md:px-10 md:py-4 border border-white/20 text-white/60 font-mono text-[9px] md:text-[10px] tracking-[0.2em] hover:bg-white hover:text-black transition-all uppercase">
                     [ Access Collective Catalog ]
                 </button>
             </div>
