@@ -26,7 +26,7 @@
     --input: 0 0% 15%;
     --ring: 210 100% 50%;
     --radius: 0.25rem;
-    
+
     /* Custom cosmic colors */
     --cosmic-black: #000000;
     --cosmic-dark: #0a0a0f;
@@ -44,17 +44,18 @@
   * {
     @apply border-border;
   }
-  
+
   html {
     scroll-behavior: auto;
   }
-  
+
   body {
     @apply bg-black text-white antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    /* Hide default cursor */
   }
-  
+
   ::selection {
     background: rgba(0, 212, 255, 0.3);
     color: white;
@@ -86,7 +87,7 @@
 
 /* Grid background pattern */
 .grid-pattern {
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -95,32 +96,32 @@
 /* Glow effects */
 .glow-blue {
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.5),
-              0 0 40px rgba(0, 212, 255, 0.3),
-              0 0 60px rgba(0, 212, 255, 0.1);
+    0 0 40px rgba(0, 212, 255, 0.3),
+    0 0 60px rgba(0, 212, 255, 0.1);
 }
 
 .glow-purple {
   box-shadow: 0 0 20px rgba(168, 85, 247, 0.5),
-              0 0 40px rgba(168, 85, 247, 0.3),
-              0 0 60px rgba(168, 85, 247, 0.1);
+    0 0 40px rgba(168, 85, 247, 0.3),
+    0 0 60px rgba(168, 85, 247, 0.1);
 }
 
 .glow-red {
   box-shadow: 0 0 20px rgba(239, 68, 68, 0.5),
-              0 0 40px rgba(239, 68, 68, 0.3),
-              0 0 60px rgba(239, 68, 68, 0.1);
+    0 0 40px rgba(239, 68, 68, 0.3),
+    0 0 60px rgba(239, 68, 68, 0.1);
 }
 
 .text-glow-blue {
   text-shadow: 0 0 10px rgba(0, 212, 255, 0.8),
-               0 0 20px rgba(0, 212, 255, 0.5),
-               0 0 30px rgba(0, 212, 255, 0.3);
+    0 0 20px rgba(0, 212, 255, 0.5),
+    0 0 30px rgba(0, 212, 255, 0.3);
 }
 
 .text-glow-red {
   text-shadow: 0 0 10px rgba(239, 68, 68, 0.8),
-               0 0 20px rgba(239, 68, 68, 0.5),
-               0 0 30px rgba(239, 68, 68, 0.3);
+    0 0 20px rgba(239, 68, 68, 0.5),
+    0 0 30px rgba(239, 68, 68, 0.3);
 }
 
 /* Scanline effect */
@@ -135,13 +136,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.1) 1px,
-    transparent 1px,
-    transparent 2px
-  );
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 2px);
   pointer-events: none;
   z-index: 10;
 }
@@ -166,8 +165,16 @@
 
 /* Blinking cursor animation */
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .cursor-blink {
@@ -176,11 +183,14 @@
 
 /* Pulse animation for active indicators */
 @keyframes pulse-glow {
-  0%, 100% { 
+
+  0%,
+  100% {
     opacity: 1;
     box-shadow: 0 0 5px currentColor;
   }
-  50% { 
+
+  50% {
     opacity: 0.6;
     box-shadow: 0 0 15px currentColor;
   }
@@ -192,25 +202,33 @@
 
 /* Loading bar shimmer */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
 
 /* Typewriter effect */
 @keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 .typewriter {
@@ -221,8 +239,13 @@
 
 /* Fade in animation */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .fade-in {
@@ -231,11 +254,12 @@
 
 /* Slide up animation */
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -247,8 +271,13 @@
 
 /* Orbit animation */
 @keyframes orbit {
-  from { transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
+  from {
+    transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+  }
 }
 
 /* Counter animation helper */
@@ -275,13 +304,11 @@
   top: 50%;
   width: 100%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.3) 20%,
-    rgba(255, 255, 255, 0.3) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 20%,
+      rgba(255, 255, 255, 0.3) 80%,
+      transparent 100%);
 }
 
 /* Corner brackets for HUD elements */
@@ -327,7 +354,8 @@
 }
 
 /* Lenis smooth scroll */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 

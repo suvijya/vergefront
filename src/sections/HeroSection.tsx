@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import logo from '../assets/logo.png';
+import srmLogo from '../assets/srm_logo.png';
+import naacLogo from '../assets/naacaplus.png';
 
 export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -133,6 +135,20 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
         ref={innerRef}
         className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden"
       >
+        {/* NAAC Logo - Top Left */}
+        <img
+          src={naacLogo}
+          alt="NAAC A++"
+          className="absolute top-8 left-8 w-32 md:w-48 z-40 pointer-events-none object-contain"
+        />
+
+        {/* SRM Logo - Top Right */}
+        <img
+          src={srmLogo}
+          alt="SRM University"
+          className="absolute top-8 right-8 w-32 md:w-48 z-40 pointer-events-none object-contain"
+        />
+
         {/* Logo + VERGE 2026 */}
         <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
           {/* Radial glow behind logo area */}

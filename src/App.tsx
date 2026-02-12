@@ -111,22 +111,28 @@ function App() {
       )}
 
       {/* Main Content */}
-      {bootComplete && view === 'main' && (
-        <main className="relative">
-          <HeroSection onLogoClick={() => setView('about')} />
-          <DataDashboard />
-          <TimelineSection />
-          <EventCardsSection />
-          <SponsorsSection />
-          <SpeakersSection />
-          <HumansSection />
-          <FinalMessage />
-        </main>
-      )}
+      {/* Main Content */}
+      {bootComplete && (
+        <>
 
-      {/* About Section */}
-      {bootComplete && view === 'about' && (
-        <AboutSection onBack={() => setView('main')} />
+          {view === 'main' && (
+            <main className="relative">
+              <HeroSection onLogoClick={() => setView('about')} />
+              <DataDashboard />
+              <TimelineSection />
+              <EventCardsSection />
+              <SponsorsSection />
+              <SpeakersSection />
+              <HumansSection />
+              <FinalMessage />
+            </main>
+          )}
+
+          {/* About Section */}
+          {view === 'about' && (
+            <AboutSection onBack={() => setView('main')} />
+          )}
+        </>
       )}
 
       {/* Status Bar - always visible */}
@@ -144,9 +150,7 @@ function App() {
             </span>
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 text-white/80 whitespace-nowrap hidden md:block">
-            Made with <span className="text-red-500">❤️</span> by Suvijya Arya
-          </div>
+
 
           <div>
             <span className="hidden md:inline">ALL SYSTEM : </span><span className={bootComplete ? "text-cosmic-green" : "text-cosmic-amber"}>

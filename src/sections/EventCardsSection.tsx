@@ -351,7 +351,7 @@ export default function EventCardsSection() {
 
                                 {/* Card */}
                                 <div
-                                    className={`relative aspect-[3/4.2] border border-white/10 overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/40 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
+                                    className={`relative aspect-[3/4.2] border border-white overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/100 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
                                         }`}
                                     style={{
                                         backgroundColor: event.bgColor,

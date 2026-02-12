@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import spaceback from '../assets/spaceback.png';
+import chandan from '../assets/chandan_jha.png';
+import { ExternalLink } from 'lucide-react';
 
 interface Speaker {
     id: string;
@@ -8,6 +11,8 @@ interface Speaker {
     affiliation: string;
     topic: string;
     topicTag: string;
+    image?: string;
+    linkedin?: string;
 }
 
 const speakers: Speaker[] = [
@@ -65,84 +70,100 @@ const speakers: Speaker[] = [
         topic: 'Autonomy at Scale',
         topicTag: 'ROBOTICS',
     },
+    {
+        id: 'SP-07',
+        name: 'MR. CHANDAN JHA',
+        initials: 'CJ',
+        role: 'ASSOCIATE VP at GFG',
+        affiliation: 'GFG',
+        topic: 'Building at Scale',
+        topicTag: 'TECH',
+        image: chandan,
+        linkedin: 'https://linkedin.com',
+    },
 ];
 
-function SpeakerCard({ speaker }: { speaker: Speaker }) {
-    const [hovered, setHovered] = useState(false);
-
-    return (
-        <div
-            className="relative group"
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-        >
-            <div
-                className={`relative px-4 py-4 bg-white/[0.02] border transition-all duration-400 ${hovered ? 'border-cyan-500/25 bg-white/[0.04]' : 'border-white/[0.06]'
-                    }`}
-            >
-                {/* Row layout: avatar | info */}
-                <div className="flex items-center gap-3">
-                    {/* Compact avatar */}
-                    <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-400 ${hovered ? 'shadow-[0_0_12px_rgba(0,200,255,0.2)]' : ''
-                            }`}
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,100,200,0.04))',
-                            border: `1.5px solid ${hovered ? 'rgba(0,200,255,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                        }}
-                    >
-                        <span
-                            className="text-[11px] font-bold tracking-wider"
-                            style={{
-                                fontFamily: "'Orbitron', monospace",
-                                color: hovered ? 'rgba(0,220,255,0.9)' : 'rgba(255,255,255,0.4)',
-                            }}
-                        >
-                            {speaker.initials}
-                        </span>
-                    </div>
-
-                    {/* Info */}
-                    <div className="flex-1 min-w-0">
-                        <div className="flex items-baseline gap-2">
-                            <h3
-                                className="text-xs font-bold text-white tracking-[0.08em] truncate"
-                                style={{ fontFamily: "'Orbitron', monospace" }}
-                            >
-                                {speaker.name}
-                            </h3>
-                        </div>
-                        <p className="text-[9px] font-mono text-white/35 tracking-wider truncate">
-                            {speaker.role} · {speaker.affiliation}
-                        </p>
-                    </div>
-
-                    {/* Tag */}
-                    <div className="flex-shrink-0 px-2 py-0.5 border border-cyan-500/15 bg-cyan-500/[0.04]">
-                        <span className="text-[7px] font-mono text-cyan-400/60 tracking-[0.2em]">
-                            {speaker.topicTag}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Topic — compact one-liner */}
-                <div className="mt-2.5 pl-[52px]">
-                    <p className="text-[10px] font-mono text-white/50 truncate">
-                        "{speaker.topic}"
-                    </p>
-                </div>
-
-                {/* Subtle corner accents */}
-                <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-cyan-500/15" />
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-cyan-500/15" />
-            </div>
-        </div>
-    );
-}
-
 export default function SpeakersSection() {
+    const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const posRef = useRef(0);
+    // Triple the speakers for infinite loop illusion
+    const marqueeSpeakers = [...speakers, ...speakers, ...speakers];
+
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        let animationFrameId: number;
+
+        const scroll = () => {
+            if (!isDragging && !isHovered) {
+                // Update our tracked position with sub-pixel precision
+                // Scrolling opposite direction (left) naturally
+                posRef.current += 0.5;
+
+                // Infinite loop logic
+                const setWidth = container.scrollWidth / 3;
+                if (posRef.current >= setWidth * 2) {
+                    posRef.current -= setWidth;
+                }
+
+                // Sync the actual scrollLeft
+                container.scrollLeft = posRef.current;
+            } else {
+                // Keep posRef in sync with manual scrolling
+                posRef.current = container.scrollLeft;
+            }
+            animationFrameId = requestAnimationFrame(scroll);
+        };
+
+        animationFrameId = requestAnimationFrame(scroll);
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [isDragging, isHovered]);
+
+    // Drag handlers
+    const onMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        if (scrollContainerRef.current) {
+            setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
+
+    const onMouseLeave = () => {
+        setIsDragging(false);
+        setIsHovered(false);
+    };
+
+    const onMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const onMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Drag speed multiplier
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
     return (
-        <section id="speakers" className="w-full bg-black py-20 px-6 md:px-12 relative overflow-hidden">
+        <section id="speakers" className="w-full bg-black py-24 relative overflow-hidden">
+            <style>{`
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
+
             {/* Background */}
             <div
                 className="absolute inset-0 pointer-events-none"
@@ -152,7 +173,7 @@ export default function SpeakersSection() {
             />
 
             {/* Header */}
-            <div className="text-center mb-12 relative">
+            <div className="text-center mb-16 px-8 select-none relative z-30">
                 <div className="flex items-center justify-center gap-3 mb-3">
                     <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-500/20" />
                     <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
@@ -174,11 +195,100 @@ export default function SpeakersSection() {
                 </p>
             </div>
 
-            {/* 3-col grid */}
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {speakers.map((speaker) => (
-                    <SpeakerCard key={speaker.id} speaker={speaker} />
-                ))}
+            {/* Continuous Scroll Container */}
+            <div className="relative w-full group">
+                {/* Gradient Fades for edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+
+                <div
+                    ref={scrollContainerRef}
+                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pb-12 pt-4"
+                    onMouseDown={onMouseDown}
+                    onMouseLeave={onMouseLeave}
+                    onMouseUp={onMouseUp}
+                    onMouseMove={onMouseMove}
+                    onMouseEnter={() => setIsHovered(true)}
+                    style={{ scrollBehavior: 'auto' }}
+                >
+                    <div className="flex w-max px-4 md:px-[25vw] gap-6 md:gap-8">
+                        {marqueeSpeakers.map((speaker, index) => (
+                            <div
+                                key={`${speaker.id}-${index}`}
+                                className="relative w-[280px] md:w-[320px] h-[400px] flex-shrink-0"
+                                onMouseEnter={() => setHoveredCard(`${speaker.id}-${index}`)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                            >
+                                <div
+                                    className={`relative group h-full overflow-hidden rounded-xl border border-white transition-all duration-500 ${hoveredCard === `${speaker.id}-${index}` ? 'scale-[1.02] shadow-[0_0_30px_rgba(255,255,255,0.15)]' : ''
+                                        }`}
+                                >
+                                    {/* Background Image - Spaceback */}
+                                    <div
+                                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 scale-100 group-hover:scale-110"
+                                        style={{ backgroundImage: `url(${spaceback})` }}
+                                    />
+
+                                    {/* LinkedIn Redirect Icon - Top Right */}
+                                    <a
+                                        href={speaker.linkedin || "#"}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="absolute top-4 right-4 z-30 p-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/70 hover:text-cyan-400 hover:bg-white/20 hover:border-cyan-400/50 transition-all duration-300 pointer-events-auto"
+                                    >
+                                        <ExternalLink size={20} />
+                                    </a>
+
+                                    {/* Overlay Gradient for readability at bottom */}
+                                    <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 ${hoveredCard === `${speaker.id}-${index}` ? 'opacity-80' : 'opacity-60'
+                                        }`} />
+
+                                    <div className="relative h-full flex flex-col justify-end items-start p-6 z-10">
+                                        {/* Speaker Image - Maximized Size */}
+                                        <div className="absolute right-0 bottom-0 w-full h-full flex items-end justify-end pointer-events-none overflow-hidden">
+                                            {speaker.image ? (
+                                                <div className={`relative w-full h-full transition-transform duration-700 ${hoveredCard === `${speaker.id}-${index}` ? 'scale-105 translate-x-4' : 'scale-100 translate-x-0'
+                                                    }`}>
+                                                    <img
+                                                        src={speaker.image}
+                                                        alt={speaker.name}
+                                                        className="w-full h-full object-contain object-bottom drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                // Minimal Fallback
+                                                <div className="w-full h-full flex items-center justify-center opacity-10">
+                                                    <span className="text-9xl font-bold text-white font-mono select-none">
+                                                        {speaker.initials}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Info - Bottom Left */}
+                                        <div className="relative z-20 transform transition-transform duration-500 translate-y-0 max-w-[80%]">
+                                            <h3
+                                                className="text-2xl font-bold text-white tracking-[0.05em] mb-1 group-hover:text-cyan-100 transition-colors drop-shadow-md text-left"
+                                                style={{ fontFamily: "'Orbitron', monospace" }}
+                                            >
+                                                {speaker.name}
+                                            </h3>
+                                            <p className="text-xs font-mono text-cyan-400 tracking-wider uppercase drop-shadow-sm text-left">
+                                                {speaker.role}
+                                            </p>
+                                        </div>
+
+                                        {/* Corner accents */}
+                                        <div className={`absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 transition-colors duration-300 ${hoveredCard === `${speaker.id}-${index}` ? 'border-cyan-400' : 'border-white/20'
+                                            }`} />
+                                        <div className={`absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 transition-colors duration-300 ${hoveredCard === `${speaker.id}-${index}` ? 'border-cyan-400' : 'border-white/20'
+                                            }`} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Bottom line */}
