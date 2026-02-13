@@ -1,7 +1,17 @@
 import { useState, useEffect } from 'react';
 import vergeLogo from '../assets/logo.png';
 
-export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
+export default function Header({
+  onLogoClick,
+  onCrewClick,
+  onSponsorsClick,
+  onNavigate
+}: {
+  onLogoClick: () => void;
+  onCrewClick?: () => void;
+  onSponsorsClick?: () => void;
+  onNavigate?: (href: string) => void;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoText, setShowLogoText] = useState(false);
 
@@ -18,23 +28,35 @@ export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const leftNav = [
-    { label: 'EVENTS', href: '#events' },
-    { label: 'SCHEDULE', href: '#schedule' },
-    { label: 'SPONSORS', href: '#sponsors' },
+  type NavItem = {
+    label: string;
+    href: string;
+    action?: () => void;
+  };
+
+  const activeOnNavigate = (href: string) => {
+    if (onNavigate) {
+      onNavigate(href);
+    }
+  }
+
+  const leftNav: NavItem[] = [
+    { label: 'EVENTS', href: '#events', action: () => activeOnNavigate('#events') },
+    { label: 'SCHEDULE', href: '#schedule', action: () => activeOnNavigate('#schedule') },
+    { label: 'SPONSORS', href: '#sponsors', action: onSponsorsClick },
   ];
 
-  const rightNav = [
-    { label: 'SPEAKERS', href: '#speakers' },
-    { label: 'HUMANS', href: '#humans' },
-    { label: 'CONTACT US', href: '#contact' },
+  const rightNav: NavItem[] = [
+    { label: 'SPEAKERS', href: '#speakers', action: () => activeOnNavigate('#speakers') },
+    { label: 'HUMANS', href: '#humans', action: onCrewClick },
+    { label: 'CONTACT US', href: '#contact', action: () => activeOnNavigate('#contact') },
   ];
 
   const allNav = [...leftNav, ...rightNav];
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm">
         <div className="flex justify-between items-center max-w-7xl mx-auto h-8">
           {/* Mobile Menu Button - Left */}
           <button
@@ -53,7 +75,13 @@ export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
             {leftNav.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={item.action ? '#' : item.href}
+                onClick={(e) => {
+                  if (item.action) {
+                    e.preventDefault();
+                    item.action();
+                  }
+                }}
                 className="text-[11px] font-mono tracking-wider text-white/70 hover:text-cyan-400 transition-colors duration-300"
               >
                 {item.label}
@@ -87,7 +115,13 @@ export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
             {rightNav.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={item.action ? '#' : item.href}
+                onClick={(e) => {
+                  if (item.action) {
+                    e.preventDefault();
+                    item.action();
+                  }
+                }}
                 className="text-[11px] font-mono tracking-wider text-white/70 hover:text-cyan-400 transition-colors duration-300"
               >
                 {item.label}
@@ -98,6 +132,9 @@ export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
           {/* Mobile Spacer - Right (balances layout) */}
           <div className="md:hidden w-6" />
         </div>
+
+        {/* Light Dash Separator */}
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent" />
       </header>
 
       {/* Mobile Menu Overlay */}
@@ -117,9 +154,15 @@ export default function Header({ onLogoClick }: { onLogoClick: () => void }) {
             {allNav.map((item, index) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={item.action ? '#' : item.href}
                 className="text-2xl font-mono tracking-[0.2em] text-white/80 hover:text-cyan-400 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (item.action) {
+                    e.preventDefault();
+                    item.action();
+                  }
+                  setIsMenuOpen(false);
+                }}
                 style={{
                   opacity: 0,
                   animation: `fadeInUp 0.5s ease forwards ${index * 0.1}s`

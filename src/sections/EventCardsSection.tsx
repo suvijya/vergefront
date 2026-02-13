@@ -293,7 +293,7 @@ export default function EventCardsSection() {
     };
 
     return (
-        <section className="min-h-screen w-full bg-black py-24 relative overflow-hidden">
+        <section id="events" className="min-h-screen w-full bg-black py-24 relative overflow-hidden">
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;

@@ -215,7 +215,7 @@ export default function SpeakersSection() {
                         {marqueeSpeakers.map((speaker, index) => (
                             <div
                                 key={`${speaker.id}-${index}`}
-                                className="relative w-[280px] md:w-[320px] h-[400px] flex-shrink-0"
+                                className="relative w-[220px] md:w-[320px] aspect-[3/4.2] md:aspect-auto md:h-[400px] flex-shrink-0"
                                 onMouseEnter={() => setHoveredCard(`${speaker.id}-${index}`)}
                                 onMouseLeave={() => setHoveredCard(null)}
                             >
@@ -268,12 +268,12 @@ export default function SpeakersSection() {
                                         {/* Info - Bottom Left */}
                                         <div className="relative z-20 transform transition-transform duration-500 translate-y-0 max-w-[80%]">
                                             <h3
-                                                className="text-2xl font-bold text-white tracking-[0.05em] mb-1 group-hover:text-cyan-100 transition-colors drop-shadow-md text-left"
+                                                className="text-base md:text-2xl font-bold text-white tracking-[0.05em] mb-1 group-hover:text-cyan-100 transition-colors drop-shadow-md text-left"
                                                 style={{ fontFamily: "'Orbitron', monospace" }}
                                             >
                                                 {speaker.name}
                                             </h3>
-                                            <p className="text-xs font-mono text-cyan-400 tracking-wider uppercase drop-shadow-sm text-left">
+                                            <p className="text-[9px] md:text-xs font-mono text-cyan-400 tracking-wider uppercase drop-shadow-sm text-left">
                                                 {speaker.role}
                                             </p>
                                         </div>

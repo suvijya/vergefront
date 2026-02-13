@@ -22,7 +22,69 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [view, setView] = useState<'main' | 'about'>('main');
+  const [view, setView] = useState<'main' | 'about' | 'crew' | 'sponsors'>('main'); // specific view state
+
+  const [pendingScroll, setPendingScroll] = useState<string | null>(null);
+
+  // Handle back button (popstste)
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.view) {
+        setView(event.state.view);
+      } else {
+        setView('main');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Handle pending scroll after view change
+  useEffect(() => {
+    if (view === 'main' && pendingScroll) {
+      // Small timeout to ensure DOM is ready
+      setTimeout(() => {
+        const element = document.querySelector(pendingScroll);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        setPendingScroll(null);
+      }, 100);
+    }
+  }, [view, pendingScroll]);
+
+  const handleCrewClick = () => {
+    window.history.pushState({ view: 'crew' }, '', '#crew');
+    setView('crew');
+  };
+
+  const handleSponsorsClick = () => {
+    window.history.pushState({ view: 'sponsors' }, '', '#sponsors');
+    setView('sponsors');
+  };
+
+  const handleBackToMain = () => {
+    // specific check to avoid keeping '#crew' in URL if we manually click back
+    if (window.location.hash === '#crew' || window.location.hash === '#sponsors') {
+      window.history.back();
+    } else {
+      setView('main');
+    }
+  };
+
+  const handleNavigation = (href: string) => {
+    if (view !== 'main') {
+      setPendingScroll(href);
+      setView('main');
+      window.history.pushState(null, '', '/');
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
   const mainRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -103,14 +165,18 @@ function App() {
       />
 
       {/* Header - always visible */}
-      <Header onLogoClick={() => setView('main')} />
+      <Header
+        onLogoClick={() => setView('main')}
+        onCrewClick={handleCrewClick}
+        onSponsorsClick={handleSponsorsClick}
+        onNavigate={handleNavigation}
+      />
 
       {/* Boot Sequence */}
       {!bootComplete && (
         <BootSequence progress={loadingProgress} />
       )}
 
-      {/* Main Content */}
       {/* Main Content */}
       {bootComplete && (
         <>
@@ -121,9 +187,9 @@ function App() {
               <DataDashboard />
               <TimelineSection />
               <EventCardsSection />
-              <SponsorsSection />
               <SpeakersSection />
-              <HumansSection />
+              {/* SponsorsSection moved to own page */}
+              {/* HumansSection moved to own page */}
               <FinalMessage />
             </main>
           )}
@@ -131,6 +197,16 @@ function App() {
           {/* About Section */}
           {view === 'about' && (
             <AboutSection onBack={() => setView('main')} />
+          )}
+
+          {/* Crew/Humans Section */}
+          {view === 'crew' && (
+            <HumansSection onBack={handleBackToMain} />
+          )}
+
+          {/* Sponsors Section */}
+          {view === 'sponsors' && (
+            <SponsorsSection onBack={handleBackToMain} />
           )}
         </>
       )}

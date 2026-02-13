@@ -57,6 +57,7 @@ const scheduleData: DaySchedule[] = [
 export default function TimelineSection() {
   const [activeDay, setActiveDay] = useState(0);
   const [isScrollCaptured, setIsScrollCaptured] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const dwellTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -76,8 +77,16 @@ export default function TimelineSection() {
     setIsScrollCaptured(false);
   };
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (e.currentTarget.scrollTop > 20) {
+      setShowScrollIndicator(false);
+    } else {
+      setShowScrollIndicator(true);
+    }
+  };
+
   return (
-    <section className="h-screen w-full bg-black relative overflow-hidden flex flex-col">
+    <section id="schedule" className="h-screen w-full bg-black relative overflow-hidden flex flex-col">
       {/* Background stars */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 30 }).map((_, i) => (
@@ -94,22 +103,22 @@ export default function TimelineSection() {
       </div>
 
       {/* Section Header */}
-      <div className="text-center pt-24 pb-8 relative z-10">
-        <div className="text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
+      <div className="text-center pt-20 md:pt-24 pb-6 md:pb-8 relative z-10">
+        <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-2 md:mb-4">
           EVENT SCHEDULE
         </div>
-        <h2 className="text-3xl md:text-4xl font-mono text-white/90 tracking-wider">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-mono text-white/90 tracking-wider">
           MISSION TIMELINE
         </h2>
       </div>
 
       {/* Day Tabs */}
-      <div className="flex justify-center gap-6 pb-6 relative z-10">
+      <div className="flex justify-center gap-4 md:gap-6 pb-4 md:pb-6 relative z-10">
         {scheduleData.map((day, index) => (
           <button
             key={index}
             onClick={() => setActiveDay(index)}
-            className={`font-mono text-xs tracking-wider transition-all duration-300 ${activeDay === index
+            className={`font-mono text-[10px] md:text-xs tracking-wider transition-all duration-300 ${activeDay === index
               ? 'text-cyan-400 border-b border-cyan-400'
               : 'text-white/40 hover:text-white/60'
               }`}
@@ -121,22 +130,43 @@ export default function TimelineSection() {
 
       {/* Timeline Container - Scrollable Region */}
       <div
-        className="flex-1 relative overflow-hidden mx-6 md:mx-12 lg:mx-24 mb-8"
-        style={{ maxHeight: '60vh' }}
+        className="flex-1 relative overflow-hidden mx-4 md:mx-12 lg:mx-24 mb-4 md:mb-8"
+        style={{ maxHeight: '65vh' }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {/* Gradient fade top */}
-        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-6 md:h-8 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
 
         {/* Gradient fade bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-12 md:h-8 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none" />
+
+        {/* Scroll Indicator Overlay */}
+        <div
+          className={`absolute bottom-4 left-0 right-0 z-20 flex justify-center pointer-events-none transition-opacity duration-500 ${showScrollIndicator ? 'opacity-100' : 'opacity-0'
+            }`}
+        >
+          <div className="flex flex-col items-center gap-1 animate-bounce">
+            <span className="text-[9px] font-mono text-cyan-400/80 tracking-widest uppercase">
+              Scroll to Explore
+            </span>
+            <svg
+              className="w-4 h-4 text-cyan-400/80"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
 
         {/* Scrollable content */}
         <div
           ref={scrollRef}
+          onScroll={handleScroll}
           {...(isScrollCaptured ? { 'data-lenis-prevent': true } : {})}
-          className="h-full overflow-y-scroll px-4 transition-all duration-500"
+          className="h-full overflow-y-scroll px-2 md:px-4 transition-all duration-500 pb-12"
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: isScrollCaptured
@@ -144,43 +174,45 @@ export default function TimelineSection() {
               : 'rgba(255, 255, 255, 0.1) transparent'
           }}
         >
-          <div className="py-8 space-y-1">
+          <div className="py-6 md:py-8 space-y-1">
             {currentDay.events.map((event, index) => (
               <div
                 key={index}
-                className="group relative flex items-stretch gap-6 py-4 border-b border-white/10 hover:border-white/20 transition-all duration-300"
+                className="group relative flex items-stretch gap-3 md:gap-6 py-3 md:py-4 border-b border-white/5 md:border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 {/* Time */}
-                <div className="w-20 flex-shrink-0 text-right">
-                  <span className="text-2xl font-mono text-white/30 group-hover:text-cyan-400 transition-colors">
+                <div className="w-14 md:w-20 flex-shrink-0 text-right">
+                  <span className="text-lg md:text-2xl font-mono text-white/30 group-hover:text-cyan-400 transition-colors">
                     {event.time}
                   </span>
                 </div>
 
                 {/* Vertical Line & Dot */}
-                <div className="flex flex-col items-center flex-shrink-0">
-                  <div className="w-3 h-3 rounded-full border-2 border-white/30 group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all" />
+                <div className="flex flex-col items-center flex-shrink-0 pt-1.5 md:pt-2">
+                  <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full border-[1.5px] md:border-2 border-white/30 group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all" />
                   {index < currentDay.events.length - 1 && (
-                    <div className="w-px flex-1 bg-white/10 mt-2" />
+                    <div className="w-px flex-1 bg-white/10 mt-1" />
                   )}
                 </div>
 
                 {/* Event Details */}
-                <div className="flex-1 pb-4">
-                  <div className="flex items-center gap-4 mb-2">
-                    <h3 className="text-lg font-mono text-white/90 tracking-wider group-hover:text-white transition-colors">
+                <div className="flex-1 pb-2 md:pb-4">
+                  <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 mb-1 md:mb-2">
+                    <h3 className="text-base md:text-lg font-mono text-white/90 tracking-wider group-hover:text-white transition-colors">
                       {event.title}
                     </h3>
-                    <span className="text-[9px] font-mono text-white/30 px-2 py-0.5 border border-white/20">
+                    <span className="self-start text-[8px] md:text-[9px] font-mono text-white/30 px-1.5 py-0.5 border border-white/20 rounded-sm">
                       {event.venue}
                     </span>
                   </div>
-                  <p className="text-sm font-mono text-white/50 leading-relaxed">
+                  <p className="text-xs md:text-sm font-mono text-white/50 leading-relaxed max-w-[90%]">
                     {event.description}
                   </p>
                 </div>
               </div>
             ))}
+            {/* Height spacer for bottom scrolling */}
+            <div className="h-8 md:h-0" />
           </div>
         </div>
       </div>

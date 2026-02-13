@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import logo from '../assets/logo.png';
+
+import astro from '../assets/astro.png';
+import astroleft from '../assets/astroleft.png';
+import webback from '../assets/webback1.png';
 import srmLogo from '../assets/srm_logo.png';
 import naacLogo from '../assets/naacaplus.png';
 
@@ -12,6 +15,15 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
   const logoImgRef = useRef<HTMLImageElement>(null);
 
   const [readyForScroll, setReadyForScroll] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const x = (clientX / innerWidth - 0.5) * 2; // -1 to 1
+    const y = (clientY / innerHeight - 0.5) * 2; // -1 to 1
+    setMousePos({ x, y });
+  };
 
   // Logo animation - appears immediately
   useEffect(() => {
@@ -35,7 +47,8 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
     return () => { tl.kill(); };
   }, []);
 
-  // Scroll animation - Restored with optimized timing
+
+
   useEffect(() => {
     if (!readyForScroll) return;
 
@@ -61,46 +74,6 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
       },
     });
     if (decTween.scrollTrigger) heroTriggers.push(decTween.scrollTrigger);
-
-    // Logo Image Zoom & Fade Out
-    const logoTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: '20% top', // Finishes quickly
-        scrub: 1,
-      },
-    });
-    if (logoTl.scrollTrigger) heroTriggers.push(logoTl.scrollTrigger);
-
-    logoTl.to(logoImg, {
-      scale: 6.5, // Reduced from 50 to prevent cutting out
-      ease: 'power2.in', // Slightly more linear
-      duration: 1,
-    })
-      .to(logoImg, {
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.in',
-      }, ">-0.5");
-
-    // VERGE Text Fly Up
-    const vergeText = logoEl.querySelector('.verge-text');
-    if (vergeText) {
-      const vergeTween = gsap.to(vergeText, {
-        y: '-48vh', // Move to header position
-        scale: 0.15, // Scale down to header size
-        opacity: 0, // Fade out at the very end
-        ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '20% top',
-          scrub: 1,
-        },
-      });
-      if (vergeTween.scrollTrigger) heroTriggers.push(vergeTween.scrollTrigger);
-    }
 
     // Scroll Indicator Fade Out
     const scrollIndicator = inner.querySelector('.scroll-indicator');
@@ -128,7 +101,16 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
     <section
       ref={sectionRef}
       className="relative h-[140vh] w-full bg-black"
-      style={{ overflow: 'visible' }}
+      onMouseMove={handleMouseMove}
+      style={{
+        overflow: 'visible',
+        backgroundImage: `
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px',
+        backgroundPosition: 'center center',
+      }}
     >
       {/* Sticky inner container */}
       <div
@@ -149,95 +131,80 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
           className="absolute top-8 right-8 w-32 md:w-48 z-40 pointer-events-none object-contain"
         />
 
+
+
         {/* Logo + VERGE 2026 */}
-        <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-          {/* Radial glow behind logo area */}
+        {/* Background Text Layer */}
+        {/* Background Text Layer - Wireframe & Parallax */}
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center z-0 pointer-events-none select-none overflow-hidden pb-32"
+          style={{
+            transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)`,
+            transition: 'transform 0.1s ease-out'
+          }}
+        >
+          <span
+            className="text-[15vw] md:text-[18vw] font-black leading-none tracking-tighter"
+            style={{
+              fontFamily: "'Orbitron', sans-serif",
+              WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
+              color: 'transparent',
+              filter: 'drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))'
+            }}
+          >
+            VERGE
+          </span>
+          <span
+            className="text-[15vw] md:text-[18vw] font-black leading-none tracking-tighter -mt-4 md:-mt-8"
+            style={{
+              fontFamily: "'Orbitron', sans-serif",
+              WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
+              color: 'transparent',
+              filter: 'drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))'
+            }}
+          >
+            2026
+          </span>
+        </div>
+
+        <div
+          className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+          {/* Radial glow removed to favor the bottom horizon */
+          /*
           <div
             className="absolute"
-            style={{
-              width: '600px',
-              height: '600px',
-              background: 'radial-gradient(circle, rgba(0, 255, 120, 0.04) 0%, rgba(0, 200, 255, 0.02) 40%, transparent 70%)',
-              filter: 'blur(40px)',
-            }}
+            style={{ ... }}
           />
+          */}
 
           <div
             ref={logoRef}
-            className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500"
+            className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500 z-50"
             onClick={onLogoClick}
+            style={{
+              transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
+              transition: 'transform 0.1s ease-out'
+            }}
           >
-            {/* Top decorative line */}
-            <div className="flex items-center gap-3 w-full max-w-md hero-decoration">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            </div>
+            {/* Top decorative line - REMOVED */}
 
-            {/* Main logo row */}
-            <div className="flex items-center gap-5 md:gap-8">
-              <img
-                ref={logoImgRef}
-                src={logo}
-                alt="Verge"
-                className="w-20 md:w-32 lg:w-40 object-contain brightness-0 invert"
-              />
-              {/* Vertical accent line */}
-              <div
-                className="w-px h-16 md:h-24 hero-decoration"
+            <div className="flex flex-col items-center gap-2">
+              <h1
+                className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white text-center"
                 style={{
-                  background: 'linear-gradient(to bottom, transparent, rgba(0, 255, 180, 0.6), transparent)',
+                  fontFamily: "'Orbitron', sans-serif",
+                  filter: 'drop-shadow(0 0 40px rgba(0, 255, 255, 0.3))'
                 }}
-              />
-              {/* Text block */}
-              <div className="flex flex-col gap-1">
-                <span
-                  className="verge-text text-3xl md:text-5xl lg:text-6xl font-bold tracking-[0.15em] text-white"
-                  style={{
-                    fontFamily: "'Orbitron', 'Rajdhani', 'Courier New', monospace",
-                    textShadow: '0 0 30px rgba(0, 255, 180, 0.15)',
-                    display: 'inline-block', // Ensure transform works
-                    transformOrigin: 'center center',
-                  }}
-                >
-                  VERGE
-                </span>
-                <span
-                  className="hero-decoration text-lg md:text-2xl lg:text-3xl font-light tracking-[0.5em] text-white/60"
-                  style={{
-                    fontFamily: "'Orbitron', 'Rajdhani', 'Courier New', monospace",
-                  }}
-                >
-                  2026
-                </span>
-              </div>
-            </div>
-
-            {/* Tagline */}
-            <div className="flex items-center gap-3 mt-2 hero-decoration">
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span
-                className="text-[10px] md:text-xs tracking-[0.4em] text-white/40 uppercase font-mono"
               >
-                The Future Awaits
-              </span>
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                VERGE 2026
+              </h1>
             </div>
 
-            {/* Bottom decorative line */}
-            <div className="flex items-center gap-3 w-full max-w-md hero-decoration">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            </div>
+            {/* Tagline - REMOVED */}
 
-            {/* Corner brackets */}
-            <div className="absolute -inset-6 md:-inset-10 pointer-events-none hero-decoration">
-              {/* Top-left */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-white/15" />
-              {/* Top-right */}
-              <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-white/15" />
-              {/* Bottom-left */}
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-white/15" />
-              {/* Bottom-right */}
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-white/15" />
-            </div>
+            {/* Bottom decorative line - REMOVED */}
+
+            {/* Corner brackets - REMOVED */}
           </div>
         </div>
 
@@ -252,6 +219,22 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             <div className="w-1 h-2 bg-cosmic-green rounded-full animate-scroll-dot" />
           </div>
         </div>
+
+        {/* Planet Horizon - Image Asset */}
+        <div className="absolute inset-x-0 bottom-[-10vh] pointer-events-none z-10 flex justify-center">
+          {/* Atmospheric Glow - Tight to the Planet Border */}
+          <img
+            src={webback}
+            alt="Horizon"
+            className="w-full h-auto max-h-[85vh] object-cover object-bottom"
+            style={{
+              filter: 'drop-shadow(0 -10px 40px rgba(0, 100, 255, 0.5))'
+            }}
+          />
+        </div>
+
+        {/* Bottom Fade Gradient for Smooth Transition */}
+        <div className="absolute inset-x-0 bottom-0 h-[40vh] bg-gradient-to-t from-black via-black/60 to-transparent z-20 pointer-events-none" />
 
         {/* Animated horizontal scan line */}
         <div
@@ -279,20 +262,48 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             .animate-scroll-dot {
               animation: scroll-dot 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
             }
+            @keyframes float {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-20px); }
+            }
+            .animate-float-slow {
+              animation: float 6s ease-in-out infinite;
+            }
+            .animate-float-slower {
+              animation: float 8s ease-in-out infinite;
+            }
           `}</style>
         </div>
 
 
 
-        {/* Sun flare effect */}
-        <div
-          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none z-5"
-          style={{
-            background: 'radial-gradient(ellipse at 20% 30%, rgba(255, 200, 100, 0.15) 0%, transparent 50%)',
-            opacity: 1,
-            transition: 'opacity 2s ease',
-          }}
-        />
+        {/* Floating Astronauts */}
+        <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden">
+          {/* Left Astronaut - Large & Using dedicated left asset */}
+          <img
+            src={astroleft}
+            alt="Astronaut Left"
+            className="absolute bottom-[2vh] left-[-2vw] md:left-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slow"
+            style={{
+              // Removed flip/rotate as we now have a dedicated left-facing image
+              animationDelay: '0s',
+              filter: 'drop-shadow(0 0 30px rgba(0,100,255,0.4))'
+            }}
+          />
+          {/* Right Astronaut - Large & Default Orientation */}
+          <img
+            src={astro}
+            alt="Astronaut"
+            className="absolute bottom-[2vh] right-[-2vw] md:right-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slower"
+            style={{
+              transform: 'rotate(-15deg)', // Tilted inward
+              animationDelay: '1.5s',
+              filter: 'drop-shadow(0 0 30px rgba(0,100,255,0.4))'
+            }}
+          />
+        </div>
+
+
       </div>
     </section>
   );

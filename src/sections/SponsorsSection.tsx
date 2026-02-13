@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { gsap } from 'gsap';
 
 interface Sponsor {
     name: string;
@@ -111,14 +112,30 @@ function SponsorCard({ sponsor, index }: { sponsor: Sponsor; index: number }) {
     );
 }
 
-export default function SponsorsSection() {
+export default function SponsorsSection({ onBack }: { onBack?: () => void }) {
     const titleSponsors = sponsors.filter((s) => s.tier === 'title');
     const platinumSponsors = sponsors.filter((s) => s.tier === 'platinum');
     const goldSponsors = sponsors.filter((s) => s.tier === 'gold');
     const silverSponsors = sponsors.filter((s) => s.tier === 'silver');
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Animation handlers for back button
+    const onEnter = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
+        gsap.to(currentTarget, { scale: 1.05, duration: 0.2 });
+    };
+
+    const onLeave = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
+        gsap.to(currentTarget, { scale: 1, duration: 0.2 });
+    };
 
     return (
-        <section id="sponsors" className="min-h-screen w-full bg-black py-24 px-6 md:px-12 relative overflow-hidden">
+        <section
+            id="sponsors"
+            ref={containerRef}
+            data-lenis-prevent
+            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden py-10 px-6 md:px-12 overscroll-contain"
+            style={{ overscrollBehavior: 'contain' }}
+        >
             {/* Background orbital dots */}
             <div className="absolute inset-0 pointer-events-none">
                 {[...Array(20)].map((_, i) => (
@@ -137,6 +154,25 @@ export default function SponsorsSection() {
 
             {/* Section Header */}
             <div className="text-center mb-20 relative">
+                {/* Back Button */}
+                {onBack && (
+                    <div className="md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 mb-8 md:mb-0 flex justify-center md:block">
+                        <button
+                            onClick={onBack}
+                            onMouseEnter={onEnter}
+                            onMouseLeave={onLeave}
+                            className="group flex items-center gap-3 text-white/50 hover:text-white transition-colors"
+                        >
+                            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/10 transition-all">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                            </div>
+                            <span className="font-mono text-xs tracking-widest hidden md:inline">RETURN</span>
+                        </button>
+                    </div>
+                )}
+
                 <div className="flex items-center justify-center gap-3 mb-4">
                     <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
                     <span className="text-[10px] font-mono text-white/40 tracking-[0.4em]">
@@ -222,7 +258,7 @@ export default function SponsorsSection() {
             </div>
 
             {/* Bottom CTA */}
-            <div className="text-center mt-20">
+            <div className="text-center mt-20 pb-16">
                 <a
                     href="mailto:sponsors@verge2026.com"
                     className="inline-block px-8 py-3 border border-yellow-600/30 text-yellow-500/70 font-mono text-xs tracking-[0.3em] hover:bg-yellow-500/10 hover:border-yellow-500/50 transition-all duration-300"

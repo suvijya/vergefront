@@ -182,15 +182,16 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     const targetParticles = Math.min(1200, Math.floor(debrisCount / 50000)); // Reduced cap from 2000 to 1200
     if (particlesRef.current.length < targetParticles) {
       for (let i = particlesRef.current.length; i < targetParticles; i++) {
-        const orbitRadius = 200 + Math.random() * 300;
+        // Tuned: Start from 360 (just outside 350 radius) to 650
+        const orbitRadius = 360 + Math.random() * 300;
         particlesRef.current.push({
           x: 0,
           y: 0,
           z: 0,
           orbitRadius,
-          orbitSpeed: 0.001 + Math.random() * 0.002,
+          orbitSpeed: 0.0005 + Math.random() * 0.0015, // Slightly slower for elegance
           orbitAngle: Math.random() * Math.PI * 2,
-          size: 1 + Math.random() * 2,
+          size: 0.5 + Math.random() * 1.0, // Tuned: Smaller meteors (0.5 to 1.5)
         });
       }
     }
@@ -208,11 +209,12 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     // Radii ~450-550 ensure labels orbit just outside/near the small locations of the Earth surface
     const isMobile = window.innerWidth < 768;
     const fixedPositions = [
-      { radius: isMobile ? 460 : 280, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -40 : 40 },     // Left (Mid-High)
-      { radius: isMobile ? 540 : 320, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -20 : -50 },    // Top-Left (High)
-      { radius: isMobile ? 480 : 360, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },       // Top (Center)
-      { radius: isMobile ? 540 : 400, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -20 : -40 },    // Top-Right (High)
-      { radius: isMobile ? 460 : 300, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -40 : 60 }      // Right (Mid-High)
+      // Tuned: All radii > 350 to ensure they orbit AROUND (outside) the Earth
+      { radius: isMobile ? 460 : 380, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -40 : 40 },     // Left
+      { radius: isMobile ? 540 : 420, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -20 : -50 }, // Top-Left
+      { radius: isMobile ? 480 : 450, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },     // Top
+      { radius: isMobile ? 540 : 420, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -20 : -40 },  // Top-Right
+      { radius: isMobile ? 460 : 380, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -40 : 60 }    // Right
     ];
 
     events.forEach((_, i) => {
@@ -239,6 +241,25 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
+
+      // --- BACK RINGS (Behind Earth) ---
+      ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; // Slightly dimmer for depth
+      ctx.lineWidth = 1.0;
+      const ringScale = earthRadius / 350;
+      // Defines fixed rotation angles for stable orbits
+      const fixedAngles = [-0.2, 0, 0.2]; // -11deg, 0deg, +11deg approx
+
+      [380, 520, 660].forEach((radius, i) => {
+        ctx.beginPath();
+        // Draw the top half (PI to 2PI) which is visually "behind"
+        ctx.ellipse(
+          centerX, centerY,
+          radius * ringScale, radius * 0.35 * ringScale,
+          fixedAngles[i],
+          Math.PI, Math.PI * 2
+        );
+        ctx.stroke();
+      });
 
       // Draw Earth (Back Layer) logic...
       // (Simplified: Just drawing image)
@@ -380,17 +401,23 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
         ctx.fill();
       });
 
-      // Draw orbital paths
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.15)'; // Emerald Green rings
-      ctx.lineWidth = 1;
-      const ringScale = earthRadius / 350;
-      [250, 320, 400].forEach((radius, i) => {
+      // --- FRONT RINGS (In Front of Earth) ---
+      // Draw orbital paths - High visibility Red Rings
+      ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)'; // Bright Red
+      ctx.lineWidth = 1.5;
+      // Reuse ringScale and fixedAngles from above scope if possible, or redefine
+      // (Redefine locally to be safe if scope is tricky with previous edit)
+      const ringScaleFront = earthRadius / 350;
+      const fixedAnglesFront = [-0.2, 0, 0.2];
+
+      [380, 520, 660].forEach((radius, i) => {
         ctx.beginPath();
+        // Draw the bottom half (0 to PI) which is visually "in front"
         ctx.ellipse(
           centerX, centerY,
-          radius * ringScale, radius * 0.4 * ringScale,
-          rotation * (i % 2 === 0 ? 1 : -1) * 0.5,
-          0, Math.PI * 2
+          radius * ringScaleFront, radius * 0.35 * ringScaleFront,
+          fixedAnglesFront[i],
+          0, Math.PI
         );
         ctx.stroke();
       });

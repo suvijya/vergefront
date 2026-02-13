@@ -38,8 +38,9 @@ export default function FinalMessage() {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
-      className="relative min-h-screen w-full bg-black overflow-hidden py-20"
+      className="relative md:min-h-screen w-full bg-black overflow-hidden py-10 md:py-20"
     >
       {/* Background starfield */}
       <Starfield />
@@ -49,7 +50,7 @@ export default function FinalMessage() {
       {/* Main message */}
       <div
         ref={messageRef}
-        className="h-screen flex items-center justify-center px-6"
+        className="hidden md:flex h-screen items-center justify-center px-6"
       >
         <div className="text-center">
           <div className="text-[8vw] md:text-[6vw] font-bold text-white/90 leading-tight tracking-tight">
@@ -60,35 +61,40 @@ export default function FinalMessage() {
             EXPERIENCE
           </div>
 
-          <div className="mt-12 text-sm font-mono text-white/40 tracking-wider">
-            NASA TAKES STEPS.
-          </div>
+
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="relative pt-20 pb-10 border-t border-white/10 bg-black/90 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      <footer className="relative pt-10 md:pt-24 pb-8 md:pb-12 border-t border-emerald-500/10 bg-black/95 backdrop-blur-xl overflow-hidden">
+        {/* Top Glow Line */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent shadow-[0_0_15px_rgba(16,185,129,0.4)]" />
+
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-20 relative z-10">
           {/* Brand Column */}
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+          <div className="space-y-4 md:space-y-6">
+            <h2 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)] tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               VERGE 2026
             </h2>
-            <p className="text-sm text-gray-400 leading-relaxed font-mono">
+            <p className="text-sm text-emerald-100/60 leading-relaxed font-mono tracking-wide max-w-xs">
               The biggest technical festival bringing innovation and technology together.
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h3 className="text-lg font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+            <h3 className="text-lg font-bold text-white tracking-widest uppercase" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               Quick Links
             </h3>
-            <ul className="space-y-3 font-mono text-sm text-gray-400">
+            <ul className="space-y-4 font-mono text-sm text-emerald-100/60">
               {['Events', 'Schedule', 'Sponsors', 'Contact'].map((item) => (
                 <li key={item}>
-                  <a href={`#${item.toLowerCase()}`} className="hover:text-cyan-400 transition-colors flex items-center gap-2 group">
-                    <span className="text-cyan-500/50 group-hover:text-cyan-400">→</span> {item}
+                  <a href={`#${item.toLowerCase()}`} className="hover:text-emerald-400 transition-all flex items-center gap-3 group w-fit">
+                    <span className="text-emerald-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-transform">→</span>
+                    <span className="relative overflow-hidden group-hover:tracking-wider transition-all duration-300">
+                      {item}
+                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-emerald-400 -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
+                    </span>
                   </a>
                 </li>
               ))}
@@ -97,27 +103,33 @@ export default function FinalMessage() {
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h3 className="text-lg font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+            <h3 className="text-lg font-bold text-white tracking-widest uppercase" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               Contact Info
             </h3>
-            <div className="space-y-4 font-mono text-sm text-gray-400">
-              <a href="mailto:verge@srmuniversity.ac.in" className="flex items-start gap-3 hover:text-cyan-400 transition-colors group">
-                <svg className="w-5 h-5 text-cyan-500 shrink-0 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+            <div className="space-y-5 font-mono text-sm text-cyan-100/60">
+              <a href="mailto:verge@srmuniversity.ac.in" className="flex items-center gap-4 hover:text-cyan-400 transition-colors group w-fit">
+                <div className="p-2.5 rounded bg-cyan-950/30 border border-cyan-500/20 group-hover:border-cyan-400/50 group-hover:bg-cyan-900/40 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)]">
+                  <svg className="w-4 h-4 text-cyan-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
                 <span>verge@srmuniversity.ac.in</span>
               </a>
-              <a href="tel:+918953348042" className="flex items-start gap-3 hover:text-cyan-400 transition-colors group">
-                <svg className="w-5 h-5 text-cyan-500 shrink-0 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
+              <a href="tel:+918953348042" className="flex items-center gap-4 hover:text-cyan-400 transition-colors group w-fit">
+                <div className="p-2.5 rounded bg-cyan-950/30 border border-cyan-500/20 group-hover:border-cyan-400/50 group-hover:bg-cyan-900/40 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)]">
+                  <svg className="w-4 h-4 text-cyan-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
                 <span>+91 8953348042</span>
               </a>
-              <div className="flex items-start gap-3 text-gray-400">
-                <svg className="w-5 h-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+              <div className="flex items-center gap-4 text-cyan-100/60 group w-fit">
+                <div className="p-2.5 rounded bg-cyan-950/30 border border-cyan-500/20 shadow-[0_0_10px_rgba(34,211,238,0.1)]">
+                  <svg className="w-4 h-4 text-cyan-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
                 <span>SRM University, Delhi-NCR</span>
               </div>
             </div>
@@ -125,18 +137,18 @@ export default function FinalMessage() {
 
           {/* Follow Us */}
           <div className="space-y-6">
-            <h3 className="text-lg font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+            <h3 className="text-lg font-bold text-white tracking-widest uppercase" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               Follow Us
             </h3>
             <div className="flex gap-4">
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all border border-white/10 hover:border-cyan-500/50 group">
+              <a href="#" className="p-3.5 bg-transparent rounded-full hover:bg-emerald-500/10 hover:text-emerald-400 text-emerald-600 transition-all border border-emerald-500/30 hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] group">
                 <svg className="w-5 h-5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                   <rect x="2" y="9" width="4" height="12" />
                   <circle cx="4" cy="4" r="2" />
                 </svg>
               </a>
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-pink-500/20 hover:text-pink-400 transition-all border border-white/10 hover:border-pink-500/50 group">
+              <a href="#" className="p-3.5 bg-transparent rounded-full hover:bg-cyan-500/10 hover:text-cyan-400 text-cyan-600 transition-all border border-cyan-500/30 hover:border-cyan-500 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] group">
                 <svg className="w-5 h-5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -147,15 +159,33 @@ export default function FinalMessage() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 mt-8">
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm font-mono text-gray-500">
-              Made with <span className="text-red-500 animate-pulse">❤️</span> by <span className="text-cyan-400">Suvijya Arya</span>
-            </p>
-            <p className="text-xs font-mono text-gray-600">
-              © 2026 VERGE TECHFEST. ALL RIGHTS RESERVED.
-            </p>
+        {/* Bottom Bar with Dense Scanline Texture */}
+        <div className="relative pt-4 md:pt-6 pb-4 md:pb-6 mt-8 md:mt-12 border-t border-white/5">
+          {/* Scanline Texture Overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.1]"
+            style={{
+              backgroundImage: 'linear-gradient(90deg, #10b981 1px, transparent 1px)',
+              backgroundSize: '4px 100%',
+              maskImage: 'linear-gradient(to bottom, transparent, black, transparent)'
+            }}
+          />
+
+          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+            <div className="flex items-center gap-2 text-xs md:text-sm font-mono text-emerald-100/60 tracking-wider">
+              <span>Made with</span>
+              <span className="text-pink-500 animate-pulse text-lg">❤️</span>
+              <span>by</span>
+              <a href="#" className="text-emerald-400 hover:text-emerald-300 transition-colors font-bold tracking-widest hover:shadow-[0_0_15px_rgba(52,211,153,0.5)]">
+                Suvijya Arya
+              </a>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <p className="text-[10px] font-mono text-emerald-100/30 tracking-[0.2em] uppercase">
+                © 2026 VERGE TECHFEST. ALL RIGHTS RESERVED.
+              </p>
+            </div>
           </div>
         </div>
       </footer>

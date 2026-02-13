@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { gsap } from 'gsap';
 
 interface CrewMember {
     id: string;
@@ -23,9 +24,11 @@ const crew: CrewMember[] = [
     { id: 'CM-010', name: 'KABIR MEHTA', initials: 'KM', designation: 'Marketing Lead', department: 'OUTREACH', deptColor: '#ffa726', status: 'ACTIVE' },
     { id: 'CM-011', name: 'RIYA GUPTA', initials: 'RG', designation: 'PR Specialist', department: 'OUTREACH', deptColor: '#ffa726', status: 'ACTIVE' },
     { id: 'CM-012', name: 'AMIT VERMA', initials: 'AV', designation: 'Social Media Lead', department: 'OUTREACH', deptColor: '#ffa726', status: 'ACTIVE' },
+    { id: 'CM-013', name: 'DR. S. KUMAR', initials: 'SK', designation: 'Head of Department', department: 'FACULTY', deptColor: '#ffffff', status: 'ACTIVE' },
+    { id: 'CM-014', name: 'PROF. R. DEVI', initials: 'RD', designation: 'Faculty coordinator', department: 'FACULTY', deptColor: '#ffffff', status: 'ACTIVE' },
 ];
 
-const departments = ['ALL', 'CORE', 'TECH', 'DESIGN', 'OUTREACH'];
+const departments = ['Students', 'Faculty'];
 
 function CrewCard({ member, index }: { member: CrewMember; index: number }) {
     const [hovered, setHovered] = useState(false);
@@ -38,7 +41,7 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
             style={{ animationDelay: `${index * 0.05}s` }}
         >
             <div
-                className={`relative p-5 bg-white/[0.02] backdrop-blur-sm border border-white/8 transition-all duration-500 overflow-hidden ${hovered ? 'translate-y-[-4px]' : ''
+                className={`relative p-3 md:p-5 bg-white/[0.02] backdrop-blur-sm border border-white/8 transition-all duration-500 overflow-hidden ${hovered ? 'translate-y-[-4px]' : ''
                     }`}
                 style={{
                     borderColor: hovered ? `${member.deptColor}40` : 'rgba(255,255,255,0.08)',
@@ -84,7 +87,7 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
                 <div className="flex justify-center mb-4">
                     <div className="relative">
                         <div
-                            className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500`}
+                            className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-500`}
                             style={{
                                 background: `linear-gradient(135deg, ${member.deptColor}20, ${member.deptColor}05)`,
                                 border: `2px solid ${hovered ? `${member.deptColor}60` : 'rgba(255,255,255,0.08)'}`,
@@ -150,24 +153,120 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
     );
 }
 
-export default function HumansSection() {
-    const [activeDept, setActiveDept] = useState('ALL');
+function FacultyCard({ member, index }: { member: CrewMember; index: number }) {
+    const [hovered, setHovered] = useState(false);
 
-    const filteredCrew = activeDept === 'ALL' ? crew : crew.filter((m) => m.department === activeDept);
+    return (
+        <div
+            className="relative group w-full"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{ animationDelay: `${index * 0.15}s` }}
+        >
+            <div
+                className={`relative w-full p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10 bg-white/[0.03] backdrop-blur-md border border-white/10 transition-all duration-500 overflow-hidden ${hovered ? 'translate-y-[-4px]' : ''
+                    }`}
+                style={{
+                    borderColor: hovered ? `${member.deptColor}60` : 'rgba(255,255,255,0.1)',
+                    boxShadow: hovered
+                        ? `0 20px 50px -10px ${member.deptColor}20, inset 0 0 30px ${member.deptColor}05`
+                        : 'none',
+                }}
+            >
+                {/* Decorative corner accents */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 transition-all duration-500"
+                    style={{ borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.1)' }} />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 transition-all duration-500"
+                    style={{ borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.1)' }} />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 transition-all duration-500"
+                    style={{ borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.1)' }} />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 transition-all duration-500"
+                    style={{ borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.1)' }} />
 
-    const deptColorMap: Record<string, string> = {
-        ALL: '#ffffff',
-        CORE: '#00ffb4',
-        TECH: '#00d4ff',
-        DESIGN: '#ff6b9d',
-        OUTREACH: '#ffa726',
+                {/* Avatar (Left side) */}
+                <div className="relative flex-shrink-0">
+                    <div
+                        className={`w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center transition-all duration-500`}
+                        style={{
+                            background: `linear-gradient(135deg, ${member.deptColor}20, ${member.deptColor}05)`,
+                            border: `3px solid ${hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.1)'}`,
+                            boxShadow: hovered ? `0 0 30px ${member.deptColor}30` : 'none',
+                        }}
+                    >
+                        <span
+                            className="text-3xl md:text-4xl font-bold tracking-wider transition-colors duration-300"
+                            style={{
+                                fontFamily: "'Orbitron', monospace",
+                                color: hovered ? member.deptColor : 'rgba(255,255,255,0.5)',
+                            }}
+                        >
+                            {member.initials}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Info (Right side expansion) */}
+                <div className="flex-grow flex flex-col items-center md:items-start text-center md:text-left pt-2">
+                    {/* Name */}
+                    <h3
+                        className="text-2xl md:text-4xl font-bold text-white tracking-[0.1em] mb-3"
+                        style={{ fontFamily: "'Orbitron', monospace" }}
+                    >
+                        {member.name}
+                    </h3>
+
+                    {/* Designation Badge */}
+                    <div className="inline-flex items-center gap-3 mb-6 px-4 py-1.5 bg-white/5 rounded-full border border-white/10">
+                        <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: member.deptColor }} />
+                        <p className="text-sm font-mono text-white/80 tracking-wider uppercase">
+                            {member.designation}
+                        </p>
+                    </div>
+
+                    {/* Status (Bottom aligned in desktop view) */}
+                    <div className="mt-auto md:w-full flex justify-center md:justify-start">
+                        <div className="flex items-center gap-2 text-xs font-mono tracking-[0.2em] text-white/40">
+                            <span>STATUS:</span>
+                            <span style={{ color: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726' }}>
+                                {member.status}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default function HumansSection({ onBack }: { onBack?: () => void }) {
+    const [activeDept, setActiveDept] = useState('Students');
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const facultyCrew = crew.filter((m) => m.department === 'FACULTY');
+    const studentCrew = crew.filter((m) => m.department !== 'FACULTY');
+
+    // deptColorMap removed as it is no longer used for the tabs styled with Tailwind classes
+
+    // Animation handlers for back button (same as AboutSection)
+    const onEnter = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
+        gsap.to(currentTarget, { scale: 1.05, duration: 0.2 });
+    };
+
+    const onLeave = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
+        gsap.to(currentTarget, { scale: 1, duration: 0.2 });
     };
 
     return (
-        <section id="humans" className="min-h-screen w-full bg-black py-24 px-6 md:px-12 relative overflow-hidden">
+        <section
+            id="humans"
+            ref={containerRef}
+            data-lenis-prevent
+            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden py-10 px-6 md:px-12 overscroll-contain"
+            style={{ overscrollBehavior: 'contain' }}
+        >
             {/* Background grid accent */}
             <div
-                className="absolute inset-0 pointer-events-none opacity-[0.015]"
+                className="fixed inset-0 pointer-events-none opacity-[0.015]"
                 style={{
                     backgroundImage:
                         'linear-gradient(rgba(0, 255, 180, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 180, 0.5) 1px, transparent 1px)',
@@ -176,88 +275,76 @@ export default function HumansSection() {
             />
 
             {/* Section Header */}
-            <div className="text-center mb-16 relative">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-[10px] font-mono text-white/40 tracking-[0.4em]">
-                        THE HUMANS BEHIND VERGE
-                    </span>
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                </div>
+            <div className="text-center mb-12 relative">
+                {/* Back Button positioned absolutely for desktop, relatively for mobile */}
+                {onBack && (
+                    <div className="md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 mb-8 md:mb-0 flex justify-center md:block">
+                        <button
+                            onClick={onBack}
+                            onMouseEnter={onEnter}
+                            onMouseLeave={onLeave}
+                            className="group flex items-center gap-3 text-white/50 hover:text-white transition-colors"
+                        >
+                            <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/10 transition-all">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                            </div>
+                            <span className="font-mono text-xs tracking-widest hidden md:inline">RETURN</span>
+                        </button>
+                    </div>
+                )}
+
                 <h2
-                    className="text-4xl md:text-5xl font-bold tracking-[0.15em] text-white mb-3"
+                    className="text-4xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-2 inline-block"
                     style={{
                         fontFamily: "'Orbitron', monospace",
-                        textShadow: '0 0 40px rgba(0, 255, 180, 0.1)',
                     }}
                 >
-                    CREW MANIFEST
+                    Event Leads
                 </h2>
-                <div className="flex items-center justify-center gap-3 mt-4">
-                    <div className="h-px w-16 bg-gradient-to-r from-transparent to-green-500/20" />
-                    <span className="text-[9px] font-mono text-white/30 tracking-[0.3em]">
-                        {crew.length} PERSONNEL
-                    </span>
-                    <div className="h-px w-16 bg-gradient-to-l from-transparent to-green-500/20" />
-                </div>
             </div>
 
-            {/* Department Filter Tabs */}
-            <div className="flex items-center justify-center gap-2 mb-12 flex-wrap">
-                {departments.map((dept) => (
-                    <button
-                        key={dept}
-                        onClick={() => setActiveDept(dept)}
-                        className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] border transition-all duration-300 ${activeDept === dept
-                                ? 'bg-white/10 border-white/30'
-                                : 'bg-transparent border-white/10 hover:bg-white/5'
-                            }`}
-                        style={{
-                            color: activeDept === dept ? deptColorMap[dept] : 'rgba(255,255,255,0.4)',
-                            borderColor: activeDept === dept ? `${deptColorMap[dept]}40` : undefined,
-                        }}
-                    >
-                        {dept}
-                    </button>
-                ))}
-            </div>
-
-            {/* Crew Grid */}
-            <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredCrew.map((member, i) => (
-                    <CrewCard key={member.id} member={member} index={i} />
-                ))}
-            </div>
-
-            {/* Bottom stats bar */}
-            <div className="max-w-3xl mx-auto mt-16 p-4 border border-white/5 bg-white/[0.02]">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    {[
-                        { label: 'CORE', count: crew.filter((c) => c.department === 'CORE').length, color: '#00ffb4' },
-                        { label: 'TECH', count: crew.filter((c) => c.department === 'TECH').length, color: '#00d4ff' },
-                        { label: 'DESIGN', count: crew.filter((c) => c.department === 'DESIGN').length, color: '#ff6b9d' },
-                        { label: 'OUTREACH', count: crew.filter((c) => c.department === 'OUTREACH').length, color: '#ffa726' },
-                    ].map((stat) => (
-                        <div key={stat.label} className="flex flex-col items-center gap-1">
-                            <span
-                                className="text-2xl font-bold"
-                                style={{ fontFamily: "'Orbitron', monospace", color: stat.color }}
-                            >
-                                {stat.count}
-                            </span>
-                            <span className="text-[8px] font-mono text-white/30 tracking-[0.3em]">
-                                {stat.label}
-                            </span>
-                        </div>
+            {/* Department Filter Tabs - Pill Style */}
+            <div className="flex justify-center mb-8 md:mb-16 px-4 md:px-0">
+                <div className="flex overflow-x-auto no-scrollbar max-w-full items-center p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+                    {departments.map((dept) => (
+                        <button
+                            key={dept}
+                            onClick={() => setActiveDept(dept)}
+                            className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-mono tracking-wider transition-all duration-300 whitespace-nowrap ${activeDept === dept
+                                ? 'bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+                                : 'text-white/60 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {dept}
+                        </button>
                     ))}
                 </div>
             </div>
 
+            {/* Faculty List (Visible only when Faculty tab is active) */}
+            {activeDept === 'Faculty' && (
+                <div className="max-w-6xl mx-auto flex flex-col gap-6 mb-16">
+                    {facultyCrew.map((member, i) => (
+                        <FacultyCard key={member.id} member={member} index={i} />
+                    ))}
+                </div>
+            )}
+
+            {/* Student Grid (Visible always, or filterable if we add more tabs later) */}
+            <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+                {studentCrew.map((member, i) => (
+                    <CrewCard key={member.id} member={member} index={i} />
+                ))}
+            </div>
+
             {/* Join the crew CTA */}
-            <div className="text-center mt-12">
+            <div className="text-center mt-20 pb-16">
+                <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
                 <a
                     href="mailto:team@verge2026.com"
-                    className="inline-block px-8 py-3 border border-green-500/30 text-green-400/70 font-mono text-xs tracking-[0.3em] hover:bg-green-500/10 hover:border-green-500/50 transition-all duration-300"
+                    className="inline-block px-8 py-3 border border-white/20 text-white/80 font-mono text-xs tracking-[0.2em] hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-full"
                 >
                     [ JOIN THE CREW ]
                 </a>
