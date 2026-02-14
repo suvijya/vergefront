@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -20,15 +20,11 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
   const planetRef = useRef<HTMLDivElement>(null);
 
   const [readyForScroll, setReadyForScroll] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Mouse position state removed
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const x = (clientX / innerWidth - 0.5) * 2; // -1 to 1
-    const y = (clientY / innerHeight - 0.5) * 2; // -1 to 1
-    setMousePos({ x, y });
-  };
+
+  // Removed mouse move handler
+
 
   // Logo animation - appears immediately
   useEffect(() => {
@@ -77,7 +73,8 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
       }
     });
 
-    // 1. Text Explosion (Fly-through)
+    // 1. Text Explosion (Fly-through) - REMOVED per user request
+    /*
     tl.to(logoEl, {
       scale: 15, // Massive zoom
       opacity: 0,
@@ -85,6 +82,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
       ease: 'power2.in',
       duration: 1
     }, 0);
+    */
 
     // 2. Background Text Parallax (Moves Down)
     if (bgText) {
@@ -147,8 +145,8 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
   return (
     <section
       ref={sectionRef}
-      className="relative h-[200vh] w-full bg-black" // Increased height for scroll track
-      onMouseMove={handleMouseMove}
+      className="relative h-[120vh] w-full bg-black" // Reduced height to fix "empty space" gap
+      // onMouseMove={handleMouseMove}
       style={{
         overflow: 'clip', // Prevent overflow during zoom
         backgroundImage: `
@@ -187,7 +185,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
           ref={bgTextRef}
           className="absolute inset-0 flex flex-col items-center justify-center z-0 pointer-events-none select-none overflow-hidden pb-32"
           style={{
-            transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)`,
+            // transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)`, // Removed swinging
             transition: 'transform 0.1s ease-out'
           }}
         >
@@ -195,9 +193,9 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             className="text-[16vw] md:text-[18vw] font-black leading-none tracking-tighter"
             style={{
               fontFamily: "'Orbitron', sans-serif",
-              WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
-              color: 'transparent',
-              filter: 'drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))'
+              color: 'rgb(40, 0, 0)',
+              WebkitTextStroke: '1px rgba(200, 0, 0, 0.3)',
+              filter: 'drop-shadow(0 0 50px rgba(100, 0, 0, 0.3))'
             }}
           >
             VERGE
@@ -206,9 +204,9 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             className="text-[16vw] md:text-[18vw] font-black leading-none tracking-tighter -mt-2 md:-mt-8"
             style={{
               fontFamily: "'Orbitron', sans-serif",
-              WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
-              color: 'transparent',
-              filter: 'drop-shadow(0 0 30px rgba(220, 20, 60, 0.4))'
+              color: 'rgb(40, 0, 0)',
+              WebkitTextStroke: '1px rgba(200, 0, 0, 0.3)',
+              filter: 'drop-shadow(0 0 50px rgba(100, 0, 0, 0.3))'
             }}
           >
             2026
@@ -230,7 +228,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500 z-50 origin-center"
             onClick={onLogoClick}
             style={{
-              transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
+              // transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`, // Removed swinging
               transition: 'transform 0.1s ease-out'
             }}
           >

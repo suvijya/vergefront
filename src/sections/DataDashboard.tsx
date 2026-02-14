@@ -37,7 +37,7 @@ export default function DataDashboard() {
 
           {/* Left: Participants */}
           <div className="pointer-events-auto flex flex-col items-center md:items-start flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)' }}>
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to right, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 50%)' }}>
               {participants.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
@@ -57,7 +57,7 @@ export default function DataDashboard() {
 
           {/* Right: Footfall */}
           <div className="hidden md:flex pointer-events-auto flex-col items-center md:items-end md:text-right flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)' }}>
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to left, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 50%)' }}>
               {footfall.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
