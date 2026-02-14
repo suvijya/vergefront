@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import astro from '../assets/astro.png';
@@ -8,11 +8,16 @@ import webback from '../assets/webback1.png';
 import srmLogo from '../assets/srm_logo.png';
 import naacLogo from '../assets/naacaplus.png';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
-  const logoImgRef = useRef<HTMLImageElement>(null);
+  const bgTextRef = useRef<HTMLDivElement>(null);
+  const astroLeftRef = useRef<HTMLImageElement>(null);
+  const astroRightRef = useRef<HTMLImageElement>(null);
+  const planetRef = useRef<HTMLDivElement>(null);
 
   const [readyForScroll, setReadyForScroll] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -54,56 +59,98 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
 
     const inner = innerRef.current;
     const logoEl = logoRef.current;
-    const logoImg = logoImgRef.current;
+    const bgText = bgTextRef.current;
+    const astroLeft = astroLeftRef.current;
+    const astroRight = astroRightRef.current;
+    const planet = planetRef.current;
 
-    if (!inner || !logoEl || !logoImg) return;
+    if (!inner || !logoEl) return;
 
-    // Collect triggers for scoped cleanup
-    const heroTriggers: ScrollTrigger[] = [];
-
-    // Logo Container Fade Out (Text + Decorations) - Exclude VERGE text
-    const decorations = logoEl.querySelectorAll('.hero-decoration');
-    const decTween = gsap.to(decorations, {
-      opacity: 0,
-      ease: 'power3.in',
+    // WARP SPEED SCROLL EFFECT
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top top',
-        end: '10% top', // Very quick fade
-        scrub: 1,
-      },
+        end: 'bottom top',
+        scrub: 0.5, // Smooth scrubbing
+        pin: false, // We rely on the container being sticky
+      }
     });
-    if (decTween.scrollTrigger) heroTriggers.push(decTween.scrollTrigger);
+
+    // 1. Text Explosion (Fly-through)
+    tl.to(logoEl, {
+      scale: 15, // Massive zoom
+      opacity: 0,
+      filter: 'blur(20px)',
+      ease: 'power2.in',
+      duration: 1
+    }, 0);
+
+    // 2. Background Text Parallax (Moves Down)
+    if (bgText) {
+      tl.to(bgText, {
+        y: 400,
+        scale: 1.2,
+        opacity: 0,
+        ease: 'power1.in',
+        duration: 1
+      }, 0);
+    }
+
+    // 3. Astronauts Drift Out (Fly-by)
+    if (astroLeft) {
+      tl.to(astroLeft, {
+        x: '-50vw', // Move way off screen left
+        y: '-20vh',
+        rotation: -45,
+        scale: 1.5,
+        ease: 'power1.in',
+        duration: 1
+      }, 0);
+    }
+    if (astroRight) {
+      tl.to(astroRight, {
+        x: '50vw', // Move way off screen right
+        y: '-20vh',
+        rotation: 45,
+        scale: 1.5,
+        ease: 'power1.in',
+        duration: 1
+      }, 0);
+    }
+
+    // 4. Planet Slight Parallax (Grounding)
+    if (planet) {
+      tl.to(planet, {
+        y: -100,
+        scale: 1.1,
+        ease: 'power1.out',
+        duration: 1
+      }, 0);
+    }
 
     // Scroll Indicator Fade Out
     const scrollIndicator = inner.querySelector('.scroll-indicator');
     if (scrollIndicator) {
-      const scrollTween = gsap.to(scrollIndicator, {
+      tl.to(scrollIndicator, {
         opacity: 0,
-        y: 20,
-        ease: 'power3.in',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '5% top',
-          scrub: 1,
-        },
-      });
-      if (scrollTween.scrollTrigger) heroTriggers.push(scrollTween.scrollTrigger);
+        y: 50,
+        duration: 0.2
+      }, 0);
     }
 
     return () => {
-      heroTriggers.forEach((st) => st.kill());
+      tl.kill();
     };
   }, [readyForScroll]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[140vh] w-full bg-black"
+      className="relative h-[200vh] w-full bg-black" // Increased height for scroll track
       onMouseMove={handleMouseMove}
       style={{
-        overflow: 'visible',
+        overflow: 'clip', // Prevent overflow during zoom
         backgroundImage: `
           linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
@@ -121,14 +168,14 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
         <img
           src={naacLogo}
           alt="NAAC A++"
-          className="absolute top-8 left-8 w-32 md:w-48 z-40 pointer-events-none object-contain"
+          className="absolute top-8 left-8 w-32 md:w-48 z-40 pointer-events-none object-contain mix-blend-screen"
         />
 
         {/* SRM Logo - Top Right */}
         <img
           src={srmLogo}
           alt="SRM University"
-          className="absolute top-8 right-8 w-32 md:w-48 z-40 pointer-events-none object-contain"
+          className="absolute top-8 right-8 w-32 md:w-48 z-40 pointer-events-none object-contain mix-blend-screen"
         />
 
 
@@ -137,6 +184,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
         {/* Background Text Layer */}
         {/* Background Text Layer - Wireframe & Parallax */}
         <div
+          ref={bgTextRef}
           className="absolute inset-0 flex flex-col items-center justify-center z-0 pointer-events-none select-none overflow-hidden pb-32"
           style={{
             transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)`,
@@ -144,7 +192,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
           }}
         >
           <span
-            className="text-[15vw] md:text-[18vw] font-black leading-none tracking-tighter"
+            className="text-[16vw] md:text-[18vw] font-black leading-none tracking-tighter"
             style={{
               fontFamily: "'Orbitron', sans-serif",
               WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
@@ -155,7 +203,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
             VERGE
           </span>
           <span
-            className="text-[15vw] md:text-[18vw] font-black leading-none tracking-tighter -mt-4 md:-mt-8"
+            className="text-[16vw] md:text-[18vw] font-black leading-none tracking-tighter -mt-2 md:-mt-8"
             style={{
               fontFamily: "'Orbitron', sans-serif",
               WebkitTextStroke: '2px rgba(220, 20, 60, 0.5)',
@@ -179,7 +227,7 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
 
           <div
             ref={logoRef}
-            className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500 z-50"
+            className="flex flex-col items-center gap-4 opacity-0 pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-500 z-50 origin-center"
             onClick={onLogoClick}
             style={{
               transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
@@ -221,7 +269,10 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
         </div>
 
         {/* Planet Horizon - Image Asset */}
-        <div className="absolute inset-x-0 bottom-[-10vh] pointer-events-none z-10 flex justify-center">
+        <div
+          ref={planetRef}
+          className="absolute inset-x-0 bottom-[-10vh] pointer-events-none z-10 flex justify-center origin-bottom"
+        >
           {/* Atmospheric Glow - Tight to the Planet Border */}
           <img
             src={webback}
@@ -281,9 +332,10 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
         <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden">
           {/* Left Astronaut - Large & Using dedicated left asset */}
           <img
+            ref={astroLeftRef}
             src={astroleft}
             alt="Astronaut Left"
-            className="absolute bottom-[2vh] left-[-2vw] md:left-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slow"
+            className="absolute bottom-[10vh] md:bottom-[2vh] left-[-2vw] md:left-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slow"
             style={{
               // Removed flip/rotate as we now have a dedicated left-facing image
               animationDelay: '0s',
@@ -292,9 +344,10 @@ export default function HeroSection({ onLogoClick }: { onLogoClick: () => void }
           />
           {/* Right Astronaut - Large & Default Orientation */}
           <img
+            ref={astroRightRef}
             src={astro}
             alt="Astronaut"
-            className="absolute bottom-[2vh] right-[-2vw] md:right-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slower"
+            className="absolute bottom-[10vh] md:bottom-[2vh] right-[-2vw] md:right-[2vw] w-48 md:w-80 lg:w-[450px] opacity-100 animate-float-slower"
             style={{
               transform: 'rotate(-15deg)', // Tilted inward
               animationDelay: '1.5s',
