@@ -301,7 +301,7 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
                         fontFamily: "'Orbitron', monospace",
                     }}
                 >
-                    Event Leads
+                    PEOPLE AND THE IDEAS BEHIND
                 </h2>
             </div>
 

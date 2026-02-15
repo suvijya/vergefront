@@ -53,6 +53,8 @@
     @apply bg-black text-white antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    touch-action: pan-y;
+    /* Optimize touch handling for vertical scroll */
     /* Hide default cursor */
   }
 
