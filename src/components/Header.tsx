@@ -5,11 +5,13 @@ export default function Header({
   onLogoClick,
   onCrewClick,
   onSponsorsClick,
+  onSpeakersClick,
   onNavigate
 }: {
   onLogoClick: () => void;
   onCrewClick?: () => void;
   onSponsorsClick?: () => void;
+  onSpeakersClick?: () => void;
   onNavigate?: (href: string) => void;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,7 +49,7 @@ export default function Header({
   ];
 
   const rightNav: NavItem[] = [
-    { label: 'SPEAKERS', href: '#speakers', action: () => activeOnNavigate('#speakers') },
+    { label: 'SPEAKERS', href: '#speakers', action: onSpeakersClick },
     { label: 'HUMANS', href: '#humans', action: onCrewClick },
     { label: 'CONTACT US', href: '#contact', action: () => activeOnNavigate('#contact') },
   ];

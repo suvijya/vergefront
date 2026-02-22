@@ -81,14 +81,27 @@ export default function Footer() {
                             </div>
                             <span>+91 8953348042</span>
                         </a>
-                        <div className="flex items-center gap-3 text-white/35">
-                            <div className="p-2 rounded border border-white/10">
-                                <svg className="w-4 h-4 text-emerald-500/60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
+                        <div className="flex flex-col gap-3 text-white/35 mt-2">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded border border-white/10 shrink-0">
+                                    <svg className="w-4 h-4 text-emerald-500/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <span className="flex-1">SRM University, Sonipat, Haryana</span>
                             </div>
-                            <span>SRM University, Delhi-NCR</span>
+                            <div className="w-full h-32 md:h-40 rounded-lg overflow-hidden border border-white/10 mt-2 hover:border-emerald-500/40 transition-colors">
+                                <iframe
+                                    src="https://maps.google.com/maps?q=SRM%20University%20Sonipat%20Haryana&t=m&z=14&output=embed&iwloc=near"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0, filter: 'invert(100%) hue-rotate(180deg) brightness(85%) opacity(0.8)' }}
+                                    allowFullScreen={false}
+                                    loading="lazy"
+                                    title="Map showing SRM University Sonipat Campus location"
+                                ></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,9 +142,9 @@ export default function Footer() {
                     }}
                 />
                 <div className="relative z-10 max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <span className="text-xs font-mono text-white/30 tracking-wider">
-                        Made with ❤️ by{' '}
-                        <a href="#" className="text-emerald-400/80 hover:text-emerald-400 transition-colors font-bold tracking-widest">
+                    <span className="text-sm md:text-base font-mono text-white/60 tracking-wider uppercase">
+                        Made by{' '}
+                        <a href="#" className="text-emerald-400 hover:text-emerald-300 transition-colors font-bold tracking-widest">
                             Suvijya Arya
                         </a>
                     </span>

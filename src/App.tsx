@@ -23,7 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [view, setView] = useState<'main' | 'about' | 'crew' | 'sponsors'>('main'); // specific view state
+  const [view, setView] = useState<'main' | 'about' | 'crew' | 'sponsors' | 'speakers'>('main'); // specific view state
 
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
@@ -65,9 +65,14 @@ function App() {
     setView('sponsors');
   };
 
+  const handleSpeakersClick = () => {
+    window.history.pushState({ view: 'speakers' }, '', '#speakers');
+    setView('speakers');
+  };
+
   const handleBackToMain = () => {
-    // specific check to avoid keeping '#crew' in URL if we manually click back
-    if (window.location.hash === '#crew' || window.location.hash === '#sponsors') {
+    // specific check to avoid keeping hashes in URL if we manually click back
+    if (window.location.hash === '#crew' || window.location.hash === '#sponsors' || window.location.hash === '#speakers') {
       window.history.back();
     } else {
       setView('main');
@@ -170,6 +175,7 @@ function App() {
         onLogoClick={() => setView('main')}
         onCrewClick={handleCrewClick}
         onSponsorsClick={handleSponsorsClick}
+        onSpeakersClick={handleSpeakersClick}
         onNavigate={handleNavigation}
       />
 
@@ -188,7 +194,7 @@ function App() {
               <DataDashboard />
               <TimelineSection />
               <EventCardsSection />
-              <SpeakersSection />
+              {/* SpeakersSection moved to own page */}
               {/* SponsorsSection moved to own page */}
               {/* HumansSection moved to own page */}
               <FinalMessage />
@@ -209,6 +215,11 @@ function App() {
           {/* Sponsors Section */}
           {view === 'sponsors' && (
             <SponsorsSection onBack={handleBackToMain} />
+          )}
+
+          {/* Speakers Section */}
+          {view === 'speakers' && (
+            <SpeakersSection onBack={handleBackToMain} />
           )}
         </>
       )}
