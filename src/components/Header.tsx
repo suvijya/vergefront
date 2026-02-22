@@ -92,17 +92,23 @@ export default function Header({
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
             <a
-              href="#home"
-              onClick={(e) => { e.preventDefault(); onLogoClick(); }}
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                onLogoClick();
+                const hero = document.getElementById('hero');
+                if (hero) hero.scrollIntoView({ behavior: 'smooth' });
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               className={`flex items-center transition-all duration-500 ease-in-out ${showLogoText ? 'gap-3' : 'gap-0'}`}
             >
               <img
                 src={vergeLogo}
                 alt="Verge"
-                className="h-6 w-auto brightness-0 invert"
+                className="h-4 md:h-6 w-auto brightness-0 invert"
               />
               <span
-                className={`text-white font-bold tracking-[0.15em] text-lg transition-all duration-500 ease-in-out overflow-hidden whitespace-nowrap ${showLogoText ? 'max-w-[140px] opacity-100 play-text-reveal' : 'max-w-0 opacity-0'}`}
+                className={`text-white font-bold tracking-[0.15em] text-base md:text-lg transition-all duration-500 ease-in-out overflow-hidden whitespace-nowrap ${showLogoText ? 'max-w-[140px] opacity-100 play-text-reveal' : 'max-w-0 opacity-0'}`}
                 style={{ fontFamily: "'Orbitron', monospace" }}
               >
                 VERGE

@@ -14,6 +14,7 @@ import SpeakersSection from './sections/SpeakersSection';
 import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
 import FinalMessage from './sections/FinalMessage';
+import Footer from './sections/Footer';
 
 import './App.css';
 
@@ -91,13 +92,13 @@ function App() {
   // Initialize Lenis smooth scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t) => 1 - Math.pow(1 - t, 4), // Quartic ease-out for smoother stop
+      duration: 1.2, // Smooth duration
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Standard easeOoutQuad 
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5, // Reduced for better control on touch devices
+      wheelMultiplier: 1, // Standard wheel speed
+      touchMultiplier: 2, // Smooth touch response
     });
 
     lenisRef.current = lenis;
@@ -125,7 +126,7 @@ function App() {
 
   // Loading progress animation
   useEffect(() => {
-    const duration = 5000; // 5 seconds
+    const duration = 2000; // 2 seconds
     const startTime = Date.now();
 
     const updateProgress = () => {
@@ -183,7 +184,7 @@ function App() {
 
           {view === 'main' && (
             <main className="relative">
-              <HeroSection onLogoClick={() => setView('about')} />
+              <HeroSection />
               <DataDashboard />
               <TimelineSection />
               <EventCardsSection />
@@ -191,6 +192,7 @@ function App() {
               {/* SponsorsSection moved to own page */}
               {/* HumansSection moved to own page */}
               <FinalMessage />
+              <Footer />
             </main>
           )}
 

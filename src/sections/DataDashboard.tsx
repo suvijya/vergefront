@@ -37,7 +37,7 @@ export default function DataDashboard() {
 
           {/* Left: Participants */}
           <div className="pointer-events-auto flex flex-col items-center md:items-start flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to right, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 50%)' }}>
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to right, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 7%)' }}>
               {participants.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
@@ -57,7 +57,7 @@ export default function DataDashboard() {
 
           {/* Right: Footfall */}
           <div className="hidden md:flex pointer-events-auto flex-col items-center md:items-end md:text-right flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to left, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 50%)' }}>
+            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to left, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 7%)' }}>
               {footfall.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
@@ -84,7 +84,7 @@ function HUDLabel({ event, labelRef }: { event: { name: string; prize: string; d
       }}
     >
       <div
-        className="relative px-4 py-2 border border-emerald-500/80 bg-black/80 backdrop-blur-md text-emerald-400 font-mono text-xs font-bold uppercase tracking-widest whitespace-nowrap rounded-xl transition-all duration-300 group-hover:bg-emerald-900/90 group-hover:border-emerald-400 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] pointer-events-auto cursor-pointer" // Added hover styles & pointer-events-auto
+        className="relative px-2 py-1 md:px-4 md:py-2 border border-emerald-500/80 bg-black/80 backdrop-blur-md text-emerald-400 font-mono text-[10px] md:text-xs font-bold uppercase tracking-wider md:tracking-widest whitespace-nowrap rounded-xl transition-all duration-300 group-hover:bg-emerald-900/90 group-hover:border-emerald-400 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] pointer-events-auto cursor-pointer"
         style={{
           boxShadow: '0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 10px rgba(16, 185, 129, 0.1)',
           textShadow: '0 0 5px rgba(16, 185, 129, 0.8)',
@@ -111,11 +111,11 @@ function HUDLabel({ event, labelRef }: { event: { name: string; prize: string; d
 
       {/* Connecting line to debris - MOVED OUTSIDE THE CLIPPED BOX and positioned ABSOLUTELY */}
       <div
-        className="absolute left-1/2 top-full w-0.5 h-12 bg-gradient-to-b from-emerald-500 to-emerald-500/50 origin-top"
+        className="absolute left-1/2 top-full w-0.5 h-6 md:h-12 bg-gradient-to-b from-emerald-500 to-emerald-500/50 origin-top"
         style={{ transform: 'translateX(-50%)' }}
       >
         {/* Terminal dot at the end of the line */}
-        <div className="absolute bottom-0 left-1/2 w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+        <div className="absolute bottom-0 left-1/2 w-1 h-1 md:w-1.5 md:h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.8)]"
           style={{ transform: 'translate(-50%, 50%)' }} />
       </div>
     </div>
@@ -210,11 +210,12 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     const isMobile = window.innerWidth < 768;
     const fixedPositions = [
       // Tuned: All radii > 350 to ensure they orbit AROUND (outside) the Earth
-      { radius: isMobile ? 460 : 380, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -40 : 40 },     // Left
-      { radius: isMobile ? 540 : 420, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -20 : -50 }, // Top-Left
-      { radius: isMobile ? 480 : 450, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },     // Top
-      { radius: isMobile ? 540 : 420, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -20 : -40 },  // Top-Right
-      { radius: isMobile ? 460 : 380, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -40 : 60 }    // Right
+      // Mobile radii reduced to ~200-280 so labels stay on-screen
+      { radius: isMobile ? 220 : 380, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -20 : 40 },     // Left
+      { radius: isMobile ? 260 : 420, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -10 : -50 }, // Top-Left
+      { radius: isMobile ? 200 : 450, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },     // Top
+      { radius: isMobile ? 280 : 420, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -10 : -40 },  // Top-Right
+      { radius: isMobile ? 240 : 380, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -20 : 60 }    // Right
     ];
 
     events.forEach((_, i) => {
