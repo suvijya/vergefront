@@ -11,6 +11,8 @@ import TimelineSection from './sections/TimelineSection';
 import EventCardsSection from './sections/EventCardsSection';
 import SponsorsSection from './sections/SponsorsSection';
 import SpeakersSection from './sections/SpeakersSection';
+import AccommodationSection from './sections/AccommodationSection';
+import HighlightsSection from './sections/HighlightsSection';
 import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
 import FinalMessage from './sections/FinalMessage';
@@ -194,6 +196,8 @@ function App() {
               <DataDashboard />
               <TimelineSection />
               <EventCardsSection />
+              <HighlightsSection />
+              <AccommodationSection />
               {/* SpeakersSection moved to own page */}
               {/* SponsorsSection moved to own page */}
               {/* HumansSection moved to own page */}
