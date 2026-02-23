@@ -209,13 +209,13 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     // Radii ~450-550 ensure labels orbit just outside/near the small locations of the Earth surface
     const isMobile = window.innerWidth < 768;
     const fixedPositions = [
-      // Tuned: All radii > 350 to ensure they orbit AROUND (outside) the Earth
-      // Mobile radii reduced to ~200-280 so labels stay on-screen
-      { radius: isMobile ? 220 : 380, angle: isMobile ? 3.0 : 0, yOffset: isMobile ? -20 : 40 },     // Left
-      { radius: isMobile ? 260 : 420, angle: isMobile ? 3.8 : 1.25, yOffset: isMobile ? -10 : -50 }, // Top-Left
-      { radius: isMobile ? 200 : 450, angle: isMobile ? 4.7 : 2.5, yOffset: isMobile ? 0 : 30 },     // Top
-      { radius: isMobile ? 280 : 420, angle: isMobile ? 5.6 : 3.8, yOffset: isMobile ? -10 : -40 },  // Top-Right
-      { radius: isMobile ? 240 : 380, angle: isMobile ? 0.2 : 5.0, yOffset: isMobile ? -20 : 60 }    // Right
+      // Both mobile and desktop: spread across full orbit, staggered radii & yOffsets
+      // Each label anchors to its own asteroid dot on a different part of the ring
+      { radius: 380, angle: 0, yOffset: 40 },   // Right
+      { radius: 420, angle: 1.25, yOffset: -50 },  // Upper-Right
+      { radius: 450, angle: 2.5, yOffset: 30 },   // Upper-Left
+      { radius: 420, angle: 3.8, yOffset: -40 },  // Left
+      { radius: 380, angle: 5.0, yOffset: 60 }    // Lower-Right
     ];
 
     events.forEach((_, i) => {
@@ -320,7 +320,8 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
           const scale = isMobile ? Math.max(0.65, rawScale * (earthRadius / 350) * 1.25) : rawScale;
 
           // Calculate Label Position: Shift UP from meteor so line connects
-          const yOffset = 48 * scale;
+          const lineLength = isMobile ? 24 : 48; // Matches h-6 vs h-12 in HUDLabel component
+          const yOffset = lineLength * scale;
 
           const lx = mx;
           const ly = my - yOffset;
