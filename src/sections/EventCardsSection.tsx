@@ -426,7 +426,7 @@ export default function EventCardsSection() {
                                 onClick={() => !isDragging && setSelectedEvent(event)}
                             >
                                 {/* Floating Planet Image - Top Center */}
-                                <div className={`absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
+                                <div className={`absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 md:-translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
                                     }`}>
                                     <img
                                         src={event.planetImage}
