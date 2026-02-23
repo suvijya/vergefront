@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Import planet images
 import mercury from '../../asset/mercury.webp';
@@ -316,6 +317,8 @@ export default function EventCardsSection() {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const isButtonScrolling = useRef(false);
+    const buttonScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const posRef = useRef(0);
     const marqueeEvents = [...events, ...events, ...events];
@@ -327,7 +330,7 @@ export default function EventCardsSection() {
         let animationFrameId: number;
 
         const scroll = () => {
-            if (!isDragging && !isHovered) {
+            if (!isDragging && !isHovered && !isButtonScrolling.current) {
                 // Update our tracked position with sub-pixel precision
                 posRef.current += 0.7; // Speed (Reduced for smoother flow)
 
@@ -376,6 +379,72 @@ export default function EventCardsSection() {
         scrollContainerRef.current.scrollLeft = scrollLeft - walk;
     };
 
+    // Touch handlers for mobile
+    const onTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        if (scrollContainerRef.current) {
+            setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
+
+    const onTouchEnd = () => {
+        setIsDragging(false);
+    };
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Drag speed multiplier
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    // Smooth scroll animation for arrow buttons
+    const animateScroll = (distance: number) => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        // Pause auto-scroll for the duration
+        isButtonScrolling.current = true;
+        if (buttonScrollTimer.current) clearTimeout(buttonScrollTimer.current);
+
+        const startPos = container.scrollLeft;
+        const startTime = performance.now();
+        const duration = 400; // ms
+
+        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+        const step = (currentTime: number) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutCubic(progress);
+
+            container.scrollLeft = startPos + distance * eased;
+            posRef.current = container.scrollLeft;
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                // Resume auto-scroll after animation completes
+                buttonScrollTimer.current = setTimeout(() => {
+                    isButtonScrolling.current = false;
+                }, 100);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    const scrollLeftBy = () => {
+        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
+        animateScroll(-scrollAmount);
+    };
+
+    const scrollRightBy = () => {
+        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
+        animateScroll(scrollAmount);
+    };
+
     return (
         <section id="events" className="min-h-screen w-full bg-black py-24 relative overflow-hidden">
             <style>{`
@@ -404,6 +473,26 @@ export default function EventCardsSection() {
                 <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
 
+                {/* Left Arrow Button */}
+                <button
+                    type="button"
+                    onClick={scrollLeftBy}
+                    className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
+                    aria-label="Scroll Left"
+                >
+                    <ChevronLeft className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
+                </button>
+
+                {/* Right Arrow Button */}
+                <button
+                    type="button"
+                    onClick={scrollRightBy}
+                    className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
+                    aria-label="Scroll Right"
+                >
+                    <ChevronRight className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
+                </button>
+
                 {/* The actual scrollable container - Adjusted pt to match planet offset */}
                 <div
                     ref={scrollContainerRef}
@@ -412,8 +501,12 @@ export default function EventCardsSection() {
                     onMouseLeave={onMouseLeave}
                     onMouseUp={onMouseUp}
                     onMouseMove={onMouseMove}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                    onTouchCancel={onTouchEnd}
                     onMouseEnter={() => setIsHovered(true)}
-                    style={{ scrollBehavior: 'auto' }}
+                    style={{ scrollBehavior: 'auto', touchAction: 'pan-y' }}
                 >
                     <div className="flex w-max px-4 md:px-[25vw]">
                         {marqueeEvents.map((event, index) => (
