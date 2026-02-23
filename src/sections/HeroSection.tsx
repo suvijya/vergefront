@@ -192,7 +192,7 @@ export default function HeroSection() {
           href="https://srmuniversity.ac.in/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-8 left-8 w-32 md:w-48 z-40 transition-transform hover:scale-105"
+          className="absolute top-14 left-4 w-20 md:top-8 md:left-8 md:w-48 z-40 transition-transform hover:scale-105"
         >
           <img
             src={naacLogo}
@@ -206,7 +206,7 @@ export default function HeroSection() {
           href="https://srmuniversity.ac.in/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-8 right-8 w-32 md:w-48 z-40 transition-transform hover:scale-105"
+          className="absolute top-14 right-4 w-20 md:top-8 md:right-8 md:w-48 z-40 transition-transform hover:scale-105"
         >
           <img
             src={srmLogo}
@@ -389,22 +389,22 @@ export default function HeroSection() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
-            <div className="p-6 md:p-10 overflow-y-auto custom-scrollbar">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-wide leading-none" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+            <div className="p-4 md:p-10 overflow-y-auto custom-scrollbar">
+              <h2 className="text-2xl md:text-5xl font-bold text-white mb-1 md:mb-2 tracking-wide leading-none" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                 VERGE 2026
               </h2>
-              <h3 className="text-xs md:text-lg font-mono text-emerald-400 mb-5 uppercase tracking-wider leading-relaxed">
+              <h3 className="text-[10px] md:text-lg font-mono text-emerald-400 mb-3 md:mb-5 uppercase tracking-wider leading-tight md:leading-relaxed">
                 The Annual Technical Fest of<br className="md:hidden" /> SRM University Delhi-NCR
               </h3>
 
-              <div className="space-y-5 text-white/80 font-mono text-xs md:text-sm leading-relaxed">
+              <div className="space-y-3 md:space-y-5 text-white/80 font-mono text-[10px] md:text-sm leading-snug md:leading-relaxed">
                 <p>
                   VERGE is the flagship annual technical fest of SRM University Delhi-NCR, bringing together students, innovators, and technology enthusiasts on a single platform to showcase skills, explore emerging technologies, and build impactful solutions. It serves as a hub for innovation, collaboration, and hands-on learning through high-energy competitions, exhibitions, and industry interactions.
                 </p>
 
                 <div>
-                  <h4 className="text-sm md:text-lg font-bold text-white mb-2 border-b border-white/10 pb-2 font-mono">Key Highlights:</h4>
-                  <ul className="list-disc list-inside space-y-1.5 marker:text-emerald-500 font-mono text-[10px] md:text-sm text-white/70">
+                  <h4 className="text-xs md:text-lg font-bold text-white mb-1 md:mb-2 border-b border-white/10 pb-1 md:pb-2 font-mono">Key Highlights:</h4>
+                  <ul className="list-disc list-inside space-y-0.5 md:space-y-1.5 marker:text-emerald-500 font-mono text-[9px] md:text-sm text-white/70 leading-tight">
                     <li>2000+ participants and 100+ projects from 100+ institutions</li>
                     <li>National-level hackathons, robotics events, coding competitions, and ideathons</li>
                     <li>Workshops, speaker sessions, and mentorship from industry experts</li>
@@ -413,10 +413,10 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              <div className="mt-6 flex justify-end">
+              <div className="mt-3 md:mt-6 flex justify-end">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-5 py-2 border border-white/20 text-white/60 hover:bg-white hover:text-black transition-all rounded uppercase text-[10px] md:text-xs font-mono tracking-widest"
+                  className="px-4 py-1.5 md:px-5 md:py-2 border border-white/20 text-white/60 hover:bg-white hover:text-black transition-all rounded uppercase text-[9px] md:text-xs font-mono tracking-widest"
                 >
                   Close
                 </button>

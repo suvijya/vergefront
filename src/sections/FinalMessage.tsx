@@ -47,10 +47,10 @@ export default function FinalMessage() {
       {/* Main message */}
       <div
         ref={messageRef}
-        className="hidden md:flex h-screen items-center justify-center px-6"
+        className="flex min-h-[40vh] md:h-screen items-center justify-center px-6"
       >
         <div className="text-center">
-          <div className="text-[8vw] md:text-[6vw] font-bold text-white/90 leading-tight tracking-tight">
+          <div className="text-[7vw] md:text-[6vw] font-bold text-white/90 leading-tight tracking-tight">
             JOIN US AT VERGE 2026
             <br />
             FOR AN ASTRONOMICAL

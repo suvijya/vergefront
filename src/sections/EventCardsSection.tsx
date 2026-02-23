@@ -407,7 +407,7 @@ export default function EventCardsSection() {
                 {/* The actual scrollable container - Adjusted pt to match planet offset */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-24 md:pt-32 pb-12"
+                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-16 md:pt-32 pb-8 md:pb-12"
                     onMouseDown={onMouseDown}
                     onMouseLeave={onMouseLeave}
                     onMouseUp={onMouseUp}
@@ -420,24 +420,24 @@ export default function EventCardsSection() {
                             <div
                                 id={`${event.id}-${index}`}
                                 key={`${event.id}-${index}`}
-                                className="relative px-2 md:px-4 w-[280px] md:w-[380px] flex-shrink-0 cursor-pointer"
+                                className="relative px-1.5 md:px-4 w-[220px] md:w-[380px] flex-shrink-0 cursor-pointer"
                                 onMouseEnter={() => setHoveredCard(`${event.id}-${index}`)}
                                 onMouseLeave={() => setHoveredCard(null)}
                                 onClick={() => !isDragging && setSelectedEvent(event)}
                             >
                                 {/* Floating Planet Image - Top Center */}
-                                <div className={`absolute -top-6 md:-top-8 left-1/2 -translate-x-1/2 -translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
+                                <div className={`absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
                                     }`}>
                                     <img
                                         src={event.planetImage}
                                         alt="Planet"
-                                        className="w-24 h-24 md:w-40 md:h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                                        className="w-20 h-20 md:w-40 md:h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
                                     />
                                 </div>
 
                                 {/* Card */}
                                 <div
-                                    className={`relative aspect-[3/4.2] border border-white overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/100 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
+                                    className={`relative aspect-[3/3.6] md:aspect-[3/4.2] border border-white overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/100 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
                                         }`}
                                     style={{
                                         backgroundColor: event.bgColor,
@@ -445,7 +445,7 @@ export default function EventCardsSection() {
                                     }}
                                 >
                                     {/* Content */}
-                                    <div className="absolute inset-0 p-3 md:p-6 flex flex-col justify-between z-10">
+                                    <div className="absolute inset-0 p-2.5 md:p-6 flex flex-col justify-between z-10">
                                         <div className="flex justify-between items-start mt-4 md:mt-0">
                                             <span className="text-[8px] md:text-[10px] font-mono text-white/50 tracking-wide md:tracking-widest uppercase">
                                                 {event.category}
@@ -459,7 +459,7 @@ export default function EventCardsSection() {
                                                 <img
                                                     src={event.logo}
                                                     alt=""
-                                                    className="w-48 h-48 md:w-64 md:h-64 object-contain scale-125"
+                                                    className="w-32 h-32 md:w-64 md:h-64 object-contain scale-125"
                                                 />
                                             </div>
                                         )}
@@ -510,7 +510,7 @@ export default function EventCardsSection() {
             {selectedEvent && (
                 <div
                     id="event-modal-overlay"
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4 bg-black/60 backdrop-blur-md"
                     onClick={() => setSelectedEvent(null)}
                 >
                     <div
@@ -525,19 +525,85 @@ export default function EventCardsSection() {
                         <button
                             id="close-modal"
                             onClick={() => setSelectedEvent(null)}
-                            className="absolute top-4 right-4 z-50 p-2 text-white/60 hover:text-white transition-colors"
+                            className="absolute top-2 right-2 md:top-4 md:right-4 z-50 p-1.5 md:p-2 text-white/60 hover:text-white transition-colors"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
 
-                        <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-h-[85vh] overflow-y-auto">
+                        {/* MOBILE LAYOUT: single column, ultra-compact */}
+                        <div className="md:hidden p-3 flex flex-col gap-2">
+                            {/* Top row: logo + title info */}
+                            <div className="flex items-start gap-3">
+                                {selectedEvent.logo && (
+                                    <div className="w-16 h-16 flex-shrink-0 bg-white/5 border border-white/10 rounded-lg p-1 flex items-center justify-center">
+                                        <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain" />
+                                    </div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                    <span className="inline-block text-[8px] font-mono text-white/50 tracking-widest uppercase mb-0.5 border border-white/20 px-1.5 py-0.5 rounded">
+                                        {selectedEvent.category}
+                                    </span>
+                                    <h3 className="text-base font-bold text-white uppercase tracking-tight leading-tight">
+                                        {selectedEvent.title}
+                                    </h3>
+                                    <p className="text-[10px] font-mono text-white/50">
+                                        {selectedEvent.subtitle}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Description - truncated */}
+                            <p className="text-[10px] text-white/70 leading-relaxed font-light line-clamp-4">
+                                {selectedEvent.description}
+                            </p>
+
+                            {/* Info grid - compact */}
+                            <div className="grid grid-cols-2 gap-2 border border-white/10 bg-white/5 p-2 rounded-lg">
+                                <div>
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Prize</h4>
+                                    <div className="text-sm font-mono text-amber-300">{selectedEvent.prize}</div>
+                                </div>
+                                <div>
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">When & Where</h4>
+                                    <div className="text-[10px] font-mono text-cyan-300">
+                                        {selectedEvent.day && selectedEvent.day !== '-' && `D${selectedEvent.day} • `}
+                                        {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
+                                        <br />
+                                        <span className="text-white/60">{selectedEvent.venue !== '-' ? selectedEvent.venue : 'TBA'}</span>
+                                    </div>
+                                </div>
+                                <div className="col-span-2 pt-1.5 border-t border-white/10">
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Contact</h4>
+                                    <div className="text-[10px] font-mono text-white/90">
+                                        {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
+                                        {selectedEvent.contact && selectedEvent.contact !== '-' && (
+                                            <span className="text-white/50 ml-1">({selectedEvent.contact})</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Register button */}
+                            <a
+                                id="modal-register-btn"
+                                href={selectedEvent.registerUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block w-full py-2.5 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest uppercase rounded-md"
+                            >
+                                Register Now
+                            </a>
+                        </div>
+
+                        {/* DESKTOP LAYOUT: unchanged side-by-side */}
+                        <div className="hidden md:flex p-8 flex-row gap-8 max-h-[85vh] overflow-y-auto">
                             {/* Left Side: Image & Logo */}
-                            <div className="flex-shrink-0 flex flex-col items-center justify-center gap-8 md:w-48">
+                            <div className="flex-shrink-0 flex flex-col items-center justify-center gap-8 w-48">
                                 <div className="relative">
                                     <img
                                         src={selectedEvent.planetImage}
                                         alt={selectedEvent.title}
-                                        className="w-32 h-32 md:w-44 md:h-44 object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] animate-pulse-slow relative z-10"
+                                        className="w-44 h-44 object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] animate-pulse-slow relative z-10"
                                     />
                                     {selectedEvent.logo && (
                                         <div className="absolute inset-0 flex items-center justify-center opacity-20 blur-sm scale-150">
@@ -546,7 +612,7 @@ export default function EventCardsSection() {
                                     )}
                                 </div>
                                 {selectedEvent.logo && (
-                                    <div className="w-36 h-36 md:w-44 md:h-44 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-2 flex items-center justify-center hover:border-white/30 transition-all">
+                                    <div className="w-44 h-44 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-2 flex items-center justify-center hover:border-white/30 transition-all">
                                         <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
                                     </div>
                                 )}
@@ -554,36 +620,36 @@ export default function EventCardsSection() {
 
                             {/* Right Side: Content */}
                             <div className="flex-grow">
-                                <span className="inline-block text-[10px] md:text-xs font-mono text-white/50 tracking-widest uppercase mb-2 border border-white/20 px-2 py-1 rounded">
+                                <span className="inline-block text-xs font-mono text-white/50 tracking-widest uppercase mb-2 border border-white/20 px-2 py-1 rounded">
                                     {selectedEvent.category}
                                 </span>
 
-                                <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 uppercase tracking-tight leading-tight">
+                                <h3 className="text-4xl font-bold text-white mb-2 uppercase tracking-tight leading-tight">
                                     {selectedEvent.title}
                                 </h3>
 
-                                <p className="text-sm md:text-base font-mono text-white/60 mb-6">
+                                <p className="text-base font-mono text-white/60 mb-6">
                                     {selectedEvent.subtitle}
                                 </p>
 
                                 <div className="space-y-6 mb-8">
                                     <div>
                                         <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Description</h4>
-                                        <p className="text-sm md:text-base text-white/80 leading-relaxed font-light">
+                                        <p className="text-base text-white/80 leading-relaxed font-light">
                                             {selectedEvent.description}
                                         </p>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4 border border-white/10 bg-white/5 p-4 rounded-xl backdrop-blur-sm">
                                         <div>
-                                            <h4 className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Prize Pool</h4>
-                                            <div className="text-lg md:text-xl font-mono text-amber-300">
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Prize Pool</h4>
+                                            <div className="text-xl font-mono text-amber-300">
                                                 {selectedEvent.prize}
                                             </div>
                                         </div>
                                         <div>
-                                            <h4 className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Timing & Venue</h4>
-                                            <div className="text-xs md:text-sm font-mono text-cyan-300">
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Timing & Venue</h4>
+                                            <div className="text-sm font-mono text-cyan-300">
                                                 {selectedEvent.day && selectedEvent.day !== '-' && `Day ${selectedEvent.day} • `}
                                                 {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
                                                 <br />
@@ -591,8 +657,8 @@ export default function EventCardsSection() {
                                             </div>
                                         </div>
                                         <div className="col-span-2 mt-2 pt-2 border-t border-white/10">
-                                            <h4 className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Point of Contact</h4>
-                                            <div className="text-xs md:text-sm font-mono text-white/90">
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Point of Contact</h4>
+                                            <div className="text-sm font-mono text-white/90">
                                                 {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
                                                 {selectedEvent.contact && selectedEvent.contact !== '-' && (
                                                     <span className="text-white/50 ml-2">({selectedEvent.contact})</span>
@@ -607,7 +673,7 @@ export default function EventCardsSection() {
                                     href={selectedEvent.registerUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block w-full py-4 bg-white text-black text-center text-sm md:text-base font-bold font-mono tracking-widest hover:bg-white/90 hover:scale-[1.02] transition-all uppercase rounded-md shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                    className="block w-full py-4 bg-white text-black text-center text-base font-bold font-mono tracking-widest hover:bg-white/90 hover:scale-[1.02] transition-all uppercase rounded-md shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                                 >
                                     Register Now
                                 </a>

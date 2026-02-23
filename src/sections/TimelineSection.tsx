@@ -258,7 +258,7 @@ export default function TimelineSection() {
                 onMouseLeave={handleMouseLeave}
                 onWheel={handleWheel}
                 className={`relative w-full max-w-5xl h-[65vh] px-4 md:px-0 transition-colors duration-300
-                    ${isUnlocked ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'}
+                    overflow-y-auto overflow-x-hidden md:${isUnlocked ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'}
                     [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20
                 `}
             >

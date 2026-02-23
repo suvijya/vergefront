@@ -90,7 +90,7 @@ export default function AccommodationSection() {
         <section
             ref={sectionRef}
             id="accommodation"
-            className="w-full relative bg-black py-20 px-6 overflow-hidden md:py-32"
+            className="w-full relative bg-black py-12 px-4 overflow-hidden md:py-32 md:px-6"
         >
             {/* Background elements */}
             <div className="absolute inset-0 pointer-events-none">
@@ -105,7 +105,7 @@ export default function AccommodationSection() {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="accom-header text-center mb-16 md:mb-24 relative select-none">
+                <div className="accom-header text-center mb-10 md:mb-24 relative select-none">
                     <div className="flex items-center justify-center gap-3 mb-3">
                         <div className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/20" />
                         <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
@@ -115,13 +115,13 @@ export default function AccommodationSection() {
                     </div>
 
                     <h2
-                        className="text-3xl md:text-5xl font-bold tracking-[0.12em] text-white"
+                        className="text-2xl md:text-5xl font-bold tracking-[0.05em] md:tracking-[0.12em] text-white"
                         style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 30px rgba(16, 185, 129, 0.1)' }}
                     >
                         ACCOMMODATION
                     </h2>
 
-                    <p className="mt-6 text-sm md:text-base font-mono text-white/40 max-w-2xl mx-auto leading-relaxed">
+                    <p className="mt-3 md:mt-6 text-xs md:text-base font-mono text-white/40 max-w-2xl mx-auto leading-relaxed">
                         Recharge your core systems after a long day of innovation. We offer comfortable stays for all outstation participants.
                     </p>
                 </div>
@@ -129,12 +129,12 @@ export default function AccommodationSection() {
                 {/* Pricing Cards */}
                 <div
                     ref={cardsRef}
-                    className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12"
+                    className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-12"
                 >
                     {accommodations.map((tier, index) => (
                         <div
                             key={index}
-                            className={`accom-card relative w-full max-w-sm group rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2`}
+                            className={`accom-card relative w-full max-w-[320px] md:max-w-sm group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-4 md:p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2`}
                             style={{
                                 boxShadow: `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
                             }}
@@ -144,31 +144,31 @@ export default function AccommodationSection() {
 
                             {/* Card Content */}
                             <div className="relative z-10">
-                                <h3 className={`text-xl font-bold tracking-widest ${tier.accent} mb-1`} style={{ fontFamily: "'Orbitron', monospace" }}>
+                                <h3 className={`text-base md:text-xl font-bold tracking-wider md:tracking-widest ${tier.accent} mb-0.5`} style={{ fontFamily: "'Orbitron', monospace" }}>
                                     {tier.title}
                                 </h3>
-                                <div className="text-xs font-mono text-white/50 tracking-wider mb-8 uppercase">
+                                <div className="text-[10px] md:text-xs font-mono text-white/50 tracking-wider mb-4 md:mb-8 uppercase">
                                     {tier.subtitle}
                                 </div>
 
-                                <div className="flex items-end gap-1 mb-8">
-                                    <span className="text-4xl md:text-5xl font-black text-white" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                <div className="flex items-end gap-1 mb-4 md:mb-8">
+                                    <span className="text-2xl md:text-5xl font-black text-white" style={{ fontFamily: "'Orbitron', monospace" }}>
                                         {tier.price}
                                     </span>
-                                    <span className="text-xs font-mono text-white/40 mb-2 tracking-widest">
+                                    <span className="text-[10px] md:text-xs font-mono text-white/40 mb-1 md:mb-2 tracking-widest">
                                         {tier.duration}
                                     </span>
                                 </div>
 
-                                <div className="h-px w-full bg-white/10 mb-8" />
+                                <div className="h-px w-full bg-white/10 mb-4 md:mb-8" />
 
-                                <ul className="space-y-4 mb-10">
+                                <ul className="space-y-2 md:space-y-4 mb-5 md:mb-10">
                                     {tier.features.map((feature, fIndex) => (
-                                        <li key={fIndex} className="flex items-start gap-3">
-                                            <svg className={`w-5 h-5 ${tier.accent} shrink-0`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <li key={fIndex} className="flex items-start gap-2 md:gap-3">
+                                            <svg className={`w-4 h-4 md:w-5 md:h-5 ${tier.accent} shrink-0`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                             </svg>
-                                            <span className="text-sm font-mono text-white/70 leading-relaxed">
+                                            <span className="text-xs md:text-sm font-mono text-white/70 leading-relaxed">
                                                 {feature}
                                             </span>
                                         </li>
@@ -176,7 +176,7 @@ export default function AccommodationSection() {
                                 </ul>
 
                                 <button
-                                    className={`w-full py-4 rounded bg-white/5 border border-white/10 text-xs font-mono tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-white/10 hover:border-white/30`}
+                                    className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-white/10 hover:border-white/30`}
                                 >
                                     {tier.buttonText}
                                 </button>
@@ -186,7 +186,7 @@ export default function AccommodationSection() {
                 </div>
 
                 {/* Bottom footnote */}
-                <div className="mt-16 text-center">
+                <div className="mt-8 md:mt-16 text-center">
                     <p className="text-[10px] md:text-xs font-mono text-white/30 tracking-widest max-w-xl mx-auto uppercase leading-relaxed">
                         Prices and availability are subject to change. <br className="md:hidden" />
                         Please book early as slots are limited.

@@ -97,17 +97,17 @@ export default function HighlightsSection() {
                     <div className="absolute inset-y-0 right-0 w-16 md:w-40 z-20 bg-gradient-to-l from-black to-transparent pointer-events-none" />
 
                     <div
-                        className="flex items-center w-maxHighlights flex-nowrap gap-6 md:gap-10 hover:pause-animation"
+                        className="flex items-center w-maxHighlights flex-nowrap gap-4 md:gap-10 hover:pause-animation"
                         style={{
                             display: 'flex',
                             width: 'max-content',
-                            animation: 'infiniteScroll 35s linear infinite'
+                            animation: 'infiniteScroll 25s linear infinite'
                         }}
                     >
                         {duplicatedImages.map((imgSrc, index) => (
                             <div
                                 key={index}
-                                className="group relative w-[250px] h-[250px] md:w-[320px] md:h-[320px] rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 transition-transform duration-500 hover:scale-[1.03] backdrop-blur-sm cursor-pointer"
+                                className="group relative w-[180px] h-[180px] md:w-[320px] md:h-[320px] rounded-xl md:rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 transition-transform duration-500 hover:scale-[1.03] backdrop-blur-sm cursor-pointer"
                             >
                                 {/* Glow on hover */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
