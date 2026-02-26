@@ -244,7 +244,7 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
       const centerY = canvas.height / 2;
 
       // --- BACK RINGS (Behind Earth) ---
-      ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; // Slightly dimmer for depth
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)'; // Brighter white, semi-transparent for depth
       ctx.lineWidth = 1.0;
       const ringScale = earthRadius / 350;
       // Defines fixed rotation angles for stable orbits
@@ -404,8 +404,8 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
       });
 
       // --- FRONT RINGS (In Front of Earth) ---
-      // Draw orbital paths - High visibility Red Rings
-      ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)'; // Bright Red
+      // Draw orbital paths - Brighter white for front rings
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)'; // High visibility white for the front
       ctx.lineWidth = 1.5;
       // Reuse ringScale and fixedAngles from above scope if possible, or redefine
       // (Redefine locally to be safe if scope is tricky with previous edit)
