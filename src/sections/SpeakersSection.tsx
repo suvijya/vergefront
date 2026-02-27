@@ -41,10 +41,10 @@ export default function SpeakersSection({ onBack }: { onBack?: () => void }) {
                     <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-500/20" />
                 </div>
                 <h2
-                    className="text-3xl md:text-5xl font-bold tracking-[0.12em] text-white leading-tight"
+                    className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
                     style={{
-                        fontFamily: "'Orbitron', monospace",
-                        textShadow: '0 0 30px rgba(0,200,255,0.08)',
+                        fontFamily: "'Orbitron', sans-serif",
+                        textShadow: '0 0 40px rgba(0,200,255,0.1)',
                     }}
                 >
                     SPEAKERS

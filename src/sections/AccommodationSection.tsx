@@ -47,42 +47,63 @@ export default function AccommodationSection() {
         return () => ctx.revert();
     }, []);
 
-    const accommodations = [
+    const packages = [
         {
-            title: "STANDARD QUARTERS",
-            subtitle: "Hostel Accommodation",
-            price: "₹500",
-            duration: "/ NIGHT",
+            title: "BASE CAMP",
+            subtitle: "Accommodation Package",
+            price: "₹999",
+            duration: "",
             color: "from-cyan-500/20 to-blue-500/5",
             borderColor: "border-cyan-500/30",
             glowColor: "rgba(6, 182, 212, 0.15)",
             accent: "text-cyan-400",
             features: [
-                "Shared Accommodation",
-                "Basic Amenities Provided",
-                "Proximity to Event Venues",
-                "24/7 Campus Security",
-                "Complimentary Meals (Mess)"
+                "2 Days Duration",
+                "1 Bed with Pillow & Bedsheet",
+                "₹499 Without Meals",
+                "₹999 With 4 Meals Included",
+                "Valid Per Person"
             ],
-            buttonText: "BOOK STANDARD"
+            buttonText: "BOOK STAY",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
         },
         {
-            title: "STELLAR SUITES",
-            subtitle: "Premium Hotel Stay",
-            price: "₹1500",
-            duration: "/ NIGHT",
+            title: "THE ULTIMATE PASS",
+            subtitle: "Stay + Concerts Combo",
+            price: "₹1999",
+            duration: "SL",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
             glowColor: "rgba(245, 158, 11, 0.15)",
             accent: "text-amber-400",
             features: [
-                "Private Air-Conditioned Rooms",
-                "Premium Toiletries & Linens",
-                "High-Speed Wi-Fi Included",
-                "Pick & Drop Facility",
-                "Exclusive Breakfast Buffet"
+                "2 Days Accommodation",
+                "4 Meals Included",
+                "1 Bed with Pillow & Bedsheet",
+                "Day 1 Cultural Concert Pass",
+                "Day 2 Main Concert Pass"
             ],
-            buttonText: "BOOK PREMIUM"
+            buttonText: "BOOK COMBO",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
+        },
+        {
+            title: "CONCERT PASSES",
+            subtitle: "Festival Entry",
+            price: "₹499+",
+            duration: "SL",
+            color: "from-purple-500/20 to-pink-500/5",
+            borderColor: "border-purple-500/30",
+            glowColor: "rgba(168, 85, 247, 0.15)",
+            accent: "text-purple-400",
+            features: [
+                "Day 1 Cultural Night: ₹499",
+                "Day 2 Main Event: ₹599",
+                "Epic Headline Performances",
+                "Access to Food Stalls",
+                "Non-transferable"
+            ],
+            buttonText: "BUY TICKETS",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
         }
     ];
 
@@ -105,36 +126,36 @@ export default function AccommodationSection() {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="accom-header text-center mb-10 md:mb-24 relative select-none">
+                <div className="accom-header text-center mb-10 md:mb-16 relative select-none">
                     <div className="flex items-center justify-center gap-3 mb-3">
                         <div className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/20" />
                         <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
-                            REST & RECOVER
+                            TICKETS & STAY
                         </span>
                         <div className="h-px w-8 bg-gradient-to-l from-transparent to-emerald-500/20" />
                     </div>
 
                     <h2
-                        className="text-2xl md:text-5xl font-bold tracking-[0.05em] md:tracking-[0.12em] text-white"
-                        style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 30px rgba(16, 185, 129, 0.1)' }}
+                        className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
+                        style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 40px rgba(16, 185, 129, 0.1)' }}
                     >
-                        ACCOMMODATION
+                        PASSES & ACCOMMODATION
                     </h2>
 
                     <p className="mt-3 md:mt-6 text-xs md:text-base font-mono text-white/40 max-w-2xl mx-auto leading-relaxed">
-                        Recharge your core systems after a long day of innovation. We offer comfortable stays for all outstation participants.
+                        Secure your access to Verge Techfest. We offer dedicated accommodation packages, exclusive concert passes, and ultimate combos.
                     </p>
                 </div>
 
                 {/* Pricing Cards */}
                 <div
                     ref={cardsRef}
-                    className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-12"
+                    className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-5 md:gap-8"
                 >
-                    {accommodations.map((tier, index) => (
+                    {packages.map((tier, index) => (
                         <div
                             key={index}
-                            className={`accom-card relative w-full max-w-[320px] md:max-w-sm group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-4 md:p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2`}
+                            className={`accom-card relative w-[90vw] max-w-[320px] md:max-w-none md:w-[350px] group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-4 md:p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2`}
                             style={{
                                 boxShadow: `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
                             }}
@@ -151,11 +172,11 @@ export default function AccommodationSection() {
                                     {tier.subtitle}
                                 </div>
 
-                                <div className="flex items-end gap-1 mb-4 md:mb-8">
-                                    <span className="text-2xl md:text-5xl font-black text-white" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                <div className="flex items-baseline gap-2 mb-4 md:mb-8">
+                                    <span className="text-3xl md:text-5xl font-black text-white" style={{ fontFamily: "'Orbitron', monospace" }}>
                                         {tier.price}
                                     </span>
-                                    <span className="text-[10px] md:text-xs font-mono text-white/40 mb-1 md:mb-2 tracking-widest">
+                                    <span className="text-xs md:text-sm font-mono text-emerald-400 font-bold mb-1 md:mb-2 tracking-widest">
                                         {tier.duration}
                                     </span>
                                 </div>
@@ -175,11 +196,18 @@ export default function AccommodationSection() {
                                     ))}
                                 </ul>
 
-                                <button
-                                    className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-white/10 hover:border-white/30`}
+                                <a
+                                    href={tier.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block"
                                 >
-                                    {tier.buttonText}
-                                </button>
+                                    <button
+                                        className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-white/10 hover:border-white/30`}
+                                    >
+                                        {tier.buttonText}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     ))}

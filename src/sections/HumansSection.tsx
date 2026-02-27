@@ -440,8 +440,8 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
                 <div className="flex flex-col items-center justify-center z-10 w-full text-center md:px-32">
                     <span className="text-white/40 font-mono text-[10px] md:text-xs tracking-[0.4em] mb-3 uppercase">Manifest</span>
                     <h2
-                        className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-widest text-white uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.15)] leading-tight"
-                        style={{ fontFamily: "'Orbitron', monospace" }}
+                        className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
+                        style={{ fontFamily: "'Orbitron', sans-serif" }}
                     >
                         PEOPLE AND THE<br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">IDEAS BEHIND</span>
                     </h2>

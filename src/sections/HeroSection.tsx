@@ -192,7 +192,7 @@ export default function HeroSection() {
           href="https://srmuniversity.ac.in/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-14 left-4 w-20 md:top-8 md:left-8 md:w-48 z-40 transition-transform hover:scale-105"
+          className="absolute top-14 left-0 md:top-8 md:left-2 w-20 md:w-48 z-40 transition-transform hover:scale-105"
         >
           <img
             src={naacLogo}
@@ -390,7 +390,7 @@ export default function HeroSection() {
             </button>
 
             <div className="p-4 md:p-10 overflow-y-auto custom-scrollbar">
-              <h2 className="text-2xl md:text-5xl font-bold text-white mb-1 md:mb-2 tracking-wide leading-none" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+              <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4 leading-none" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                 VERGE 2026
               </h2>
               <h3 className="text-[10px] md:text-lg font-mono text-emerald-400 mb-3 md:mb-5 uppercase tracking-wider leading-tight md:leading-relaxed">

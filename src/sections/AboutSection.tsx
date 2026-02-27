@@ -57,8 +57,8 @@ export default function AboutSection({ onBack }: AboutSectionProps) {
                         className="w-24 h-24 mb-8 brightness-0 invert opacity-90"
                     />
                     <h1
-                        className="text-5xl md:text-7xl font-bold tracking-wider mb-6"
-                        style={{ fontFamily: "'Orbitron', monospace" }}
+                        className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
+                        style={{ fontFamily: "'Orbitron', sans-serif" }}
                     >
                         ABOUT VERGE
                     </h1>
@@ -69,7 +69,7 @@ export default function AboutSection({ onBack }: AboutSectionProps) {
                 <div className="space-y-20 font-light text-lg md:text-xl leading-relaxed text-white/80">
 
                     <section>
-                        <h2 className="text-2xl md:text-3xl font-mono text-cyan-400 mb-6 tracking-wide">[ THE GENESIS ]</h2>
+                        <h2 className="text-2xl md:text-3xl font-mono text-cyan-400 mb-6 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>[ THE GENESIS ]</h2>
                         <p className="mb-6">
                             Verge isn't just a techfest; it's a glimpse into the future. Born from the collective ambition of the brightest minds at SRM, it represents the convergence of technology, creativity, and innovation.
                         </p>
@@ -79,7 +79,7 @@ export default function AboutSection({ onBack }: AboutSectionProps) {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl md:text-3xl font-mono text-purple-400 mb-6 tracking-wide">[ THE VISION ]</h2>
+                        <h2 className="text-2xl md:text-3xl font-mono text-purple-400 mb-6 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>[ THE VISION ]</h2>
                         <p className="mb-6">
                             We envision a world where technology serves as a canvas for human expression. At Verge, we celebrate the hackers, the designers, the dreamers, and the doers.
                         </p>
@@ -99,7 +99,7 @@ export default function AboutSection({ onBack }: AboutSectionProps) {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl md:text-3xl font-mono text-green-400 mb-6 tracking-wide">[ THE LEGACY ]</h2>
+                        <h2 className="text-2xl md:text-3xl font-mono text-green-400 mb-6 tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>[ THE LEGACY ]</h2>
                         <p>
                             Since its inception, Verge has hosted thousands of participants, sparked countless startups, and showcased groundbreaking projects. As we move towards 2026, we are setting our sights even higher — exploring the frontiers of AI, Space Tech, and Sustainable Computing.
                         </p>

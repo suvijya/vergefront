@@ -15,7 +15,6 @@ import AccommodationSection from './sections/AccommodationSection';
 import HighlightsSection from './sections/HighlightsSection';
 import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
-import FinalMessage from './sections/FinalMessage';
 import Footer from './sections/Footer';
 
 import './App.css';
@@ -201,8 +200,11 @@ function App() {
               {/* SpeakersSection moved to own page */}
               {/* SponsorsSection moved to own page */}
               {/* HumansSection moved to own page */}
-              <FinalMessage />
-              <Footer />
+              <Footer
+                onSponsorsClick={handleSponsorsClick}
+                onSpeakersClick={handleSpeakersClick}
+                onNavigate={handleNavigation}
+              />
             </main>
           )}
 

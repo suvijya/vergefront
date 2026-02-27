@@ -66,9 +66,9 @@ export default function SponsorsSection({ onBack }: { onBack?: () => void }) {
                     <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
                 </div>
                 <h2
-                    className="text-4xl md:text-5xl font-bold tracking-[0.15em] text-white mb-3"
+                    className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
                     style={{
-                        fontFamily: "'Orbitron', monospace",
+                        fontFamily: "'Orbitron', sans-serif",
                         textShadow: '0 0 40px rgba(255, 215, 0, 0.1)',
                     }}
                 >

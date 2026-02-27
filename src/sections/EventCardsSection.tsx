@@ -462,8 +462,8 @@ export default function EventCardsSection() {
                 <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
                     EXPLORE MISSIONS
                 </div>
-                <h2 className="text-2xl md:text-4xl font-mono text-white tracking-wider uppercase">
-                    Event Catalog
+                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                    EVENT CATALOG
                 </h2>
             </div>
 

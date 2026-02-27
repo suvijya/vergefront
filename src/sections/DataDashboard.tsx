@@ -37,7 +37,7 @@ export default function DataDashboard() {
 
           {/* Left: Participants */}
           <div className="pointer-events-auto flex flex-col items-center md:items-start flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to right, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 7%)' }}>
+            <div className="text-4xl md:text-6xl font-black text-white tracking-tighter" style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to right, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 7%)' }}>
               {participants.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">
@@ -47,7 +47,7 @@ export default function DataDashboard() {
 
           {/* Center: Prize Pool */}
           <div ref={counterRef} className="pointer-events-auto flex flex-col items-center flex-1">
-            <div className="text-4xl md:text-7xl font-bold text-white tracking-wider text-center whitespace-nowrap" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 30px rgba(0,255,180,0.5)' }}>
+            <div className="text-5xl md:text-8xl font-black text-white tracking-tighter text-center whitespace-nowrap" style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 30px rgba(0,255,180,0.5)' }}>
               {formatCurrency(prizePool)}
             </div>
             <div className="text-xs md:text-sm font-bold font-mono text-emerald-400/80 mt-2 tracking-[0.3em] uppercase">
@@ -57,7 +57,7 @@ export default function DataDashboard() {
 
           {/* Right: Footfall */}
           <div className="hidden md:flex pointer-events-auto flex-col items-center md:items-end md:text-right flex-1">
-            <div className="text-3xl md:text-5xl font-bold text-white tracking-wider" style={{ fontFamily: "'Orbitron', monospace", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to left, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 7%)' }}>
+            <div className="text-4xl md:text-6xl font-black text-white tracking-tighter" style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 10px rgba(255,255,255,0.3)', maskImage: 'linear-gradient(to left, transparent 0%, black 50%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 7%)' }}>
               {footfall.toLocaleString()}+
             </div>
             <div className="text-[10px] font-mono text-white/40 mt-1 tracking-[0.2em] uppercase">

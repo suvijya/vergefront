@@ -50,13 +50,13 @@ export default function FinalMessage() {
         className="flex min-h-[40vh] md:h-screen items-center justify-center px-6"
       >
         <div className="text-center">
-          <div className="text-[7vw] md:text-[6vw] font-bold text-white/90 leading-tight tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
             JOIN US AT VERGE 2026
             <br />
             FOR AN ASTRONOMICAL
             <br />
             EXPERIENCE
-          </div>
+          </h2>
         </div>
       </div>
     </section>
