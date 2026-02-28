@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import img1 from '../../asset/verge2025/DSC00476.png';
-import img2 from '../../asset/verge2025/DSC00491.png';
-import img3 from '../../asset/verge2025/DSC_0137.png';
-import img4 from '../../asset/verge2025/DSC_0934.png';
-import img5 from '../../asset/verge2025/DSC_0996.png';
-import img6 from '../../asset/verge2025/MSC03140.png';
-import img7 from '../../asset/verge2025/MSC03184.png';
+import img1 from '../../asset/verge2025/DSC00476.webp';
+import img2 from '../../asset/verge2025/DSC00491.webp';
+import img3 from '../../asset/verge2025/DSC_0137.webp';
+import img4 from '../../asset/verge2025/DSC_0934.webp';
+import img5 from '../../asset/verge2025/DSC_0996.webp';
+import img6 from '../../asset/verge2025/MSC03140.webp';
+import img7 from '../../asset/verge2025/MSC03184.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
