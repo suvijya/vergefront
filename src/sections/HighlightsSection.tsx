@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import revvd from '../assets/logos/revvd.webp';
-import roboliga from '../assets/logos/roboliga.webp';
-import root from '../assets/logos/root.webp';
-import srmbuilds from '../assets/logos/srmbuilds.webp';
-import codeblitz from '../assets/logos/codeblitz.webp';
-import bugbounty from '../assets/logos/bugbounty.webp';
-import tracert from '../assets/logos/tracert.webp';
+import img1 from '../../asset/verge2025/DSC00476.png';
+import img2 from '../../asset/verge2025/DSC00491.png';
+import img3 from '../../asset/verge2025/DSC_0137.png';
+import img4 from '../../asset/verge2025/DSC_0934.png';
+import img5 from '../../asset/verge2025/DSC_0996.png';
+import img6 from '../../asset/verge2025/MSC03140.png';
+import img7 from '../../asset/verge2025/MSC03184.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,13 +38,13 @@ export default function HighlightsSection() {
 
     // Placeholder images for past events. User can replace these with actual event pictures.
     const highlightImages = [
-        srmbuilds,
-        revvd,
-        roboliga,
-        root,
-        codeblitz,
-        bugbounty,
-        tracert,
+        img1,
+        img2,
+        img3,
+        img4,
+        img5,
+        img6,
+        img7,
     ];
 
     // Duplicate the array to create a seamless infinite scroll effect
@@ -112,11 +112,10 @@ export default function HighlightsSection() {
                                 {/* Glow on hover */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
 
-                                {/* Image Fill */}
                                 <img
                                     src={imgSrc}
                                     alt="Verge 2025 Highlight"
-                                    className="w-full h-full object-cover md:object-contain p-6 md:p-12 opacity-80 group-hover:opacity-100 transition-all duration-500 grayscale group-hover:grayscale-0 scale-95 group-hover:scale-100"
+                                    className="w-full h-full object-cover transition-opacity duration-500 opacity-90 group-hover:opacity-100"
                                 />
 
                                 {/* Label corner */}

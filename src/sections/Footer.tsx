@@ -10,7 +10,7 @@ export default function Footer({
     onNavigate?: (href: string) => void;
 }) {
     return (
-        <footer id="contact" className="relative bg-[#020202] text-white pt-10 pb-6 overflow-hidden flex flex-col justify-between font-mono">
+        <footer id="contact" className="relative bg-[#020202] text-white pt-10 pb-20 md:pb-24 overflow-hidden flex flex-col justify-between font-mono">
             <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 flex flex-col md:flex-row justify-between mb-8 gap-8 md:gap-16">
                 {/* Left Side */}
                 <div className="flex flex-col gap-14 md:w-1/2">

@@ -70,7 +70,7 @@ const events: EventCard[] = [
         bgColor: '#1e293b',
         planetImage: mercury,
         logo: srmbuildsIcon,
-        registerUrl: 'https://unstop.com/hackathon/srm-builds-70',
+        registerUrl: 'https://unstop.com/p/srm-builds-70-verge-2026-srm-university-delhi-ncr-sonepat-1648620',
         poc: '-', contact: '-', venue: 'NEB', time: '12:00', day: 'D1'
     },
     {
@@ -83,7 +83,7 @@ const events: EventCard[] = [
         bgColor: '#431407',
         planetImage: mars,
         logo: mark1Icon,
-        registerUrl: 'https://unstop.com/competition/mark-1',
+        registerUrl: 'https://unstop.com/p/mark-1-robotwar-verge-2026-srm-university-delhi-ncr-sonepat-1648607',
         poc: '-', contact: '-', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
     },
     {
@@ -96,7 +96,7 @@ const events: EventCard[] = [
         bgColor: '#164e63',
         planetImage: neptune,
         logo: radCtfIcon,
-        registerUrl: 'https://unstop.com/competition/rad-ctf-20',
+        registerUrl: 'https://unstop.com/p/rad-cyber-ctf-verge-2026-srm-university-delhi-ncr-sonepat-1647956',
         poc: 'Kanishk', contact: '9811564912', venue: 'Lab', time: '10:00-3:30pm', day: 'D2'
     },
     {
@@ -109,7 +109,7 @@ const events: EventCard[] = [
         bgColor: '#064e3b',
         planetImage: venus,
         logo: revvdIcon, // Fallback to Revvd style for driving/racing
-        registerUrl: 'https://unstop.com/competition/velocity',
+        registerUrl: 'https://unstop.com/p/velocity-drone-race-verge-2026-srm-university-delhi-ncr-sonepat-1648638',
         poc: '-', contact: '-', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
     },
     {
@@ -122,7 +122,7 @@ const events: EventCard[] = [
         bgColor: '#3b0764',
         planetImage: jupiter,
         logo: revvdIcon,
-        registerUrl: 'https://unstop.com/competition/revvd',
+        registerUrl: 'https://unstop.com/p/revvd-rc-car-racing-verge-2026-srm-university-delhi-ncr-sonepat-1648636',
         poc: '-', contact: '-', venue: 'Sports Ground', time: '1:00-2:00pm', day: 'D2'
     },
     {
@@ -135,7 +135,7 @@ const events: EventCard[] = [
         bgColor: '#4c0519',
         planetImage: saturn,
         logo: roboligaIcon,
-        registerUrl: 'https://unstop.com/competition/roboliga',
+        registerUrl: 'https://unstop.com/p/roboliga-robo-soccer-verge-2026-srm-university-delhi-ncr-sonepat-1648596',
         poc: '-', contact: '-', venue: 'Near Admin Block', time: '12:30-2:00', day: 'D1'
     },
     {
@@ -148,7 +148,7 @@ const events: EventCard[] = [
         bgColor: '#1a1a2e',
         planetImage: uranus,
         logo: innowaveIcon,
-        registerUrl: 'https://unstop.com/competition/innowave',
+        registerUrl: 'https://unstop.com/p/innowave-verge-2026-srm-university-delhi-ncr-sonepat-1648577',
         poc: 'Khushi', contact: '7250810227', venue: 'NEB Room', time: '12:15-4:30', day: 'D1'
     },
     {
@@ -161,7 +161,7 @@ const events: EventCard[] = [
         bgColor: '#0f3460',
         planetImage: pluto,
         logo: bugbountyIcon,
-        registerUrl: 'https://unstop.com/competition/bug-bounty',
+        registerUrl: 'https://unstop.com/p/bug-bounty-srm-university-delhi-ncr-sonepat-1647952',
         poc: 'Vritti', contact: '9315606580', venue: 'Lab', time: '2:00-4:30pm', day: 'D1'
     },
     {
@@ -174,7 +174,7 @@ const events: EventCard[] = [
         bgColor: '#2d3a4f',
         planetImage: moon,
         logo: snapSyntaxIcon,
-        registerUrl: 'https://unstop.com/competition/snap-syntax',
+        registerUrl: 'https://unstop.com/p/snap-syntax-verge-2026-srm-university-delhi-ncr-sonepat-1646246',
         poc: 'Rashi', contact: '9729216244', venue: 'Lab', time: '4:45-6:00pm', day: 'D1'
     },
     {
@@ -187,7 +187,7 @@ const events: EventCard[] = [
         bgColor: '#4a1942',
         planetImage: sun,
         logo: codeblitzIcon,
-        registerUrl: 'https://unstop.com/competition/code-blitz',
+        registerUrl: 'https://unstop.com/p/code-blitz-verge-2026-srm-university-delhi-ncr-sonepat-1647917',
         poc: 'Aryan', contact: '9306882773', venue: 'Lab', time: '10:00-11:30pm', day: 'D1'
     },
     {
@@ -200,7 +200,7 @@ const events: EventCard[] = [
         bgColor: '#1b4332',
         planetImage: dathomir,
         logo: artisticIcon,
-        registerUrl: 'https://unstop.com/competition/artistic-aura',
+        registerUrl: 'https://unstop.com/p/artistic-aura-verge-2026-srm-university-delhi-ncr-sonepat-1648615',
         poc: 'Himanshu', contact: '9310103146', venue: 'Lab', time: '11:00-1:00pm', day: 'D2'
     },
     {
@@ -226,7 +226,7 @@ const events: EventCard[] = [
         bgColor: '#1e3a5f',
         planetImage: genosis,
         logo: astroIcon,
-        registerUrl: 'https://unstop.com/competition/astrophotography',
+        registerUrl: 'https://unstop.com/p/astro-photography-verge-2026-srm-university-delhi-ncr-sonepat-1649867',
         poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Sports Ground', time: '6:00pm.. 10:00-2:00', day: 'D0'
     },
     {
@@ -239,7 +239,7 @@ const events: EventCard[] = [
         bgColor: '#3d2645',
         planetImage: naboo,
         logo: tracertIcon,
-        registerUrl: 'https://unstop.com/competition/tracert',
+        registerUrl: 'https://unstop.com/p/tracert-line-follower-verge-2026-srm-university-delhi-ncr-sonepat-1648631',
         poc: '-', contact: '-', venue: 'Near Escalators', time: '2:00-3:00', day: 'D1'
     },
     {
@@ -252,7 +252,7 @@ const events: EventCard[] = [
         bgColor: '#4a3728',
         planetImage: corell,
         logo: bridgeomaniaIcon,
-        registerUrl: 'https://unstop.com/competition/bridge-o-mania',
+        registerUrl: 'https://unstop.com/p/bridge-o-mania-verge-2026-srm-university-delhi-ncr-sonepat-1647927',
         poc: '-', contact: '-', venue: 'Electrical Lab', time: '12:45-2:00', day: 'D1'
     },
     {
@@ -278,7 +278,7 @@ const events: EventCard[] = [
         bgColor: '#1a3c40',
         planetImage: chandrila,
         logo: memocracyIcon,
-        registerUrl: 'https://unstop.com/competition/memeocracy',
+        registerUrl: 'https://unstop.com/p/memocracy-verge-2026-srm-university-delhi-ncr-sonepat-1647981',
         poc: 'Hriday', contact: '9818650375', venue: 'Lab', time: '12:00-2:00pm', day: 'D1'
     },
     {
@@ -291,7 +291,7 @@ const events: EventCard[] = [
         bgColor: '#3d348b',
         planetImage: ryloth,
         logo: artisticIcon, // Reusing artistic/design logo
-        registerUrl: 'https://unstop.com/competition/design-a-tee',
+        registerUrl: 'https://unstop.com/p/design-a-tee-verge-2026-srm-university-delhi-ncr-sonepat-1649866',
         poc: 'Vanshika Jain', contact: '9711280104', venue: 'Lab', time: '12:00-2:00', day: 'D2'
     },
     {
