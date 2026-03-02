@@ -32,7 +32,7 @@ export default function AboutSection({ onBack }: AboutSectionProps) {
                 }}
             />
 
-            <div className="max-w-4xl mx-auto px-6 py-24 md:py-32 relative z-10">
+            <div className="max-w-4xl mx-auto px-6 pt-32 pb-24 md:pt-40 md:pb-32 relative z-10">
 
                 {/* Navigation */}
                 <button

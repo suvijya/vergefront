@@ -49,60 +49,76 @@ export default function AccommodationSection() {
 
     const packages = [
         {
-            title: "BASE CAMP",
-            subtitle: "Accommodation Package",
-            price: "₹999",
+            title: "1 DAY PASS",
+            subtitle: "Accommodation + Mess",
+            price: "₹499",
             duration: "",
             color: "from-cyan-500/20 to-blue-500/5",
             borderColor: "border-cyan-500/30",
             glowColor: "rgba(6, 182, 212, 0.15)",
             accent: "text-cyan-400",
             features: [
-                "2 Days Duration",
-                "1 Bed with Pillow & Bedsheet",
-                "₹499 Without Meals",
-                "₹999 With 4 Meals Included",
-                "Valid Per Person"
+                "Stay for Day 1 or Day 2",
+                "Mess Included",
+                "3 Beds Available",
+                "Male Accommodation"
             ],
             buttonText: "BOOK STAY",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
         },
         {
-            title: "THE ULTIMATE PASS",
-            subtitle: "Stay + Concerts Combo",
-            price: "₹1999",
-            duration: "SL",
-            color: "from-amber-500/20 to-orange-500/5",
-            borderColor: "border-amber-500/30",
-            glowColor: "rgba(245, 158, 11, 0.15)",
-            accent: "text-amber-400",
-            features: [
-                "2 Days Accommodation",
-                "4 Meals Included",
-                "1 Bed with Pillow & Bedsheet",
-                "Day 1 Cultural Concert Pass",
-                "Day 2 Main Concert Pass"
-            ],
-            buttonText: "BOOK COMBO",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
-        },
-        {
-            title: "CONCERT PASSES",
-            subtitle: "Festival Entry",
-            price: "₹499+",
-            duration: "SL",
+            title: "2 DAYS STAY",
+            subtitle: "Accommodation Only",
+            price: "₹499",
+            duration: "",
             color: "from-purple-500/20 to-pink-500/5",
             borderColor: "border-purple-500/30",
             glowColor: "rgba(168, 85, 247, 0.15)",
             accent: "text-purple-400",
             features: [
-                "Day 1 Cultural Night: ₹499",
-                "Day 2 Main Event: ₹599",
-                "Epic Headline Performances",
-                "Access to Food Stalls",
-                "Non-transferable"
+                "Stay for Day 1 and Day 2",
+                "No Mess Included",
+                "3 Beds Available",
+                "Male Accommodation"
             ],
-            buttonText: "BUY TICKETS",
+            buttonText: "BOOK STAY",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
+        },
+        {
+            title: "FULL STAY",
+            subtitle: "Accommodation + Mess",
+            price: "₹999",
+            duration: "",
+            color: "from-emerald-500/20 to-teal-500/5",
+            borderColor: "border-emerald-500/30",
+            glowColor: "rgba(16, 185, 129, 0.15)",
+            accent: "text-emerald-400",
+            features: [
+                "Stay for Day 1 and Day 2",
+                "Mess Included",
+                "3 Beds Available",
+                "Male Accommodation"
+            ],
+            buttonText: "BOOK STAY",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
+        },
+        {
+            title: "ULTIMATE COMBO",
+            subtitle: "Stay + Mess + Concerts",
+            price: "₹999",
+            duration: "",
+            color: "from-amber-500/20 to-orange-500/5",
+            borderColor: "border-amber-500/30",
+            glowColor: "rgba(245, 158, 11, 0.15)",
+            accent: "text-amber-400",
+            features: [
+                "Stay for Day 1 and Day 2",
+                "Mess Included",
+                "2 Day Concert Pass",
+                "3 Beds Available",
+                "Male Accommodation"
+            ],
+            buttonText: "BOOK COMBO",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
         }
     ];
@@ -111,8 +127,17 @@ export default function AccommodationSection() {
         <section
             ref={sectionRef}
             id="accommodation"
-            className="w-full relative bg-black py-12 px-4 overflow-hidden md:py-32 md:px-6"
+            className="w-full relative bg-black py-12 px-0 lg:px-6 overflow-hidden md:py-32"
         >
+            <style>{`
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
             {/* Background elements */}
             <div className="absolute inset-0 pointer-events-none">
                 <div
@@ -124,9 +149,9 @@ export default function AccommodationSection() {
                 />
             </div>
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10 w-full">
                 {/* Header */}
-                <div className="accom-header text-center mb-10 md:mb-16 relative select-none">
+                <div className="accom-header text-center mb-10 md:mb-16 relative select-none px-4 lg:px-0">
                     <div className="flex items-center justify-center gap-3 mb-3">
                         <div className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/20" />
                         <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
@@ -150,12 +175,12 @@ export default function AccommodationSection() {
                 {/* Pricing Cards */}
                 <div
                     ref={cardsRef}
-                    className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-5 md:gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4"
                 >
                     {packages.map((tier, index) => (
                         <div
                             key={index}
-                            className={`accom-card relative w-[90vw] max-w-[320px] md:max-w-none md:w-[350px] group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-4 md:p-8 overflow-hidden transition-all duration-500 hover:-translate-y-2`}
+                            className={`accom-card relative w-full max-w-[350px] lg:max-w-none h-full group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col`}
                             style={{
                                 boxShadow: `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
                             }}
@@ -164,7 +189,7 @@ export default function AccommodationSection() {
                             <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                             {/* Card Content */}
-                            <div className="relative z-10">
+                            <div className="relative z-10 flex flex-col h-full">
                                 <h3 className={`text-base md:text-xl font-bold tracking-wider md:tracking-widest ${tier.accent} mb-0.5`} style={{ fontFamily: "'Orbitron', monospace" }}>
                                     {tier.title}
                                 </h3>
@@ -200,7 +225,7 @@ export default function AccommodationSection() {
                                     href={tier.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block"
+                                    className="block mt-auto"
                                 >
                                     <button
                                         className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-white/10 hover:border-white/30`}
@@ -214,7 +239,7 @@ export default function AccommodationSection() {
                 </div>
 
                 {/* Bottom footnote */}
-                <div className="mt-8 md:mt-16 text-center">
+                <div className="mt-8 md:mt-16 text-center px-4 md:px-0">
                     <p className="text-[10px] md:text-xs font-mono text-white/30 tracking-widest max-w-xl mx-auto uppercase leading-relaxed">
                         Prices and availability are subject to change. <br className="md:hidden" />
                         Please book early as slots are limited.

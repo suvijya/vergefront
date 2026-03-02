@@ -12,6 +12,7 @@ import EventCardsSection from './sections/EventCardsSection';
 import SponsorsSection from './sections/SponsorsSection';
 import SpeakersSection from './sections/SpeakersSection';
 import AccommodationSection from './sections/AccommodationSection';
+import PrismaConcertSection from './sections/PrismaConcertSection';
 import HighlightsSection from './sections/HighlightsSection';
 import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
@@ -195,6 +196,7 @@ function App() {
               <DataDashboard />
               <TimelineSection />
               <EventCardsSection />
+              <PrismaConcertSection />
               <HighlightsSection />
               <AccommodationSection />
               {/* SpeakersSection moved to own page */}

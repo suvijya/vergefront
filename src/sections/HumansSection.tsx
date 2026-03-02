@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { Linkedin, Instagram } from 'lucide-react';
+
+import agrimImg from '../../asset/people/Agrim_Sangotra_organ.png';
+import harsithImg from '../../asset/people/HARSITH_CHANDRASEKARAN_organ.png';
+import shivamImg from '../../asset/people/Shivam_Jaiswal_organ..png';
+import ashishImg from '../../asset/people/ashish_kumar_organizer.png';
+import suvijyaImg from '../../asset/people/suvijya_arya_organ.png';
+import vanshikaImg from '../../asset/people/vanshika_jain_organ..png';
 
 interface CrewMember {
     id: string;
@@ -9,11 +17,18 @@ interface CrewMember {
     department: string;
     deptColor: string;
     status: 'ACTIVE' | 'ON MISSION';
+    image?: string;
+    linkedin?: string;
+    instagram?: string;
 }
 
 const crew: CrewMember[] = [
-    { id: 'CM-001', name: 'ARJUN PATEL', initials: 'AP', designation: 'General Secretary', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE' },
-    { id: 'CM-002', name: 'SNEHA RAO', initials: 'SR', designation: 'Event Head', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE' },
+    { id: 'CM-101', name: 'AGRIM SANGOTRA', initials: 'AS', designation: 'General Secretary', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: agrimImg, linkedin: '#', instagram: '#' },
+    { id: 'CM-102', name: 'HARSITH C.', initials: 'HC', designation: 'Festival Coordinator', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: harsithImg, linkedin: '#', instagram: '#' },
+    { id: 'CM-103', name: 'SHIVAM JAISWAL', initials: 'SJ', designation: 'Event Manager', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: shivamImg, linkedin: '#', instagram: '#' },
+    { id: 'CM-104', name: 'ASHISH KUMAR', initials: 'AK', designation: 'Tech Lead', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: ashishImg, linkedin: '#', instagram: '#' },
+    { id: 'CM-105', name: 'SUVIJYA ARYA', initials: 'SA', designation: 'Web Developer', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: suvijyaImg, linkedin: '#', instagram: '#' },
+    { id: 'CM-106', name: 'VANSHIKA JAIN', initials: 'VJ', designation: 'Creative Head', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: vanshikaImg, linkedin: '#', instagram: '#' },
     { id: 'CM-003', name: 'VIVEK KUMAR', initials: 'VK', designation: 'Operations Lead', department: 'CORE TEAM', deptColor: '#00ffb4', status: 'ACTIVE' },
     { id: 'CM-015', name: 'KAVYA REDDY', initials: 'KR', designation: 'Finance Lead', department: 'CORE TEAM', deptColor: '#00ffb4', status: 'ACTIVE' },
     { id: 'CM-007', name: 'ZARA KHAN', initials: 'ZK', designation: 'Publicity Manager', department: 'MANAGERS', deptColor: '#ff6b9d', status: 'ACTIVE' },
@@ -44,7 +59,7 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
 
     return (
         <div
-            className={`relative group cursor-pointer transition-all duration-700 ${hovered ? 'scale-[1.02] -translate-y-2' : ''}`}
+            className={`relative group h-full cursor-pointer transition-all duration-700 ${hovered ? 'scale-[1.02] -translate-y-2' : ''}`}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             style={{ animationDelay: `${index * 0.05}s` }}
@@ -74,80 +89,139 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
                         />
                     )}
 
-                    <div className="relative z-10 flex flex-col h-full">
-                        {/* Top bar */}
-                        <div className="flex items-start justify-between mb-6">
-                            <div className="flex flex-col">
-                                <span className="text-[7px] font-mono text-white/30 tracking-[0.3em] mb-1">ID // NO.</span>
-                                <span className="text-[10px] font-mono text-white/80 tracking-widest">{member.id}</span>
-                            </div>
-                            <div className="flex items-center gap-2 border border-white/10 px-2 py-1 bg-black/50">
-                                <span className="text-[7px] font-mono tracking-[0.2em] uppercase" style={{ color: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726' }}>
-                                    {member.status}
-                                </span>
-                                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726', boxShadow: `0 0 10px ${member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726'}` }} />
-                            </div>
-                        </div>
-
-                        {/* Hexagon Avatar */}
-                        <div className="flex justify-center mb-6 relative">
-                            {/* Spinning ring around avatar on hover */}
-                            <div className={`absolute inset-0 -mx-4 -my-4 border border-dashed rounded-full transition-all duration-1000 ${hovered ? 'animate-[spin_10s_linear_infinite] opacity-100' : 'opacity-0'}`} style={{ borderColor: `${member.deptColor}50` }} />
-
-                            <div className="relative w-20 h-20 md:w-24 md:h-24 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-500">
-                                {/* Outer Hexagon (Border) */}
-                                <div
-                                    className="absolute inset-0 transition-colors duration-500"
-                                    style={{
-                                        clipPath: 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)',
-                                        backgroundColor: hovered ? member.deptColor : 'rgba(255,255,255,0.15)'
-                                    }}
+                    {/* Conditional render: If member has an image, render full card image layout. Otherwise, render default HUD layout. */}
+                    {member.image ? (
+                        <div className="relative flex flex-col h-full w-full">
+                            {/* Image Container */}
+                            <div className="relative w-full aspect-[4/5] shrink-0 rounded overflow-hidden mb-4">
+                                <img
+                                    src={member.image}
+                                    alt={member.name}
+                                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${hovered ? 'scale-110' : 'scale-100'}`}
                                 />
-                                {/* Inner Hexagon */}
-                                <div
-                                    className="absolute inset-[1px] flex items-center justify-center bg-[#0a0a0a] transition-all duration-500"
-                                    style={{
-                                        clipPath: 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)',
-                                        boxShadow: hovered ? `inset 0 0 20px ${member.deptColor}50` : 'none',
-                                    }}
-                                >
-                                    <div className="absolute inset-0 transition-opacity duration-700" style={{ background: `linear-gradient(135deg, ${member.deptColor}20, transparent)`, opacity: hovered ? 1 : 0.5 }} />
-                                    <span className="text-2xl md:text-3xl font-bold tracking-wider relative z-10 transition-all duration-500"
-                                        style={{ fontFamily: "'Orbitron', monospace", color: hovered ? '#fff' : 'rgba(255,255,255,0.6)', textShadow: hovered ? `0 0 15px ${member.deptColor}` : 'none' }}>
-                                        {member.initials}
-                                    </span>
+                                {/* Bottom gradient for text readability (if any text were to overlap) */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#050505] to-transparent opacity-80" />
+
+                                {/* Hover Overlay with Icons */}
+                                <div className={`absolute inset-0 bg-black/60 flex items-center justify-center gap-4 transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
+                                    {member.linkedin && (
+                                        <a
+                                            href={member.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors hover:text-[#0077B5] transform hover:scale-110 active:scale-95"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <Linkedin size={24} />
+                                        </a>
+                                    )}
+                                    {member.instagram && (
+                                        <a
+                                            href={member.instagram}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors hover:text-[#E1306C] transform hover:scale-110 active:scale-95"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <Instagram size={24} />
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Info Container */}
+                            <div className="flex flex-col flex-grow text-left px-1 md:px-2 pb-1">
+                                <h3 className="text-base md:text-xl font-bold text-white tracking-[0.1em] mb-0.5 uppercase" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    {member.name}
+                                </h3>
+                                <div className="mt-auto w-full">
+                                    <div className="h-px w-full bg-white/10 my-2 relative overflow-hidden mt-3 md:mt-4 mb-2 md:mb-3">
+                                        <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '20%', backgroundColor: member.deptColor }} />
+                                    </div>
+                                    <div className="flex justify-between items-center mt-1">
+                                        <div className="flex items-center gap-2 border border-white/10 px-1.5 md:px-2 py-0.5 md:py-1 bg-black/50 rounded ml-auto">
+                                            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726', boxShadow: `0 0 10px ${member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726'}` }} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Name & Designation */}
-                        <div className="text-center mt-auto">
-                            <h3 className="text-base md:text-lg font-bold text-white tracking-[0.15em] mb-1 uppercase drop-shadow-md" style={{ fontFamily: "'Orbitron', monospace" }}>
-                                {member.name}
-                            </h3>
-                            <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-widest uppercase mb-5">
-                                {member.designation}
-                            </p>
-                        </div>
-
-                        {/* Divider line */}
-                        <div className="w-full h-px bg-white/10 mb-4 relative overflow-hidden">
-                            <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '20%', backgroundColor: member.deptColor }} />
-                        </div>
-
-                        {/* Department Tag */}
-                        <div className="flex items-center justify-between">
-                            <div className="flex gap-1.5">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="w-1.5 h-3 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `${member.deptColor}${i * 30 + 10}` : 'rgba(255,255,255,0.1)' }} />
-                                ))}
+                    ) : (
+                        <div className="relative z-10 flex flex-col h-full">
+                            {/* Top bar */}
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="flex flex-col">
+                                    <span className="text-[7px] font-mono text-white/30 tracking-[0.3em] mb-1">ID // NO.</span>
+                                    <span className="text-[10px] font-mono text-white/80 tracking-widest">{member.id}</span>
+                                </div>
+                                <div className="flex items-center gap-2 border border-white/10 px-2 py-1 bg-black/50">
+                                    <span className="text-[7px] font-mono tracking-[0.2em] uppercase" style={{ color: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726' }}>
+                                        {member.status}
+                                    </span>
+                                    <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726', boxShadow: `0 0 10px ${member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726'}` }} />
+                                </div>
                             </div>
-                            <span className="text-[8px] md:text-[9px] font-mono tracking-[0.3em] uppercase bg-white/[0.03] backdrop-blur-md px-3 py-1.5 border transition-all duration-500"
-                                style={{ color: hovered ? '#fff' : `${member.deptColor}90`, borderColor: hovered ? member.deptColor : `${member.deptColor}30`, textShadow: hovered ? `0 0 10px ${member.deptColor}` : 'none' }}>
-                                {member.department}
-                            </span>
+
+                            {/* Hexagon Avatar */}
+                            <div className="flex justify-center mb-6 relative">
+                                {/* Spinning ring around avatar on hover */}
+                                <div className={`absolute inset-0 -mx-4 -my-4 border border-dashed rounded-full transition-all duration-1000 ${hovered ? 'animate-[spin_10s_linear_infinite] opacity-100' : 'opacity-0'}`} style={{ borderColor: `${member.deptColor}50` }} />
+
+                                <div className="relative w-20 h-20 md:w-24 md:h-24 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-500">
+                                    {/* Outer Hexagon (Border) */}
+                                    <div
+                                        className="absolute inset-0 transition-colors duration-500"
+                                        style={{
+                                            clipPath: 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)',
+                                            backgroundColor: hovered ? member.deptColor : 'rgba(255,255,255,0.15)'
+                                        }}
+                                    />
+                                    {/* Inner Hexagon */}
+                                    <div
+                                        className="absolute inset-[1px] flex items-center justify-center bg-[#0a0a0a] transition-all duration-500 overflow-hidden"
+                                        style={{
+                                            clipPath: 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)',
+                                            boxShadow: hovered ? `inset 0 0 20px ${member.deptColor}50` : 'none',
+                                        }}
+                                    >
+                                        <div className="absolute inset-0 transition-opacity duration-700" style={{ background: `linear-gradient(135deg, ${member.deptColor}20, transparent)`, opacity: hovered ? 1 : 0.5 }} />
+                                        <span className="text-2xl md:text-3xl font-bold tracking-wider relative z-10 transition-all duration-500"
+                                            style={{ fontFamily: "'Orbitron', monospace", color: hovered ? '#fff' : 'rgba(255,255,255,0.6)', textShadow: hovered ? `0 0 15px ${member.deptColor}` : 'none' }}>
+                                            {member.initials}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Name & Designation */}
+                            <div className="text-center mt-auto">
+                                <h3 className="text-base md:text-lg font-bold text-white tracking-[0.15em] mb-1 uppercase drop-shadow-md" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    {member.name}
+                                </h3>
+                                <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-widest uppercase mb-5">
+                                    {member.designation}
+                                </p>
+                            </div>
+
+                            {/* Divider line */}
+                            <div className="w-full h-px bg-white/10 mb-4 relative overflow-hidden">
+                                <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '20%', backgroundColor: member.deptColor }} />
+                            </div>
+
+                            {/* Department Tag */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex gap-1.5">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="w-1.5 h-3 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `${member.deptColor}${i * 30 + 10}` : 'rgba(255,255,255,0.1)' }} />
+                                    ))}
+                                </div>
+                                <span className="text-[8px] md:text-[9px] font-mono tracking-[0.3em] uppercase bg-white/[0.03] backdrop-blur-md px-3 py-1.5 border transition-all duration-500"
+                                    style={{ color: hovered ? '#fff' : `${member.deptColor}90`, borderColor: hovered ? member.deptColor : `${member.deptColor}30`, textShadow: hovered ? `0 0 10px ${member.deptColor}` : 'none' }}>
+                                    {member.department}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Corner accents */}
                     <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 transition-colors duration-500" style={{ borderColor: hovered ? member.deptColor : 'transparent' }} />
@@ -376,9 +450,9 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
                         onMouseEnter={() => setIsHovered(true)}
                         style={{ scrollBehavior: 'auto' }}
                     >
-                        <div className="flex w-max gap-4 md:gap-8">
+                        <div className="flex items-stretch w-max gap-4 md:gap-6">
                             {marqueeMembers.map((member, i) => (
-                                <div key={`${member.id}-${i}`} className="w-[280px] md:w-[320px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
+                                <div key={`${member.id}-${i}`} className="w-[220px] md:w-[320px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
                                     <CrewCard member={member} index={i} />
                                 </div>
                             ))}
@@ -394,7 +468,7 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
             id="humans"
             ref={containerRef}
             data-lenis-prevent
-            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden py-10 overscroll-contain"
+            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden pt-24 pb-10 overscroll-contain"
             style={{ overscrollBehavior: 'contain' }}
         >
             <style>{`

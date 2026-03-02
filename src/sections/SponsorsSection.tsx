@@ -18,7 +18,7 @@ export default function SponsorsSection({ onBack }: { onBack?: () => void }) {
             id="sponsors"
             ref={containerRef}
             data-lenis-prevent
-            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden py-10 px-6 md:px-12 overscroll-contain"
+            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden pt-24 pb-10 px-6 md:px-12 overscroll-contain"
             style={{ overscrollBehavior: 'contain' }}
         >
             {/* Background orbital dots */}

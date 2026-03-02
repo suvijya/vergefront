@@ -58,7 +58,7 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm">
+      <header className="fixed top-0 left-0 right-0 z-[100] px-6 py-3 bg-black/80 backdrop-blur-sm">
         <div className="flex justify-between items-center max-w-7xl mx-auto h-8">
           {/* Mobile Menu Button - Left */}
           <button
@@ -147,7 +147,7 @@ export default function Header({
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
+        <div className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
           <button
             className="absolute top-6 right-6 text-white/50 hover:text-white"
             onClick={() => setIsMenuOpen(false)}
