@@ -59,9 +59,9 @@ export default function PrismaConcertSection() {
                     style={{ backgroundImage: `url(${ankitImg})` }}
                 />
                 {/* Gradient Overlays for readability and blending */}
-                <div className="absolute inset-0 bg-black/40 z-10" />
+                <div className="absolute inset-0 bg-black/10 z-10" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-20" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 z-20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 z-20" />
             </div>
 
             {/* Content Container */}
@@ -69,14 +69,8 @@ export default function PrismaConcertSection() {
                 ref={contentRef}
                 className="prisma-content relative z-30 w-full flex flex-col items-start text-left"
             >
-                <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm">
-                    <span className="text-xs md:text-sm font-mono text-purple-300 tracking-widest uppercase">
-                        Main Event • Day 2
-                    </span>
-                </div>
-
                 <h2
-                    className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter mb-4 uppercase"
+                    className="text-3xl md:text-4xl lg:text-6xl font-black text-white tracking-tighter mb-4 uppercase"
                     style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 40px rgba(168, 85, 247, 0.4)' }}
                 >
                     PRISMA <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">NIGHT</span>
@@ -88,16 +82,12 @@ export default function PrismaConcertSection() {
                 </p>
             </div>
 
-            {/* Button Container */}
             <div className="relative z-30 w-full flex justify-center mt-auto pt-10">
                 <a
                     href="#accommodation"
-                    className="group relative inline-flex items-center justify-center"
+                    className="block w-[200px] md:w-[250px] py-3 md:py-4 bg-white/10 text-white backdrop-blur-md border border-white/20 text-center text-xs md:text-sm font-bold font-mono tracking-widest hover:bg-white/20 hover:border-white/40 transition-all uppercase rounded-md shadow-[0_0_20px_rgba(255,255,255,0.1)] active:translate-y-[2px]"
                 >
-                    <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 opacity-70 blur transition duration-500 group-hover:opacity-100" />
-                    <button className="relative px-8 py-4 md:px-12 md:py-5 bg-black rounded-lg border border-white/10 text-white font-mono text-sm md:text-base tracking-[0.2em] hover:bg-black/80 transition-colors uppercase font-bold">
-                        Book Passes Now
-                    </button>
+                    Get Tickets →
                 </a>
             </div>
         </section>

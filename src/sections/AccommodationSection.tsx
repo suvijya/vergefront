@@ -60,8 +60,7 @@ export default function AccommodationSection() {
             features: [
                 "Stay for Day 1 or Day 2",
                 "Mess Included",
-                "3 Beds Available",
-                "Male Accommodation"
+                "1 Bed Available"
             ],
             buttonText: "BOOK STAY",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
@@ -78,8 +77,7 @@ export default function AccommodationSection() {
             features: [
                 "Stay for Day 1 and Day 2",
                 "No Mess Included",
-                "3 Beds Available",
-                "Male Accommodation"
+                "1 Bed Available",
             ],
             buttonText: "BOOK STAY",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
@@ -96,8 +94,7 @@ export default function AccommodationSection() {
             features: [
                 "Stay for Day 1 and Day 2",
                 "Mess Included",
-                "3 Beds Available",
-                "Male Accommodation"
+                "1 Bed Available"
             ],
             buttonText: "BOOK STAY",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
@@ -105,7 +102,7 @@ export default function AccommodationSection() {
         {
             title: "ULTIMATE COMBO",
             subtitle: "Stay + Mess + Concerts",
-            price: "₹999",
+            price: "₹1999",
             duration: "",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
@@ -115,8 +112,7 @@ export default function AccommodationSection() {
                 "Stay for Day 1 and Day 2",
                 "Mess Included",
                 "2 Day Concert Pass",
-                "3 Beds Available",
-                "Male Accommodation"
+                "1 Bed Available"
             ],
             buttonText: "BOOK COMBO",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
