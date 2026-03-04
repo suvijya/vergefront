@@ -1,6 +1,5 @@
-﻿import { useState, useRef } from 'react';
-
-import AnimatedSection from '../components/AnimatedSection';
+import { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Import planet images
 import mercury from '../../asset/mercury.webp';
@@ -58,7 +57,6 @@ interface EventCard {
     venue?: string;
     time?: string;
     day?: string;
-    isTeam?: boolean;
 }
 
 const events: EventCard[] = [
@@ -73,7 +71,7 @@ const events: EventCard[] = [
         planetImage: mercury,
         logo: srmbuildsIcon,
         registerUrl: 'https://unstop.com/p/srm-builds-70-verge-2026-srm-university-delhi-ncr-sonepat-1648620',
-        poc: '-', contact: '-', venue: 'NEB', time: '12:00', day: 'D1', isTeam: true
+        poc: '-', contact: '-', venue: 'NEB', time: '12:00', day: 'D1'
     },
     {
         id: 'mark1',
@@ -86,7 +84,7 @@ const events: EventCard[] = [
         planetImage: mars,
         logo: mark1Icon,
         registerUrl: 'https://unstop.com/p/mark-1-robotwar-verge-2026-srm-university-delhi-ncr-sonepat-1648607',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2', isTeam: true
+        poc: '-', contact: '-', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
     },
     {
         id: 'radctf',
@@ -110,7 +108,7 @@ const events: EventCard[] = [
         prize: '₹15,000',
         bgColor: '#064e3b',
         planetImage: venus,
-        logo: revvdIcon,
+        logo: revvdIcon, // Fallback to Revvd style for driving/racing
         registerUrl: 'https://unstop.com/p/velocity-drone-race-verge-2026-srm-university-delhi-ncr-sonepat-1648638',
         poc: '-', contact: '-', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
     },
@@ -151,7 +149,7 @@ const events: EventCard[] = [
         planetImage: uranus,
         logo: innowaveIcon,
         registerUrl: 'https://unstop.com/p/innowave-verge-2026-srm-university-delhi-ncr-sonepat-1648577',
-        poc: 'Khushi', contact: '7250810227', venue: 'NEB Room', time: '12:15-4:30', day: 'D1', isTeam: true
+        poc: 'Khushi', contact: '7250810227', venue: 'NEB Room', time: '12:15-4:30', day: 'D1'
     },
     {
         id: 'bugbounty',
@@ -216,7 +214,7 @@ const events: EventCard[] = [
         planetImage: kashyk,
         logo: murdermysteryIcon,
         registerUrl: 'https://unstop.com/competition/murder-mystery',
-        poc: '-', contact: '-', venue: 'EB + NEB', time: '1:00-3:00am', day: 'D2', isTeam: true
+        poc: '-', contact: '-', venue: 'EB + NEB', time: '1:00-3:00am', day: 'D2'
     },
     {
         id: 'astrophotography',
@@ -229,7 +227,7 @@ const events: EventCard[] = [
         planetImage: genosis,
         logo: astroIcon,
         registerUrl: 'https://unstop.com/p/astro-photography-verge-2026-srm-university-delhi-ncr-sonepat-1649867',
-        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Sports Ground', time: '6:00pm', day: 'D0'
+        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Sports Ground', time: '6:00pm.. 10:00-2:00', day: 'D0'
     },
     {
         id: 'tracert',
@@ -292,7 +290,7 @@ const events: EventCard[] = [
         prize: '₹5,000',
         bgColor: '#3d348b',
         planetImage: ryloth,
-        logo: artisticIcon,
+        logo: artisticIcon, // Reusing artistic/design logo
         registerUrl: 'https://unstop.com/p/design-a-tee-verge-2026-srm-university-delhi-ncr-sonepat-1649866',
         poc: 'Vanshika Jain', contact: '9711280104', venue: 'Lab', time: '12:00-2:00', day: 'D2'
     },
@@ -312,423 +310,473 @@ const events: EventCard[] = [
 ];
 
 export default function EventCardsSection() {
-    const [activeEvent, setActiveEvent] = useState<EventCard>(events[0]);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [filterDay, setFilterDay] = useState<string>('ALL');
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<EventCard | null>(null);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+    const isButtonScrolling = useRef(false);
+    const buttonScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const days = ['ALL', 'D1', 'D2'];
-    const filteredEvents = filterDay === 'ALL' ? events : events.filter(e => e.day === filterDay);
+    const posRef = useRef(0);
+    const marqueeEvents = [...events, ...events, ...events];
+
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        let animationFrameId: number;
+
+        const scroll = () => {
+            if (!isDragging && !isHovered && !isButtonScrolling.current) {
+                // Update our tracked position with sub-pixel precision
+                posRef.current += 0.7; // Speed (Reduced for smoother flow)
+
+                // Infinite loop logic
+                const setWidth = container.scrollWidth / 3;
+                if (posRef.current >= setWidth * 2) {
+                    posRef.current -= setWidth;
+                }
+
+                // Sync the actual scrollLeft
+                container.scrollLeft = posRef.current;
+            } else {
+                // Keep posRef in sync with manual scrolling
+                posRef.current = container.scrollLeft;
+            }
+            animationFrameId = requestAnimationFrame(scroll);
+        };
+
+        animationFrameId = requestAnimationFrame(scroll);
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [isDragging, isHovered]);
+
+    // Drag handlers
+    const onMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        if (scrollContainerRef.current) {
+            setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
+
+    const onMouseLeave = () => {
+        setIsDragging(false);
+        setIsHovered(false);
+    };
+
+    const onMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const onMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Drag speed multiplier
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    // Touch handlers for mobile
+    const onTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        if (scrollContainerRef.current) {
+            setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+            setScrollLeft(scrollContainerRef.current.scrollLeft);
+        }
+    };
+
+    const onTouchEnd = () => {
+        setIsDragging(false);
+    };
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // Drag speed multiplier
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    // Smooth scroll animation for arrow buttons
+    const animateScroll = (distance: number) => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        // Pause auto-scroll for the duration
+        isButtonScrolling.current = true;
+        if (buttonScrollTimer.current) clearTimeout(buttonScrollTimer.current);
+
+        const startPos = container.scrollLeft;
+        const startTime = performance.now();
+        const duration = 400; // ms
+
+        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+        const step = (currentTime: number) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutCubic(progress);
+
+            container.scrollLeft = startPos + distance * eased;
+            posRef.current = container.scrollLeft;
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                // Resume auto-scroll after animation completes
+                buttonScrollTimer.current = setTimeout(() => {
+                    isButtonScrolling.current = false;
+                }, 100);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    const scrollLeftBy = () => {
+        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
+        animateScroll(-scrollAmount);
+    };
+
+    const scrollRightBy = () => {
+        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
+        animateScroll(scrollAmount);
+    };
 
     return (
-        <section id="events" className="w-full bg-black pt-16 pb-2 md:pb-16 relative overflow-hidden">
-            {/* Grid bg */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
-                    backgroundSize: '60px 60px'
-                }}
-            />
+        <section id="events" className="min-h-screen w-full bg-black py-24 relative overflow-hidden">
+            <style>{`
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
 
-            {/* Header */}
-            <AnimatedSection direction="up" delay={0} duration={0.7} className="text-center mb-10 px-8 select-none relative z-10">
-                <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-3">EXPLORE MISSIONS</div>
-                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+            {/* Section Header */}
+            <div className="text-center mb-16 px-8 select-none z-30">
+                <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
+                    EXPLORE MISSIONS
+                </div>
+                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                     EVENT CATALOG
                 </h2>
-            </AnimatedSection>
+            </div>
 
-            {/* ─── GLOBAL VIEW: Split Panel Spotlight ─── */}
-            <div className="block" ref={containerRef}>
-                <AnimatedSection direction="up" delay={0.2} duration={0.8} className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-                    <div className="flex flex-col md:flex-row gap-4 md:gap-6 h-auto md:h-[560px]">
+            {/* Continuous Scroll Container */}
+            <div className="relative w-full group">
+                {/* Gradient Fades for edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
 
-                        {/* LEFT: Featured Panel */}
-                        <div
-                            className="relative md:w-[420px] flex-shrink-0 rounded-2xl overflow-hidden border border-white/10 transition-all duration-700"
-                            style={{ background: `linear-gradient(145deg, ${activeEvent.bgColor}cc 0%, #000000 80%)` }}
-                        >
-                            {/* Glow blob */}
+                {/* Left Arrow Button */}
+                <button
+                    type="button"
+                    onClick={scrollLeftBy}
+                    className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
+                    aria-label="Scroll Left"
+                >
+                    <ChevronLeft className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
+                </button>
+
+                {/* Right Arrow Button */}
+                <button
+                    type="button"
+                    onClick={scrollRightBy}
+                    className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
+                    aria-label="Scroll Right"
+                >
+                    <ChevronRight className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
+                </button>
+
+                {/* The actual scrollable container - Adjusted pt to match planet offset */}
+                <div
+                    ref={scrollContainerRef}
+                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-16 md:pt-32 pb-8 md:pb-12"
+                    onMouseDown={onMouseDown}
+                    onMouseLeave={onMouseLeave}
+                    onMouseUp={onMouseUp}
+                    onMouseMove={onMouseMove}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                    onTouchCancel={onTouchEnd}
+                    onMouseEnter={() => setIsHovered(true)}
+                    style={{ scrollBehavior: 'auto', touchAction: 'pan-y' }}
+                >
+                    <div className="flex w-max px-4 md:px-[25vw]">
+                        {marqueeEvents.map((event, index) => (
                             <div
-                                className="absolute -top-20 -left-20 w-64 h-64 rounded-full blur-3xl opacity-30 transition-colors duration-700 pointer-events-none"
-                                style={{ backgroundColor: activeEvent.bgColor }}
-                            />
-
-                            {/* Logo */}
-                            <div className="hidden md:block absolute top-6 right-6 z-10">
-                                {activeEvent.logo ? (
+                                id={`${event.id}-${index}`}
+                                key={`${event.id}-${index}`}
+                                className="relative px-1.5 md:px-4 w-[220px] md:w-[380px] flex-shrink-0 cursor-pointer"
+                                onMouseEnter={() => setHoveredCard(`${event.id}-${index}`)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                                onClick={() => !isDragging && setSelectedEvent(event)}
+                            >
+                                {/* Floating Planet Image - Top Center */}
+                                <div className={`absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 md:-translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
+                                    }`}>
                                     <img
-                                        key={activeEvent.id}
-                                        src={activeEvent.logo}
-                                        alt=""
-                                        className="w-[8.4rem] md:w-48 h-[8.4rem] md:h-48 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                                        src={event.planetImage}
+                                        alt="Planet"
+                                        className="w-20 h-20 md:w-40 md:h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
                                     />
-                                ) : (
-                                    <img
-                                        key={activeEvent.id}
-                                        src={activeEvent.planetImage}
-                                        alt=""
-                                        className="w-[8.4rem] md:w-48 h-[8.4rem] md:h-48 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-[spin_60s_linear_infinite]"
-                                    />
-                                )}
-                            </div>
-
-                            {/* Watermark planet */}
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-5">
-                                <img src={activeEvent.planetImage} alt="" className="w-72 h-72 object-contain" />
-                            </div>
-
-                            {/* Cyan corner lines */}
-                            <div className="absolute top-0 left-0 w-8 h-8">
-                                <div className="absolute top-0 left-0 w-[1px] h-6 bg-gradient-to-b from-cyan-400/60 to-transparent" />
-                                <div className="absolute top-0 left-0 h-[1px] w-6 bg-gradient-to-r from-cyan-400/60 to-transparent" />
-                            </div>
-                            <div className="absolute bottom-0 right-0 w-8 h-8">
-                                <div className="absolute bottom-0 right-0 w-[1px] h-6 bg-gradient-to-t from-cyan-400/40 to-transparent" />
-                                <div className="absolute bottom-0 right-0 h-[1px] w-6 bg-gradient-to-l from-cyan-400/40 to-transparent" />
-                            </div>
-
-                            {/* Content */}
-                            <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8">
-                                <div className="mb-auto pt-4">
-                                    <span className="inline-block text-[9px] font-mono text-cyan-400 tracking-widest uppercase border border-cyan-500/30 px-2 py-0.5 rounded mb-3">
-                                        {activeEvent.category}
-                                    </span>
                                 </div>
 
-                                <div>
-                                    <h3
-                                        key={activeEvent.id + '-title'}
-                                        className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight leading-none mb-2"
-                                        style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 30px rgba(255,255,255,0.1)' }}
-                                    >
-                                        {activeEvent.title}
-                                    </h3>
-
-                                    {/* Mobile Logo Below Title */}
-                                    <div className="md:hidden mt-3 mb-4 flex justify-end">
-                                        {activeEvent.logo ? (
-                                            <img
-                                                key={activeEvent.id + '-mobile-logo'}
-                                                src={activeEvent.logo}
-                                                alt=""
-                                                className="w-28 h-28 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                                            />
-                                        ) : (
-                                            <img
-                                                key={activeEvent.id + '-mobile-logo'}
-                                                src={activeEvent.planetImage}
-                                                alt=""
-                                                className="w-28 h-28 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-[spin_60s_linear_infinite]"
-                                            />
-                                        )}
-                                    </div>
-
-                                    <p className="text-sm font-mono text-white/50 mb-4">{activeEvent.subtitle}</p>
-
-                                    <p className="text-[11px] text-white/60 font-mono leading-relaxed mb-5 line-clamp-3">
-                                        {activeEvent.description}
-                                    </p>
-
-                                    <div className="flex gap-3 mb-5">
-                                        <div className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3">
-                                            <div className="text-[8px] font-mono text-white/40 uppercase tracking-widest mb-1">Prize</div>
-                                            <div className="text-base font-mono text-amber-300">{activeEvent.prize}</div>
+                                {/* Card */}
+                                <div
+                                    className={`relative aspect-[3/3.6] md:aspect-[3/4.2] border border-white overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/100 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
+                                        }`}
+                                    style={{
+                                        backgroundColor: event.bgColor,
+                                        background: `linear-gradient(135deg, ${event.bgColor}, #000000)`
+                                    }}
+                                >
+                                    {/* Content */}
+                                    <div className="absolute inset-0 p-2.5 md:p-6 flex flex-col justify-between z-10">
+                                        <div className="flex justify-between items-start mt-4 md:mt-0">
+                                            <span className="text-[8px] md:text-[10px] font-mono text-white/50 tracking-wide md:tracking-widest uppercase">
+                                                {event.category}
+                                            </span>
+                                            <div className="w-1 h-1 rounded-full bg-white/30" />
                                         </div>
-                                        {activeEvent.time && activeEvent.time !== '-' && (
-                                            <div className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3">
-                                                <div className="text-[8px] font-mono text-white/40 uppercase tracking-widest mb-1">Time</div>
-                                                <div className="text-[11px] font-mono text-cyan-300">{activeEvent.time}</div>
-                                            </div>
-                                        )}
-                                    </div>
 
-                                    <div className="flex gap-2">
-                                        <a
-                                            href={activeEvent.registerUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex-1 py-2.5 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest uppercase rounded-lg hover:bg-white/90 transition-all"
-                                        >
-                                            Register →
-                                        </a>
-                                        <button
-                                            onClick={() => setModalOpen(true)}
-                                            className="px-4 py-2.5 bg-white/5 border border-white/20 text-white/60 text-[10px] font-mono tracking-widest uppercase rounded-lg hover:bg-white/10 hover:text-white transition-all"
-                                        >
-                                            Info
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* RIGHT: Event List */}
-                        <div className="w-[80%] md:w-auto mx-auto flex-1 flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] h-[80vh] max-h-[800px] md:h-[560px] mb-2 md:mb-0">
-                            {/* Day filter tabs */}
-                            <div className="flex border-b border-white/5 flex-shrink-0">
-                                {days.map(d => (
-                                    <button
-                                        key={d}
-                                        onClick={() => setFilterDay(d)}
-                                        className={`flex-1 py-3 text-[9px] font-mono tracking-widest uppercase transition-all duration-200 ${filterDay === d
-                                            ? 'text-cyan-300 border-b-2 border-cyan-500 bg-cyan-500/5'
-                                            : 'text-white/30 hover:text-white/60 border-b-2 border-transparent'
-                                            }`}
-                                    >
-                                        {d === 'ALL' ? 'All Events' : d === 'D1' ? 'Day 1 · Feb 15' : 'Day 2 · Feb 16'}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Scrollable event list */}
-                            <div data-lenis-prevent="true" className="flex-1 overflow-y-auto overscroll-contain [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
-                                {filteredEvents.map((event) => {
-                                    const isActive = activeEvent.id === event.id;
-                                    return (
-                                        <button
-                                            key={event.id}
-                                            onClick={() => {
-                                                setActiveEvent(event);
-                                                // Scroll to top of the events section so the info card is visible
-                                                if (window.innerWidth < 768 && containerRef.current) {
-                                                    const headerOffset = 100; // Adjust for sticky header
-                                                    const elementPosition = containerRef.current.getBoundingClientRect().top;
-                                                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
-                                                    window.scrollTo({
-                                                        top: offsetPosition,
-                                                        behavior: "smooth"
-                                                    });
-                                                }
-                                            }}
-                                            className={`w-full flex items-center gap-4 px-4 py-3 text-left border-b border-white/5 transition-all duration-200 group ${isActive
-                                                ? 'bg-white/[0.06] border-l-2 border-l-cyan-500'
-                                                : 'hover:bg-white/[0.03] border-l-2 border-l-transparent'
-                                                }`}
-                                        >
-                                            {/* Planet thumbnail */}
-                                            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 relative">
+                                        {/* Large Centered Watermark Logo */}
+                                        {event.logo && (
+                                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[1] overflow-hidden">
                                                 <img
-                                                    src={event.planetImage}
+                                                    src={event.logo}
                                                     alt=""
-                                                    className={`w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`}
+                                                    className="w-32 h-32 md:w-64 md:h-64 object-contain scale-125"
                                                 />
                                             </div>
+                                        )}
 
-                                            {/* Event info */}
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 mb-0.5">
-                                                    <span className={`text-[8px] font-mono tracking-widest uppercase transition-colors ${isActive ? 'text-cyan-400' : 'text-white/30 group-hover:text-white/50'}`}>
-                                                        {event.category}
+                                        <div className="mt-auto">
+
+
+
+                                            <div className="flex items-center justify-between gap-3 mb-3 md:mb-4">
+                                                <div className="flex-1 py-1.5 md:py-2 text-center bg-white/5 border border-white/10 rounded-md flex items-center justify-center overflow-hidden">
+                                                    <span className="text-[8px] md:text-[10px] font-mono text-amber-200 uppercase tracking-widest truncate">
+                                                        PRIZE: {event.prize}
                                                     </span>
-                                                    {event.day && event.day !== '-' && (
-                                                        <span className="text-[7px] font-mono text-white/20 tracking-widest">{event.day}</span>
-                                                    )}
                                                 </div>
-                                                <div className={`text-sm font-bold tracking-tight uppercase transition-colors truncate ${isActive ? 'text-white' : 'text-white/60 group-hover:text-white/80'}`}>
-                                                    {event.title}
-                                                </div>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (!isDragging) setSelectedEvent(event);
+                                                    }}
+                                                    className="flex-1 py-1.5 md:py-2 text-center bg-white/10 hover:bg-white/20 border border-white/20 rounded-md transition-colors text-[8px] md:text-[10px] font-mono text-white uppercase tracking-widest backdrop-blur-sm flex items-center justify-center truncate"
+                                                >
+                                                    Learn More
+                                                </button>
                                             </div>
 
-                                            {/* Prize */}
-                                            <div className="flex-shrink-0 text-right">
-                                                <div className={`text-[9px] font-mono transition-colors ${isActive ? 'text-amber-300' : 'text-white/20 group-hover:text-amber-300/60'}`}>
-                                                    {event.prize}
-                                                </div>
-                                            </div>
-
-                                            {/* Active indicator */}
-                                            {isActive && (
-                                                <div className="flex-shrink-0 w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
-                                            )}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Footer count */}
-                            <div className="flex-shrink-0 border-t border-white/5 px-4 py-2 flex items-center justify-between">
-                                <span className="text-[8px] font-mono text-white/20 tracking-widest uppercase">
-                                    {filteredEvents.length} events
-                                </span>
-                                <span className="text-[8px] font-mono text-cyan-500/40 tracking-widest uppercase">VERGE 2026</span>
-                            </div>
-                        </div>
-                    </div>
-                </AnimatedSection>
-            </div>
-
-            {/* ─── MOBILE VIEW: Vertical Cards (Disabled, using PC view universally) ─── */}
-            <div className="hidden w-full max-w-lg mx-auto px-4">
-                {/* Day filter tabs for mobile */}
-                <div className="flex border-b border-white/5 mb-6 sticky top-24 z-20 bg-black/80 backdrop-blur-md pb-2 pt-2 -mx-4 px-4 overflow-x-auto no-scrollbar">
-                    {days.map(d => (
-                        <button
-                            key={'mobile-' + d}
-                            onClick={() => setFilterDay(d)}
-                            className={`flex-1 min-w-[80px] py-2.5 text-[10px] font-mono tracking-widest uppercase transition-all duration-200 border border-white/5 rounded-lg mx-1 ${filterDay === d
-                                ? 'text-cyan-400 border-cyan-500/50 bg-cyan-500/10'
-                                : 'text-white/40 hover:text-white/70 hover:bg-white/5'
-                                }`}
-                        >
-                            {d === 'ALL' ? 'All' : d === 'D1' ? 'Day 1' : 'Day 2'}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Mobile Cards List */}
-                <div className="flex flex-col gap-4 mb-16 px-1">
-                    {filteredEvents.map(event => (
-                        <div key={'mobile-card-' + event.id} className="relative flex bg-[#0f0f13] border border-white/[0.08] rounded-2xl overflow-hidden shadow-lg min-h-[160px]">
-                            {/* Background Logo Watermark */}
-                            <div className="absolute top-0 right-0 pointer-events-none opacity-100 translate-x-4 -translate-y-4">
-                                {event.logo ? (
-                                    <img src={event.logo} alt="" className="w-[115px] h-[115px] object-contain" />
-                                ) : (
-                                    <img src={event.planetImage} alt="" className="w-[115px] h-[115px] object-contain animate-[spin_30s_linear_infinite]" />
-                                )}
-                            </div>
-
-                            {/* Left Date Column */}
-                            <div className="flex flex-col items-center justify-center p-3 border-r border-white/5 bg-white/[0.02] w-[64px] shrink-0 relative z-10">
-                                <span className="text-xl font-black text-cyan-400 leading-none">
-                                    {event.day === 'D1' ? '15' : event.day === 'D2' ? '16' : '15'}
-                                </span>
-                                <span className="text-[10px] font-mono font-bold tracking-widest text-white/80 uppercase mt-1">Feb</span>
-                                <div className="w-4 h-[1px] bg-white/20 my-2" />
-                                <span className="text-[8px] font-mono tracking-widest text-white/40">{event.day || 'D1'}</span>
-                            </div>
-
-                            {/* Right Detail Column */}
-                            <div className="flex flex-col p-5 flex-1 min-w-0 relative z-10">
-                                <div className="mb-1">
-                                    <h3 className="text-0.5xl font-bold text-white tracking-tight leading-tight pr-8 uppercase">
-                                        {event.title}
-                                    </h3>
-                                </div>
-                                <div className="text-[10px] font-mono text-white/40 mb-4 lowercase italic truncate">
-                                    {event.subtitle}
-                                </div>
-
-                                <div className="flex items-center gap-1.5 mb-2 opacity-100">
-                                    <svg className="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span className="text-[11px] text-white/70 truncate">
-                                        {event.venue !== '-' ? event.venue : 'TBA'}
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-2 mb-4">
-                                    <span className="text-[10px] font-mono text-cyan-400/80 uppercase tracking-wider">{event.category}</span>
-                                    <span className="w-1 h-1 rounded-full bg-white/20"></span>
-                                    <span className="text-[10px] font-mono text-white/40 uppercase">{event.isTeam ? 'Team' : 'Solo'}</span>
-                                </div>
-
-                                <div className="mt-auto flex justify-between items-center pt-2">
-                                    <div className="px-2 py-0.5 bg-green-500/10 border border-green-500/30 rounded">
-                                        <span className="text-[9px] font-bold text-green-400">FREE</span>
+                                            <a
+                                                id={`register-${event.id}`}
+                                                href={event.registerUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block w-full py-2 md:py-3 bg-white text-black text-center text-[8px] md:text-[10px] font-bold font-mono tracking-widest hover:bg-white/80 transition-all uppercase rounded-md shadow-[0_4px_0_rgb(200,200,200)] active:translate-y-[2px] active:shadow-none"
+                                            >
+                                                Secure Access →
+                                            </a>
+                                        </div>
                                     </div>
-                                    <button
-                                        onClick={() => { setActiveEvent(event); setModalOpen(true); }}
-                                        className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black text-[12px] font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
-                                    >
-                                        Details <span>→</span>
-                                    </button>
+
+                                    {/* Background decorative elements */}
+                                    <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
                                 </div>
                             </div>
-                        </div>
-                    ))}
-
-                    <div className="text-center py-8 opacity-20">
-                        <span className="text-[10px] font-mono uppercase tracking-[0.3em]">{filteredEvents.length} Events Total</span>
+                        ))}
                     </div>
                 </div>
             </div>
 
-            {/* ─── SHARED: Detail Modal ─── */}
-            {modalOpen && (
+            {/* Event Details Modal */}
+            {selectedEvent && (
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
-                    onClick={() => setModalOpen(false)}
+                    id="event-modal-overlay"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4 bg-black/60 backdrop-blur-md"
+                    onClick={() => setSelectedEvent(null)}
                 >
                     <div
-                        className="relative w-full max-w-2xl bg-black border border-white/20 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.8)]"
+                        id="event-modal"
+                        className="relative w-full max-w-2xl bg-black border border-white/20 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] animate-in fade-in zoom-in duration-300"
                         onClick={e => e.stopPropagation()}
-                        style={{ background: `linear-gradient(135deg, ${activeEvent.bgColor}40, #000000)` }}
+                        style={{
+                            background: `linear-gradient(135deg, ${selectedEvent.bgColor}40, #000000)`
+                        }}
                     >
+                        {/* Close Button */}
                         <button
-                            onClick={() => setModalOpen(false)}
-                            className="absolute top-4 right-4 z-50 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all font-mono"
+                            id="close-modal"
+                            onClick={() => setSelectedEvent(null)}
+                            className="absolute top-2 right-2 md:top-4 md:right-4 z-50 p-1.5 md:p-2 text-white/60 hover:text-white transition-colors"
                         >
-                            ✕
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
 
-                        {/* Mobile Modal Content */}
-                        <div className="md:hidden p-5 flex flex-col gap-4">
-                            <div className="flex items-start gap-4">
-                                {activeEvent.logo ? (
-                                    <div className="w-16 h-16 flex-shrink-0 bg-white/5 border border-white/10 rounded-xl p-1 flex items-center justify-center">
-                                        <img src={activeEvent.logo} alt="" className="w-full h-full object-contain" />
-                                    </div>
-                                ) : (
-                                    <div className="w-16 h-16 flex-shrink-0 bg-white/5 border border-white/10 rounded-xl p-1 flex items-center justify-center">
-                                        <img src={activeEvent.planetImage} alt="" className="w-full h-full object-contain" />
+                        {/* MOBILE LAYOUT: single column, ultra-compact */}
+                        <div className="md:hidden p-3 flex flex-col gap-2">
+                            {/* Top row: logo + title info */}
+                            <div className="flex items-start gap-3">
+                                {selectedEvent.logo && (
+                                    <div className="w-16 h-16 flex-shrink-0 bg-white/5 border border-white/10 rounded-lg p-1 flex items-center justify-center">
+                                        <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain" />
                                     </div>
                                 )}
-                                <div>
-                                    <span className="text-[8px] font-mono text-cyan-400 tracking-widest uppercase">{activeEvent.category}</span>
-                                    <h3 className="text-xl font-black text-white uppercase">{activeEvent.title}</h3>
-                                    <p className="text-[10px] font-mono text-white/50">{activeEvent.subtitle}</p>
+                                <div className="flex-1 min-w-0">
+                                    <span className="inline-block text-[8px] font-mono text-white/50 tracking-widest uppercase mb-0.5 border border-white/20 px-1.5 py-0.5 rounded">
+                                        {selectedEvent.category}
+                                    </span>
+                                    <h3 className="text-base font-bold text-white uppercase tracking-tight leading-tight">
+                                        {selectedEvent.title}
+                                    </h3>
+                                    <p className="text-[10px] font-mono text-white/50">
+                                        {selectedEvent.subtitle}
+                                    </p>
                                 </div>
                             </div>
-                            <p className="text-[10px] text-white/70 font-mono leading-relaxed max-h-32 overflow-y-auto">
-                                {activeEvent.description}
+
+                            {/* Description - truncated */}
+                            <p className="text-[10px] text-white/70 leading-relaxed font-light line-clamp-4">
+                                {selectedEvent.description}
                             </p>
-                            <div className="grid grid-cols-2 gap-2 bg-white/5 border border-white/10 rounded-lg p-3">
-                                <div><div className="text-[7px] font-mono text-white/30 uppercase tracking-widest mb-0.5">Prize</div><div className="text-sm font-mono text-amber-300">{activeEvent.prize}</div></div>
-                                <div><div className="text-[7px] font-mono text-white/30 uppercase tracking-widest mb-0.5">Venue</div><div className="text-[10px] font-mono text-cyan-300">{activeEvent.venue !== '-' ? activeEvent.venue : 'TBA'}</div></div>
-                                <div className="col-span-2 pt-2 border-t border-white/10">
-                                    <div className="text-[7px] font-mono text-white/30 uppercase tracking-widest mb-0.5">Contact</div>
-                                    <div className="text-[10px] font-mono text-white/80">
-                                        {activeEvent.poc !== '-' ? `${activeEvent.poc} ${activeEvent.contact !== '-' ? `(${activeEvent.contact})` : ''}` : 'TBA'}
+
+                            {/* Info grid - compact */}
+                            <div className="grid grid-cols-2 gap-2 border border-white/10 bg-white/5 p-2 rounded-lg">
+                                <div>
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Prize</h4>
+                                    <div className="text-sm font-mono text-amber-300">{selectedEvent.prize}</div>
+                                </div>
+                                <div>
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">When & Where</h4>
+                                    <div className="text-[10px] font-mono text-cyan-300">
+                                        {selectedEvent.day && selectedEvent.day !== '-' && `D${selectedEvent.day} • `}
+                                        {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
+                                        <br />
+                                        <span className="text-white/60">{selectedEvent.venue !== '-' ? selectedEvent.venue : 'TBA'}</span>
+                                    </div>
+                                </div>
+                                <div className="col-span-2 pt-1.5 border-t border-white/10">
+                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Contact</h4>
+                                    <div className="text-[10px] font-mono text-white/90">
+                                        {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
+                                        {selectedEvent.contact && selectedEvent.contact !== '-' && (
+                                            <span className="text-white/50 ml-1">({selectedEvent.contact})</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                            <a href={activeEvent.registerUrl} target="_blank" rel="noopener noreferrer" className="block w-full py-3 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest uppercase rounded-lg">
+
+                            {/* Register button */}
+                            <a
+                                id="modal-register-btn"
+                                href={selectedEvent.registerUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block w-full py-2.5 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest uppercase rounded-md"
+                            >
                                 Register Now
                             </a>
                         </div>
 
-                        {/* Desktop Modal Content */}
-                        <div className="hidden md:flex p-8 gap-8">
-                            <div className="flex-shrink-0 flex flex-col items-center gap-6 w-44">
-                                <img src={activeEvent.planetImage} alt="" className="w-40 h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]" />
-                                {activeEvent.logo && (
-                                    <div className="w-32 h-32 bg-white/5 border border-white/10 rounded-xl p-2 flex items-center justify-center">
-                                        <img src={activeEvent.logo} alt="" className="w-full h-full object-contain" />
+                        {/* DESKTOP LAYOUT: unchanged side-by-side */}
+                        <div className="hidden md:flex p-8 flex-row gap-8 max-h-[85vh] overflow-y-auto">
+                            {/* Left Side: Image & Logo */}
+                            <div className="flex-shrink-0 flex flex-col items-center justify-center gap-8 w-48">
+                                <div className="relative">
+                                    <img
+                                        src={selectedEvent.planetImage}
+                                        alt={selectedEvent.title}
+                                        className="w-44 h-44 object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] animate-pulse-slow relative z-10"
+                                    />
+                                    {selectedEvent.logo && (
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-20 blur-sm scale-150">
+                                            <img src={selectedEvent.logo} alt="" className="w-full h-full object-contain grayscale" />
+                                        </div>
+                                    )}
+                                </div>
+                                {selectedEvent.logo && (
+                                    <div className="w-44 h-44 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-2 flex items-center justify-center hover:border-white/30 transition-all">
+                                        <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
                                     </div>
                                 )}
                             </div>
-                            <div className="flex-1">
-                                <span className="inline-block text-[9px] font-mono text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded tracking-widest uppercase mb-3">{activeEvent.category}</span>
-                                <h3 className="text-4xl font-black text-white uppercase tracking-tight mb-1" style={{ fontFamily: "'Orbitron', sans-serif" }}>{activeEvent.title}</h3>
-                                <p className="text-sm font-mono text-white/50 mb-5">{activeEvent.subtitle}</p>
-                                <p className="text-sm text-white/70 leading-relaxed mb-6">{activeEvent.description}</p>
-                                <div className="grid grid-cols-2 gap-3 bg-white/5 border border-white/10 rounded-xl p-4 mb-6">
-                                    <div><div className="text-[8px] font-mono text-white/30 uppercase tracking-widest mb-1">Prize Pool</div><div className="text-xl font-mono text-amber-300">{activeEvent.prize}</div></div>
-                                    <div><div className="text-[8px] font-mono text-white/30 uppercase tracking-widest mb-1">Timing & Venue</div><div className="text-xs font-mono text-cyan-300">{activeEvent.time !== '-' ? activeEvent.time : 'TBA'}<br /><span className="text-white/50">{activeEvent.venue !== '-' ? activeEvent.venue : 'TBA'}</span></div></div>
-                                    <div className="col-span-2 pt-3 border-t border-white/10"><div className="text-[8px] font-mono text-white/30 uppercase tracking-widest mb-1">Point of Contact</div><div className="text-sm font-mono text-white/80">{activeEvent.poc !== '-' ? activeEvent.poc : 'TBA'}{activeEvent.contact && activeEvent.contact !== '-' && <span className="text-white/40 ml-2">({activeEvent.contact})</span>}</div></div>
+
+                            {/* Right Side: Content */}
+                            <div className="flex-grow">
+                                <span className="inline-block text-xs font-mono text-white/50 tracking-widest uppercase mb-2 border border-white/20 px-2 py-1 rounded">
+                                    {selectedEvent.category}
+                                </span>
+
+                                <h3 className="text-4xl font-bold text-white mb-2 uppercase tracking-tight leading-tight">
+                                    {selectedEvent.title}
+                                </h3>
+
+                                <p className="text-base font-mono text-white/60 mb-6">
+                                    {selectedEvent.subtitle}
+                                </p>
+
+                                <div className="space-y-6 mb-8">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Description</h4>
+                                        <p className="text-base text-white/80 leading-relaxed font-light">
+                                            {selectedEvent.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4 border border-white/10 bg-white/5 p-4 rounded-xl backdrop-blur-sm">
+                                        <div>
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Prize Pool</h4>
+                                            <div className="text-xl font-mono text-amber-300">
+                                                {selectedEvent.prize}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Timing & Venue</h4>
+                                            <div className="text-sm font-mono text-cyan-300">
+                                                {selectedEvent.day && selectedEvent.day !== '-' && `Day ${selectedEvent.day} • `}
+                                                {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
+                                                <br />
+                                                <span className="text-white/60">{selectedEvent.venue !== '-' ? selectedEvent.venue : 'TBA'}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-2 mt-2 pt-2 border-t border-white/10">
+                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Point of Contact</h4>
+                                            <div className="text-sm font-mono text-white/90">
+                                                {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
+                                                {selectedEvent.contact && selectedEvent.contact !== '-' && (
+                                                    <span className="text-white/50 ml-2">({selectedEvent.contact})</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href={activeEvent.registerUrl} target="_blank" rel="noopener noreferrer" className="block w-full py-4 bg-white text-black text-center font-bold font-mono tracking-widest uppercase rounded-xl hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                                    Register Now →
+
+                                <a
+                                    id="modal-register-btn"
+                                    href={selectedEvent.registerUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full py-4 bg-white text-black text-center text-base font-bold font-mono tracking-widest hover:bg-white/90 hover:scale-[1.02] transition-all uppercase rounded-md shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                >
+                                    Register Now
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
+
+
         </section>
     );
 }

@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import AnimatedSection from '../components/AnimatedSection';
-
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -163,7 +161,7 @@ export default function AccommodationSection() {
 
             <div className="max-w-7xl mx-auto relative z-10 w-full">
                 {/* Header */}
-                <AnimatedSection direction="up" delay={0} duration={0.8} className="accom-header text-center mb-10 md:mb-16 relative select-none px-4 lg:px-0">
+                <div className="accom-header text-center mb-10 md:mb-16 relative select-none px-4 lg:px-0">
                     <div className="flex items-center justify-center gap-3 mb-3">
                         <div className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/20" />
                         <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
@@ -182,21 +180,31 @@ export default function AccommodationSection() {
                     <p className="mt-3 md:mt-6 text-xs md:text-base font-mono text-white/40 max-w-2xl mx-auto leading-relaxed">
                         Secure your access to Verge Techfest. We offer dedicated accommodation packages, exclusive concert passes, and ultimate combos.
                     </p>
-                </AnimatedSection>
+                </div>
 
                 {/* Pricing Cards */}
-                <AnimatedSection direction="up" delay={0.2} duration={0.8}
-                    className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4">
-                    {packages.map((tier, index) => (
-                        <div
-                            key={index}
-                            className={`accom-card relative w-full max-w-none h-full group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-3 md:p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col ${tier.title === 'ULTIMATE COMBO' ? 'ultimate-pulse' : ''}`}
-                            style={{
-                                boxShadow: `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
-                            }}
-                        >
-                            {/* Card Hover Glow */}
-                            <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div
+                    ref={cardsRef}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4"
+                >
+                    {packages.map((tier, index) => {
+                        const isUltimate = index === 3;
+                        return (
+                            <div
+                                key={index}
+                                className={`accom-card relative w-full max-w-[350px] lg:max-w-none h-full group rounded-xl md:rounded-2xl border ${isUltimate ? 'border-amber-500/50' : tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:scale-[1.03] flex flex-col ${isUltimate ? 'ultimate-pulse z-20' : 'z-10 hover:z-20'}`}
+                                style={{
+                                    boxShadow: isUltimate ? 'none' : `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
+                                }}
+                            >
+                                {/* Neon Scanline Overlay */}
+                                <div
+                                    className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+                                    style={{ backgroundImage: 'linear-gradient(transparent 50%, rgba(0,0,0,0.8) 50%)', backgroundSize: '100% 4px' }}
+                                />
+
+                                {/* Card Hover Intense Glow */}
+                                <div className={`absolute -inset-px rounded-2xl bg-gradient-to-b ${isUltimate ? 'from-amber-400/20' : 'from-white/10'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
 
                                 {/* Card Content */}
                                 <div className="relative z-10 flex flex-col h-full">
@@ -217,7 +225,7 @@ export default function AccommodationSection() {
                                     </div>
 
                                     {/* Glowing Separator */}
-                                    <div className={`h-px w-full bg-gradient-to-r from-transparent ${tier.title === 'ULTIMATE COMBO' ? 'via-amber-500/50' : 'via-white/20'} to-transparent mb-4 md:mb-8 group-hover:${tier.title === 'ULTIMATE COMBO' ? 'via-amber-400' : 'via-white/60'} transition-all duration-500`} />
+                                    <div className={`h-px w-full bg-gradient-to-r from-transparent via-${isUltimate ? 'amber-500/50' : 'white/20'} to-transparent mb-4 md:mb-8 group-hover:via-${isUltimate ? 'amber-400' : 'white/60'} transition-all duration-500`} />
 
                                     <ul className="space-y-3 md:space-y-5 mb-6 md:mb-10">
                                         {tier.features.map((feature, fIndex) => (
@@ -241,14 +249,24 @@ export default function AccommodationSection() {
                                         rel="noopener noreferrer"
                                         className="block mt-auto relative"
                                     >
-                                        <button type="button" className="w-full px-4 py-2 rounded-lg bg-emerald-500 text-white font-bold shadow-lg hover:bg-emerald-600 transition-colors duration-300">
-                                            {tier.buttonText}
+                                        <button
+                                            className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-${isUltimate ? 'amber-500/20' : 'white/10'} hover:border-${isUltimate ? 'amber-400/80' : 'white/50'} hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden`}
+                                        >
+                                            <span className="relative z-10 flex flex-col items-center justify-center">
+                                                <span className="group-hover:-translate-y-4 group-hover:opacity-0 transition-all duration-300">
+                                                    {tier.buttonText}
+                                                </span>
+                                                <span className="absolute translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 text-cyan-300">
+                                                    &gt; INITIATE_TRANSFER
+                                                </span>
+                                            </span>
                                         </button>
                                     </a>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </AnimatedSection>
+                        )
+                    })}
+                </div>
 
                 {/* Bottom footnote */}
                 <div className="mt-8 md:mt-16 text-center px-4 md:px-0">
