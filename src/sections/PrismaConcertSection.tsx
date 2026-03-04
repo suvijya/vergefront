@@ -9,23 +9,23 @@ gsap.registerPlugin(ScrollTrigger);
 
 const artists = [
     {
-        name: 'Sunanda\u00a0Sharma',
-        subtitle: 'Love Night',
-        day: 'Day 1',
-        hoverClass: 'group-hover:from-cyan-950/90',
-        borderHover: 'hover:border-cyan-400/60 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)]',
-        dotColor: 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]',
-        textColor: 'text-cyan-400',
-        img: ankitImg,
-    },
-    {
         name: 'Danny',
         subtitle: 'Bollywood Night',
-        day: 'Day 2',
+        day: 'Day 1',
         hoverClass: 'group-hover:from-purple-950/90',
         borderHover: 'hover:border-purple-400/60 hover:text-purple-300 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]',
         dotColor: 'bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.8)]',
         textColor: 'text-purple-400',
+        img: ankitImg,
+    },
+    {
+        name: 'Sunanda\u00a0Sharma',
+        subtitle: 'Love Night',
+        day: 'Day 2',
+        hoverClass: 'group-hover:from-cyan-950/90',
+        borderHover: 'hover:border-cyan-400/60 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)]',
+        dotColor: 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]',
+        textColor: 'text-cyan-400',
         img: ankitImg,
     },
 ];
@@ -165,20 +165,6 @@ export default function PrismaConcertSection() {
                                 <div className="flex-1 relative group cursor-pointer overflow-hidden border-r border-white/10 flex items-end p-10 min-h-[500px]">
                                     <div className="absolute inset-0 bg-cover bg-center grayscale opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
                                         style={{ backgroundImage: `url(${ankitImg})` }} />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-black/40 to-transparent transition-opacity duration-500 group-hover:from-cyan-950/90" />
-                                    <div className="relative z-10 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse" />
-                                            <span className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">Day 1</span>
-                                        </div>
-                                        <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-1" style={{ fontFamily: "'Orbitron', sans-serif" }}>Sunanda<br />Sharma</h3>
-                                        <p className="text-white/60 font-mono text-xs tracking-[0.2em] uppercase mb-6">Love Night</p>
-                                        <button className="w-[160px] py-2.5 bg-white/10 text-white backdrop-blur-md border border-white/20 text-xs font-bold font-mono tracking-widest hover:bg-white/20 hover:border-cyan-400/60 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all uppercase rounded-md">Get Tickets →</button>
-                                    </div>
-                                </div>
-                                <div className="flex-1 relative group cursor-pointer overflow-hidden flex items-end p-10 min-h-[500px]">
-                                    <div className="absolute inset-0 bg-cover bg-center grayscale opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
-                                        style={{ backgroundImage: `url(${ankitImg})` }} />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-black/40 to-transparent transition-opacity duration-500 group-hover:from-purple-950/90" />
                                     <div className="relative z-10 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
                                         <div className="flex items-center gap-3 mb-2">
@@ -188,6 +174,20 @@ export default function PrismaConcertSection() {
                                         <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-1" style={{ fontFamily: "'Orbitron', sans-serif" }}>Danny</h3>
                                         <p className="text-white/60 font-mono text-xs tracking-[0.2em] uppercase mb-6">Bollywood Night</p>
                                         <button className="w-[160px] py-2.5 bg-white/10 text-white backdrop-blur-md border border-white/20 text-xs font-bold font-mono tracking-widest hover:bg-white/20 hover:border-purple-400/60 hover:text-purple-300 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all uppercase rounded-md">Get Tickets →</button>
+                                    </div>
+                                </div>
+                                <div className="flex-1 relative group cursor-pointer overflow-hidden flex items-end p-10 min-h-[500px]">
+                                    <div className="absolute inset-0 bg-cover bg-center grayscale opacity-70 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
+                                        style={{ backgroundImage: `url(${ankitImg})` }} />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-black/40 to-transparent transition-opacity duration-500 group-hover:from-cyan-950/90" />
+                                    <div className="relative z-10 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse" />
+                                            <span className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">Day 1</span>
+                                        </div>
+                                        <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-1" style={{ fontFamily: "'Orbitron', sans-serif" }}>Sunanda<br />Sharma</h3>
+                                        <p className="text-white/60 font-mono text-xs tracking-[0.2em] uppercase mb-6">Love Night</p>
+                                        <button className="w-[160px] py-2.5 bg-white/10 text-white backdrop-blur-md border border-white/20 text-xs font-bold font-mono tracking-widest hover:bg-white/20 hover:border-cyan-400/60 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all uppercase rounded-md">Get Tickets →</button>
                                     </div>
                                 </div>
                             </div>

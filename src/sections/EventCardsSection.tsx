@@ -406,20 +406,20 @@ export default function EventCardsSection() {
                                     </h3>
 
                                     {/* Mobile Logo Below Title */}
-                                    <div className="md:hidden mt-3 mb-4 flex justify-end">
+                                    <div className="md:hidden mt-3 mb-4 flex justify-center">
                                         {activeEvent.logo ? (
                                             <img
                                                 key={activeEvent.id + '-mobile-logo'}
                                                 src={activeEvent.logo}
                                                 alt=""
-                                                className="w-28 h-28 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                                                className="w-40 h-40 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                                             />
                                         ) : (
                                             <img
                                                 key={activeEvent.id + '-mobile-logo'}
                                                 src={activeEvent.planetImage}
                                                 alt=""
-                                                className="w-28 h-28 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-[spin_60s_linear_infinite]"
+                                                className="w-40 h-40 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-[spin_60s_linear_infinite]"
                                             />
                                         )}
                                     </div>
