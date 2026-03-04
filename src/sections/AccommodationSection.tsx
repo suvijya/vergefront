@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import AnimatedSection from '../components/AnimatedSection';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -147,7 +149,7 @@ export default function AccommodationSection() {
 
             <div className="max-w-7xl mx-auto relative z-10 w-full">
                 {/* Header */}
-                <div className="accom-header text-center mb-10 md:mb-16 relative select-none px-4 lg:px-0">
+                <AnimatedSection direction="up" delay={0} duration={0.8} className="accom-header text-center mb-10 md:mb-16 relative select-none px-4 lg:px-0">
                     <div className="flex items-center justify-center gap-3 mb-3">
                         <div className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-500/20" />
                         <span className="text-[9px] font-mono text-white/30 tracking-[0.4em]">
@@ -166,17 +168,15 @@ export default function AccommodationSection() {
                     <p className="mt-3 md:mt-6 text-xs md:text-base font-mono text-white/40 max-w-2xl mx-auto leading-relaxed">
                         Secure your access to Verge Techfest. We offer dedicated accommodation packages, exclusive concert passes, and ultimate combos.
                     </p>
-                </div>
+                </AnimatedSection>
 
                 {/* Pricing Cards */}
-                <div
-                    ref={cardsRef}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4"
-                >
+                <AnimatedSection direction="up" delay={0.2} duration={0.8}
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4">
                     {packages.map((tier, index) => (
                         <div
                             key={index}
-                            className={`accom-card relative w-full max-w-[350px] lg:max-w-none h-full group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col`}
+                            className={`accom-card relative w-full max-w-none h-full group rounded-xl md:rounded-2xl border ${tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-3 md:p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col`}
                             style={{
                                 boxShadow: `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
                             }}
@@ -232,7 +232,7 @@ export default function AccommodationSection() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </AnimatedSection>
 
                 {/* Bottom footnote */}
                 <div className="mt-8 md:mt-16 text-center px-4 md:px-0">
