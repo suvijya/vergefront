@@ -156,7 +156,7 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative h-screen w-full bg-black cursor-default"
+      className="relative h-[105vh] w-full bg-black cursor-default" // Reduced height to fix "empty space" gap
       onMouseMove={handleMouseMove}
       style={{
         overflow: 'clip', // Prevent overflow during zoom
@@ -192,7 +192,7 @@ export default function HeroSection() {
           href="https://srmuniversity.ac.in/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-24 left-0 md:top-8 md:left-2 w-20 md:w-48 z-40 transition-transform hover:scale-105"
+          className="absolute top-14 left-0 md:top-8 md:left-2 w-20 md:w-48 z-40 transition-transform hover:scale-105"
         >
           <img
             src={naacLogo}
@@ -206,7 +206,7 @@ export default function HeroSection() {
           href="https://srmuniversity.ac.in/"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-24 right-4 w-20 md:top-8 md:right-8 md:w-48 z-40 transition-transform hover:scale-105"
+          className="absolute top-14 right-4 w-20 md:top-8 md:right-8 md:w-48 z-40 transition-transform hover:scale-105"
         >
           <img
             src={srmLogo}

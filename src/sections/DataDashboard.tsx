@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react';
 import earthImg from '../assets/earth.png';
-import AnimatedSection from '../components/AnimatedSection';
 
 export default function DataDashboard() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -18,24 +17,22 @@ export default function DataDashboard() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[80vh] md:min-h-screen w-full bg-black overflow-hidden flex flex-col justify-end pt-8 md:pt-32 pb-8 md:pb-12"
+      className="relative min-h-screen w-full bg-black overflow-hidden flex flex-col justify-end py-24 md:py-32 pb-8 md:pb-12"
     >
       {/* Earth with debris - Background */}
-      <AnimatedSection direction="fade" delay={0.2} duration={1.2}>
-        <div
-          ref={earthRef}
-          className="absolute inset-0 flex items-start md:items-center justify-center pointer-events-none pt-32 md:pt-0"
-        >
-          <DebrisEarth debrisCount={123000000} />
+      <div
+        ref={earthRef}
+        className="absolute inset-0 flex items-start md:items-center justify-center pointer-events-none pt-32 md:pt-0"
+      >
+        <DebrisEarth debrisCount={123000000} />
 
-          {/* HUD Labels are now rendered inside DebrisEarth */}
-        </div>
-      </AnimatedSection>
+        {/* HUD Labels are now rendered inside DebrisEarth */}
+      </div>
 
 
 
       {/* Bottom counter and timeline */}
-      <AnimatedSection direction="up" delay={0.1} duration={0.8} className="relative z-10 px-6 max-w-7xl mx-auto w-full mt-0 md:mt-0 pointer-events-none">
+      <div className="relative z-10 px-6 max-w-7xl mx-auto w-full mt-0 md:mt-0 pointer-events-none">
         <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-4 text-center md:text-left w-full">
 
           {/* Left: Participants */}
@@ -68,7 +65,7 @@ export default function DataDashboard() {
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </div>
     </section>
   );
 }

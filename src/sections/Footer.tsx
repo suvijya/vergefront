@@ -1,5 +1,4 @@
 import logo from '../assets/logo.png';
-import AnimatedSection from '../components/AnimatedSection';
 
 export default function Footer({
     onSponsorsClick,
@@ -12,9 +11,9 @@ export default function Footer({
 }) {
     return (
         <footer id="contact" className="relative bg-[#020202] text-white pt-10 pb-20 md:pb-24 overflow-hidden flex flex-col justify-between font-mono">
-            <AnimatedSection direction="up" duration={0.8} delay={0} className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 flex flex-col md:flex-row justify-between mb-8 gap-8 md:gap-16">
-                {/* Left Side: Logo & Info */}
-                <div className="flex flex-col gap-14 w-full md:w-1/3 items-start justify-start">
+            <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 flex flex-col md:flex-row justify-between mb-8 gap-8 md:gap-16">
+                {/* Left Side */}
+                <div className="flex flex-col gap-14 md:w-1/2">
                     {/* Logo & Headline */}
                     <div className="flex flex-col gap-10">
                         <img src={logo} alt="Verge Logo" className="h-10 w-auto object-contain brightness-0 invert opacity-90 max-w-fit" />
@@ -39,17 +38,11 @@ export default function Footer({
                             </svg>
                             <div className="flex flex-col gap-1">
                                 <span>+91 9797240270</span>
-                            </div><br />
-                        </a>
-                        <a href="tel:+919797240270" className="text-[12px] md:text-[13px] tracking-wider text-white/70 hover:text-white transition-colors flex items-start gap-4 font-mono w-fit">
-                            <svg className="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            <div className="flex flex-col gap-1">
                                 <span>+91 7542052390</span>
-                            </div><br />
+                            </div>
                         </a>
                     </div>
+
                     {/* Socials */}
                     <div className="mt-2 md:mt-2 flex gap-5 items-center">
                         <a href="https://www.linkedin.com/company/verge-srmuh/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors inline-block">
@@ -65,100 +58,101 @@ export default function Footer({
                     </div>
                 </div>
 
-                {/* Middle: Links */}
-                <div className="flex flex-row justify-start md:justify-center w-full md:w-1/3">
-                    <div className="flex flex-row gap-16 md:gap-24 w-full justify-start md:justify-center items-start mt-4 md:mt-2">
-                        {/* Column 1 */}
-                        <div className="flex flex-col gap-5">
-                            <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
-                                QUICK LINKS
-                            </span>
-                            {['EVENTS', 'SCHEDULE', 'SPEAKERS'].map((item) => {
-                                const handleClick = (e: React.MouseEvent) => {
-                                    if (item === 'SPEAKERS' && onSpeakersClick) {
-                                        e.preventDefault();
-                                        onSpeakersClick();
-                                    } else if (onNavigate) {
-                                        e.preventDefault();
-                                        onNavigate(`#${item.toLowerCase().replace(' ', '-')}`);
+                {/* Right Side */}
+                <div className="flex flex-col sm:flex-row gap-16 md:gap-24 items-start md:mt-0 justify-start md:justify-end">
+                    {/* Columns Wrapper */}
+                    <div className="flex flex-col gap-8 items-center w-full sm:w-auto mt-4 md:mt-8">
+                        <div className="flex flex-row gap-16 md:gap-28 w-full justify-center">
+                            {/* Column 1 */}
+                            <div className="flex flex-col gap-5">
+                                <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
+                                    QUICK LINKS
+                                </span>
+                                {['EVENTS', 'SCHEDULE', 'SPEAKERS'].map((item) => {
+                                    const handleClick = (e: React.MouseEvent) => {
+                                        if (item === 'SPEAKERS' && onSpeakersClick) {
+                                            e.preventDefault();
+                                            onSpeakersClick();
+                                        } else if (onNavigate) {
+                                            e.preventDefault();
+                                            onNavigate(`#${item.toLowerCase().replace(' ', '-')}`);
+                                        }
+                                    };
+                                    return (
+                                        <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
+                                            {item}
+                                        </a>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Column 2 */}
+                            <div className="flex flex-col gap-5">
+                                <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
+                                    CONTACT
+                                </span>
+                                {['SPONSORS', 'EMAIL US', 'MAPS'].map((item) => {
+                                    const handleClick = (e: React.MouseEvent) => {
+                                        if (item === 'SPONSORS' && onSponsorsClick) {
+                                            e.preventDefault();
+                                            onSponsorsClick();
+                                        } else if (item === 'EMAIL US' || item === 'MAPS') {
+                                            // Handle natively with href
+                                        } else if (onNavigate) {
+                                            e.preventDefault();
+                                            onNavigate(`#${item.toLowerCase().replace(' ', '-')}`);
+                                        }
+                                    };
+
+                                    let href = `#${item.toLowerCase().replace(' ', '-')}`;
+                                    let target: string | undefined = undefined;
+                                    let rel: string | undefined = undefined;
+
+                                    if (item === 'EMAIL US') {
+                                        href = "mailto:verge@srmuniversity.ac.in";
+                                    } else if (item === 'MAPS') {
+                                        href = "https://maps.google.com/maps?q=SRM%20University%20Sonipat%20Haryana";
+                                        target = "_blank";
+                                        rel = "noopener noreferrer";
                                     }
-                                };
-                                return (
-                                    <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
-                                        {item}
-                                    </a>
-                                );
-                            })}
+
+                                    return (
+                                        <a key={item} href={href} target={target} rel={rel} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
+                                            {item}
+                                        </a>
+                                    );
+                                })}
+                            </div>
                         </div>
 
-                        {/* Column 2 */}
-                        <div className="flex flex-col gap-5">
-                            <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
-                                CONTACT
+                        {/* Map */}
+                        <a
+                            href="https://maps.google.com/maps?q=SRM%20University%20Sonipat%20Haryana"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col items-center gap-3 w-full max-w-[280px] mt-2 group cursor-pointer"
+                        >
+                            <span className="text-[10px] text-white/50 tracking-widest uppercase text-center font-semibold text-nowrap group-hover:text-white transition-colors duration-300">
+                                SRM University Delhi NCR, Sonepat
                             </span>
-                            {['SPONSORS', 'EMAIL US', 'MAPS'].map((item) => {
-                                const handleClick = (e: React.MouseEvent) => {
-                                    if (item === 'SPONSORS' && onSponsorsClick) {
-                                        e.preventDefault();
-                                        onSponsorsClick();
-                                    } else if (item === 'EMAIL US' || item === 'MAPS') {
-                                        // Handle natively with href
-                                    } else if (onNavigate) {
-                                        e.preventDefault();
-                                        onNavigate(`#${item.toLowerCase().replace(' ', '-')}`);
-                                    }
-                                };
-
-                                let href = `#${item.toLowerCase().replace(' ', '-')}`;
-                                let target: string | undefined = undefined;
-                                let rel: string | undefined = undefined;
-
-                                if (item === 'EMAIL US') {
-                                    href = "mailto:verge@srmuniversity.ac.in";
-                                } else if (item === 'MAPS') {
-                                    href = "https://maps.google.com/maps?q=SRM%20University%20Sonipat%20Haryana";
-                                    target = "_blank";
-                                    rel = "noopener noreferrer";
-                                }
-
-                                return (
-                                    <a key={item} href={href} target={target} rel={rel} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
-                                        {item}
-                                    </a>
-                                );
-                            })}
-                        </div>
+                            <div className="w-full h-[80px] sm:h-[100px] overflow-hidden rounded opacity-80 group-hover:opacity-100 transition-opacity duration-500 relative">
+                                {/* Invisible overlay to capture clicks instead of the iframe */}
+                                <div className="absolute inset-0 z-10 w-full h-full"></div>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3493.427772675975!2d77.11494857630712!3d28.885614975526834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0b0b8c000001%3A0xc39116c4ea68579d!2sSRM%20University%20Delhi-NCR%2C%20Sonepat%2C%20Haryana!5e0!3m2!1sen!2sin!4v1739180735391!5m2!1sen!2sin"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen={false}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    className="invert grayscale contrast-125 group-hover:invert-0 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 pointer-events-none"
+                                ></iframe>
+                            </div>
+                        </a>
                     </div>
                 </div>
-
-                {/* Right Side: Map */}
-                <div className="flex flex-col items-start md:items-end w-full md:w-1/3 justify-start mt-8 md:mt-2">
-                    <a
-                        href="https://maps.google.com/maps?q=SRM%20University%20Sonipat%20Haryana"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col items-start md:items-end gap-3 w-full max-w-[280px] group cursor-pointer"
-                    >
-                        <span className="text-[10px] text-white/50 tracking-widest uppercase text-left md:text-right font-semibold text-wrap md:text-nowrap group-hover:text-white transition-colors duration-300">
-                            SRM University Delhi NCR, Sonepat
-                        </span>
-                        <div className="w-full h-[80px] sm:h-[100px] overflow-hidden rounded opacity-80 group-hover:opacity-100 transition-opacity duration-500 relative">
-                            {/* Invisible overlay to capture clicks instead of the iframe */}
-                            <div className="absolute inset-0 z-10 w-full h-full"></div>
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3493.427772675975!2d77.11494857630712!3d28.885614975526834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0b0b8c000001%3A0xc39116c4ea68579d!2sSRM%20University%20Delhi-NCR%2C%20Sonepat%2C%20Haryana!5e0!3m2!1sen!2sin!4v1739180735391!5m2!1sen!2sin"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                allowFullScreen={false}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                className="invert grayscale contrast-125 group-hover:invert-0 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 pointer-events-none"
-                            ></iframe>
-                        </div>
-                    </a>
-                </div>
-            </AnimatedSection>
+            </div>
 
             {/* Bottom Bar */}
             <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 mt-auto">

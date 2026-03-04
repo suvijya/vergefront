@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import AnimatedSection from '../components/AnimatedSection';
-
 
 import img1 from '../../asset/verge2025/DSC00476.webp';
 import img2 from '../../asset/verge2025/DSC00491.webp';
@@ -92,7 +90,7 @@ export default function HighlightsSection() {
 
             <div className="w-full relative z-10">
                 {/* Header */}
-                <AnimatedSection direction="up" duration={0.75} delay={0} className="highlights-header text-center mb-16 md:mb-24 px-6 select-none relative z-20">
+                <div className="highlights-header text-center mb-16 md:mb-24 px-6 select-none relative z-20">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyan-500/50" />
                         <span className="text-[10px] md:text-xs font-mono text-cyan-400 tracking-[0.5em] animate-pulse">
@@ -127,7 +125,7 @@ export default function HighlightsSection() {
                     <p className="mt-6 text-[10px] md:text-xs font-mono text-white/50 tracking-[0.3em] max-w-2xl mx-auto uppercase">
                         Decrypted memories from the previous chapter
                     </p>
-                </AnimatedSection>
+                </div>
 
                 {/* 3D Cyberpunk Marquee Container */}
                 <div className="relative w-full overflow-visible py-10" style={{ perspective: '1200px' }}>

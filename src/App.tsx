@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
 
 import Header from './components/Header';
 import BootSequence from './sections/BootSequence';
@@ -21,30 +20,12 @@ import Footer from './sections/Footer';
 
 import './App.css';
 
-// ── Framer Motion variant presets ─────────────────────────────────────────────
-
-const pageVariants: Variants = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  exit: { opacity: 0, y: -16, transition: { duration: 0.35, ease: 'easeIn' } },
-};
-
-const bootFadeVariants: Variants = {
-  initial: { opacity: 0, scale: 0.98 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.9, ease: 'easeOut' },
-  },
-};
-
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [view, setView] = useState<'main' | 'about' | 'crew' | 'sponsors' | 'speakers'>('main'); // specific view state
-  const [showNav, setShowNav] = useState(false);
 
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
@@ -114,18 +95,6 @@ function App() {
   };
   const mainRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
-
-  // Hide navbar when scrolled past hero section
-  useEffect(() => {
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowNav(entry.isIntersecting),
-      { threshold: 0.05 }
-    );
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, [bootComplete]);
 
   // Initialize Lenis smooth scroll
   useEffect(() => {
@@ -203,9 +172,8 @@ function App() {
         }}
       />
 
-      {/* Header - visible only at hero section */}
+      {/* Header - always visible */}
       <Header
-        showNav={showNav}
         onLogoClick={() => setView('main')}
         onCrewClick={handleCrewClick}
         onSponsorsClick={handleSponsorsClick}
@@ -214,77 +182,80 @@ function App() {
       />
 
       {/* Boot Sequence */}
-      <AnimatePresence>
-        {!bootComplete && (
-          <motion.div
-            key="boot"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
-          >
-            <BootSequence progress={loadingProgress} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {!bootComplete && (
+        <BootSequence progress={loadingProgress} />
+      )}
 
-      {/* Main Content — animated in after boot, view-switching with AnimatePresence */}
-      <AnimatePresence mode="wait">
-        {bootComplete && view === 'main' && (
-          <motion.main
-            key="main"
-            className="relative"
-            variants={bootFadeVariants}
-            initial="initial"
-            animate="animate"
-            exit={{ opacity: 0, y: -16, transition: { duration: 0.35, ease: [0.55, 0, 1, 0.45] } }}
-          >
-            <HeroSection />
-            <DataDashboard />
-            <TimelineSection />
-            <EventCardsSection />
-            <PrismaConcertSection />
-            <HighlightsSection />
-            <AccommodationSection />
-            {/* SpeakersSection moved to own page */}
-            {/* SponsorsSection moved to own page */}
-            {/* HumansSection moved to own page */}
-            <Footer
-              onSponsorsClick={handleSponsorsClick}
-              onSpeakersClick={handleSpeakersClick}
-              onNavigate={handleNavigation}
-            />
-          </motion.main>
-        )}
+      {/* Main Content */}
+      {bootComplete && (
+        <>
 
-        {/* About Section */}
-        {bootComplete && view === 'about' && (
-          <motion.div key="about" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          {view === 'main' && (
+            <main className="relative">
+              <HeroSection />
+              <DataDashboard />
+              <TimelineSection />
+              <EventCardsSection />
+              <PrismaConcertSection />
+              <HighlightsSection />
+              <AccommodationSection />
+              {/* SpeakersSection moved to own page */}
+              {/* SponsorsSection moved to own page */}
+              {/* HumansSection moved to own page */}
+              <Footer
+                onSponsorsClick={handleSponsorsClick}
+                onSpeakersClick={handleSpeakersClick}
+                onNavigate={handleNavigation}
+              />
+            </main>
+          )}
+
+          {/* About Section */}
+          {view === 'about' && (
             <AboutSection onBack={() => setView('main')} />
-          </motion.div>
-        )}
+          )}
 
-        {/* Crew/Humans Section */}
-        {bootComplete && view === 'crew' && (
-          <motion.div key="crew" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          {/* Crew/Humans Section */}
+          {view === 'crew' && (
             <HumansSection onBack={handleBackToMain} />
-          </motion.div>
-        )}
+          )}
 
-        {/* Sponsors Section */}
-        {bootComplete && view === 'sponsors' && (
-          <motion.div key="sponsors" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          {/* Sponsors Section */}
+          {view === 'sponsors' && (
             <SponsorsSection onBack={handleBackToMain} />
-          </motion.div>
-        )}
+          )}
 
-        {/* Speakers Section */}
-        {bootComplete && view === 'speakers' && (
-          <motion.div key="speakers" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          {/* Speakers Section */}
+          {view === 'speakers' && (
             <SpeakersSection onBack={handleBackToMain} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </>
+      )}
+
+      {/* Status Bar - always visible */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm border-t border-white/10">
+        <div className="relative flex justify-between items-center text-[10px] font-mono tracking-wider text-white/60">
+          <div className="flex items-center gap-8">
+            <span className="hidden md:inline">SINUSOID OF SPREADING: <span className="text-cosmic-green">ACTIVE</span></span>
+            <span className="flex items-center gap-2">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                <ellipse cx="12" cy="12" rx="10" ry="4" />
+                <ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(60 12 12)" />
+                <ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(-60 12 12)" />
+              </svg>
+              <span className="hidden md:inline">QUALITY ASSESSMENT: </span><span className="text-cosmic-green">ACTIVE</span>
+            </span>
+          </div>
 
 
+
+          <div>
+            <span className="hidden md:inline">ALL SYSTEM : </span><span className={bootComplete ? "text-cosmic-green" : "text-cosmic-amber"}>
+              {bootComplete ? "ACTIVE" : "PENDING"}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
