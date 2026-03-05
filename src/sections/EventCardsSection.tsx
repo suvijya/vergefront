@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 
 // Import planet images
 import mercury from '../../asset/mercury.webp';
@@ -310,473 +310,228 @@ const events: EventCard[] = [
 ];
 
 export default function EventCardsSection() {
-    const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-    const [selectedEvent, setSelectedEvent] = useState<EventCard | null>(null);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
-    const isButtonScrolling = useRef(false);
-    const buttonScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // Default to Velocity event if it exists, otherwise the first event
+    const defaultEvent = events.find(e => e.id === 'velocity') || events[0];
+    const [selectedEvent, setSelectedEvent] = useState<EventCard>(defaultEvent);
+    const [activeTab, setActiveTab] = useState<'ALL' | 'D1' | 'D2'>('ALL');
+    const listRef = useRef<HTMLDivElement>(null);
 
-    const posRef = useRef(0);
-    const marqueeEvents = [...events, ...events, ...events];
+    const filteredEvents = events.filter(event => {
+        if (activeTab === 'ALL') return true;
+        return event.day === activeTab;
+    });
 
+    // Trap wheel/trackpad scroll inside the event list so the page doesn't scroll
     useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
+        const listEl = listRef.current;
+        if (!listEl) return;
 
-        let animationFrameId: number;
+        const handleWheel = (e: WheelEvent) => {
+            const { scrollTop, scrollHeight, clientHeight } = listEl;
+            const isScrollable = scrollHeight > clientHeight;
 
-        const scroll = () => {
-            if (!isDragging && !isHovered && !isButtonScrolling.current) {
-                // Update our tracked position with sub-pixel precision
-                posRef.current += 0.7; // Speed (Reduced for smoother flow)
+            if (!isScrollable) return;
 
-                // Infinite loop logic
-                const setWidth = container.scrollWidth / 3;
-                if (posRef.current >= setWidth * 2) {
-                    posRef.current -= setWidth;
-                }
+            const atTop = scrollTop <= 0 && e.deltaY < 0;
+            const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
 
-                // Sync the actual scrollLeft
-                container.scrollLeft = posRef.current;
-            } else {
-                // Keep posRef in sync with manual scrolling
-                posRef.current = container.scrollLeft;
-            }
-            animationFrameId = requestAnimationFrame(scroll);
-        };
-
-        animationFrameId = requestAnimationFrame(scroll);
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [isDragging, isHovered]);
-
-    // Drag handlers
-    const onMouseDown = (e: React.MouseEvent) => {
-        setIsDragging(true);
-        if (scrollContainerRef.current) {
-            setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
-            setScrollLeft(scrollContainerRef.current.scrollLeft);
-        }
-    };
-
-    const onMouseLeave = () => {
-        setIsDragging(false);
-        setIsHovered(false);
-    };
-
-    const onMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    const onMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging || !scrollContainerRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - scrollContainerRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5; // Drag speed multiplier
-        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    // Touch handlers for mobile
-    const onTouchStart = (e: React.TouchEvent) => {
-        setIsDragging(true);
-        if (scrollContainerRef.current) {
-            setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
-            setScrollLeft(scrollContainerRef.current.scrollLeft);
-        }
-    };
-
-    const onTouchEnd = () => {
-        setIsDragging(false);
-    };
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        if (!isDragging || !scrollContainerRef.current) return;
-        const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5; // Drag speed multiplier
-        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    // Smooth scroll animation for arrow buttons
-    const animateScroll = (distance: number) => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
-
-        // Pause auto-scroll for the duration
-        isButtonScrolling.current = true;
-        if (buttonScrollTimer.current) clearTimeout(buttonScrollTimer.current);
-
-        const startPos = container.scrollLeft;
-        const startTime = performance.now();
-        const duration = 400; // ms
-
-        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-        const step = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = easeOutCubic(progress);
-
-            container.scrollLeft = startPos + distance * eased;
-            posRef.current = container.scrollLeft;
-
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            } else {
-                // Resume auto-scroll after animation completes
-                buttonScrollTimer.current = setTimeout(() => {
-                    isButtonScrolling.current = false;
-                }, 100);
+            // Prevent the page from scrolling when we're inside the list
+            if (!atTop && !atBottom) {
+                e.preventDefault();
+                e.stopPropagation();
+                listEl.scrollTop += e.deltaY;
             }
         };
 
-        requestAnimationFrame(step);
-    };
-
-    const scrollLeftBy = () => {
-        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
-        animateScroll(-scrollAmount);
-    };
-
-    const scrollRightBy = () => {
-        const scrollAmount = window.innerWidth > 768 ? 400 : 250;
-        animateScroll(scrollAmount);
-    };
+        listEl.addEventListener('wheel', handleWheel, { passive: false });
+        return () => listEl.removeEventListener('wheel', handleWheel);
+    }, []);
 
     return (
-        <section id="events" className="min-h-screen w-full bg-black py-24 relative overflow-hidden">
+        <section id="events" className="min-h-screen w-full bg-[#050505] py-20 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans relative z-10">
             <style>{`
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
                 }
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.15);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.3);
                 }
             `}</style>
 
-            {/* Section Header */}
-            <div className="text-center mb-16 px-8 select-none z-30">
-                <div className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] mb-4">
-                    EXPLORE MISSIONS
-                </div>
-                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                    EVENT CATALOG
-                </h2>
-            </div>
+            {/* Header for mobile - optional, but let's keep it clean as per screenshot */}
 
-            {/* Continuous Scroll Container */}
-            <div className="relative w-full group">
-                {/* Gradient Fades for edges */}
-                <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+            <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 lg:gap-8 h-[75vh] min-h-[550px] max-h-[850px]">
 
-                {/* Left Arrow Button */}
-                <button
-                    type="button"
-                    onClick={scrollLeftBy}
-                    className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
-                    aria-label="Scroll Left"
-                >
-                    <ChevronLeft className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
-                </button>
-
-                {/* Right Arrow Button */}
-                <button
-                    type="button"
-                    onClick={scrollRightBy}
-                    className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-50 pointer-events-auto bg-black/50 hover:bg-white/10 border border-white/20 text-white rounded-full p-2 md:p-3 backdrop-blur-md transition-all active:scale-95"
-                    aria-label="Scroll Right"
-                >
-                    <ChevronRight className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
-                </button>
-
-                {/* The actual scrollable container - Adjusted pt to match planet offset */}
+                {/* Left Panel - Event Details */}
                 <div
-                    ref={scrollContainerRef}
-                    className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none pt-16 md:pt-32 pb-8 md:pb-12"
-                    onMouseDown={onMouseDown}
-                    onMouseLeave={onMouseLeave}
-                    onMouseUp={onMouseUp}
-                    onMouseMove={onMouseMove}
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
-                    onTouchCancel={onTouchEnd}
-                    onMouseEnter={() => setIsHovered(true)}
-                    style={{ scrollBehavior: 'auto', touchAction: 'pan-y' }}
+                    className="relative flex flex-col min-h-0 rounded-[2.5rem] overflow-hidden border border-white/10 transition-all duration-700 h-full bg-[#0d0d11]"
                 >
-                    <div className="flex w-max px-4 md:px-[25vw]">
-                        {marqueeEvents.map((event, index) => (
-                            <div
-                                id={`${event.id}-${index}`}
-                                key={`${event.id}-${index}`}
-                                className="relative px-1.5 md:px-4 w-[220px] md:w-[380px] flex-shrink-0 cursor-pointer"
-                                onMouseEnter={() => setHoveredCard(`${event.id}-${index}`)}
-                                onMouseLeave={() => setHoveredCard(null)}
-                                onClick={() => !isDragging && setSelectedEvent(event)}
-                            >
-                                {/* Floating Planet Image - Top Center */}
-                                <div className={`absolute -top-10 md:-top-8 left-1/2 -translate-x-1/2 md:-translate-y-1/4 z-40 transition-transform duration-500 ${hoveredCard === `${event.id}-${index}` ? '-translate-y-4 scale-110' : ''
-                                    }`}>
-                                    <img
-                                        src={event.planetImage}
-                                        alt="Planet"
-                                        className="w-20 h-20 md:w-40 md:h-40 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-                                    />
-                                </div>
-
-                                {/* Card */}
-                                <div
-                                    className={`relative aspect-[3/3.6] md:aspect-[3/4.2] border border-white overflow-hidden transition-all duration-500 rounded-lg ${hoveredCard === `${event.id}-${index}` ? 'border-white/100 shadow-[0_0_40px_rgba(255,255,255,0.1)] scale-[1.03]' : ''
-                                        }`}
-                                    style={{
-                                        backgroundColor: event.bgColor,
-                                        background: `linear-gradient(135deg, ${event.bgColor}, #000000)`
-                                    }}
-                                >
-                                    {/* Content */}
-                                    <div className="absolute inset-0 p-2.5 md:p-6 flex flex-col justify-between z-10">
-                                        <div className="flex justify-between items-start mt-4 md:mt-0">
-                                            <span className="text-[8px] md:text-[10px] font-mono text-white/50 tracking-wide md:tracking-widest uppercase">
-                                                {event.category}
-                                            </span>
-                                            <div className="w-1 h-1 rounded-full bg-white/30" />
-                                        </div>
-
-                                        {/* Large Centered Watermark Logo */}
-                                        {event.logo && (
-                                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[1] overflow-hidden">
-                                                <img
-                                                    src={event.logo}
-                                                    alt=""
-                                                    className="w-32 h-32 md:w-64 md:h-64 object-contain scale-125"
-                                                />
-                                            </div>
-                                        )}
-
-                                        <div className="mt-auto">
-
-
-
-                                            <div className="flex items-center justify-between gap-3 mb-3 md:mb-4">
-                                                <div className="flex-1 py-1.5 md:py-2 text-center bg-white/5 border border-white/10 rounded-md flex items-center justify-center overflow-hidden">
-                                                    <span className="text-[8px] md:text-[10px] font-mono text-amber-200 uppercase tracking-widest truncate">
-                                                        PRIZE: {event.prize}
-                                                    </span>
-                                                </div>
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (!isDragging) setSelectedEvent(event);
-                                                    }}
-                                                    className="flex-1 py-1.5 md:py-2 text-center bg-white/10 hover:bg-white/20 border border-white/20 rounded-md transition-colors text-[8px] md:text-[10px] font-mono text-white uppercase tracking-widest backdrop-blur-sm flex items-center justify-center truncate"
-                                                >
-                                                    Learn More
-                                                </button>
-                                            </div>
-
-                                            <a
-                                                id={`register-${event.id}`}
-                                                href={event.registerUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="block w-full py-2 md:py-3 bg-white text-black text-center text-[8px] md:text-[10px] font-bold font-mono tracking-widest hover:bg-white/80 transition-all uppercase rounded-md shadow-[0_4px_0_rgb(200,200,200)] active:translate-y-[2px] active:shadow-none"
-                                            >
-                                                Secure Access →
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    {/* Background decorative elements */}
-                                    <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
-                                </div>
-                            </div>
-                        ))}
+                    {/* Background Planet Image */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[65%] md:w-[60%] opacity-[0.2] pointer-events-none mix-blend-screen transition-all duration-1000 grayscale">
+                        <img src={selectedEvent.planetImage} alt="" className="w-full h-full object-contain drop-shadow-2xl" />
                     </div>
-                </div>
-            </div>
 
-            {/* Event Details Modal */}
-            {selectedEvent && (
-                <div
-                    id="event-modal-overlay"
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4 bg-black/60 backdrop-blur-md"
-                    onClick={() => setSelectedEvent(null)}
-                >
-                    <div
-                        id="event-modal"
-                        className="relative w-full max-w-2xl bg-black border border-white/20 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] animate-in fade-in zoom-in duration-300"
-                        onClick={e => e.stopPropagation()}
-                        style={{
-                            background: `linear-gradient(135deg, ${selectedEvent.bgColor}40, #000000)`
-                        }}
-                    >
-                        {/* Close Button */}
-                        <button
-                            id="close-modal"
-                            onClick={() => setSelectedEvent(null)}
-                            className="absolute top-2 right-2 md:top-4 md:right-4 z-50 p-1.5 md:p-2 text-white/60 hover:text-white transition-colors"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
+                    <div className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-[#0a0a0c]/80">
+                        {/* Top Bar: Category & Logo */}
+                        <div className="flex justify-between items-start mb-auto">
+                            <span className="px-2.5 py-1 text-[9px] font-mono tracking-widest text-[#23b5d3] border border-[#23b5d3]/30 rounded-sm uppercase bg-[#23b5d3]/10 backdrop-blur-sm">
+                                {selectedEvent.category}
+                            </span>
+                            {selectedEvent.logo && (
+                                <img src={selectedEvent.logo} alt="Logo" className="w-16 md:w-24 object-contain filter drop-shadow-lg" />
+                            )}
+                        </div>
 
-                        {/* MOBILE LAYOUT: single column, ultra-compact */}
-                        <div className="md:hidden p-3 flex flex-col gap-2">
-                            {/* Top row: logo + title info */}
-                            <div className="flex items-start gap-3">
-                                {selectedEvent.logo && (
-                                    <div className="w-16 h-16 flex-shrink-0 bg-white/5 border border-white/10 rounded-lg p-1 flex items-center justify-center">
-                                        <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain" />
-                                    </div>
-                                )}
-                                <div className="flex-1 min-w-0">
-                                    <span className="inline-block text-[8px] font-mono text-white/50 tracking-widest uppercase mb-0.5 border border-white/20 px-1.5 py-0.5 rounded">
-                                        {selectedEvent.category}
-                                    </span>
-                                    <h3 className="text-base font-bold text-white uppercase tracking-tight leading-tight">
-                                        {selectedEvent.title}
-                                    </h3>
-                                    <p className="text-[10px] font-mono text-white/50">
-                                        {selectedEvent.subtitle}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Description - truncated */}
-                            <p className="text-[10px] text-white/70 leading-relaxed font-light line-clamp-4">
-                                {selectedEvent.description}
+                        {/* Title Section */}
+                        <div className="mt-8 mb-3">
+                            <h2
+                                className="text-3xl md:text-4xl lg:text-5xl lg:text-[3.25rem] font-black text-white italic tracking-tighter uppercase mb-2 drop-shadow-xl"
+                                style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '-0.02em', lineHeight: '1.1' }}
+                            >
+                                {selectedEvent.title}
+                            </h2>
+                            <p className="text-[10px] md:text-xs text-white/50 font-mono tracking-widest">
+                                {selectedEvent.subtitle}
                             </p>
+                        </div>
 
-                            {/* Info grid - compact */}
-                            <div className="grid grid-cols-2 gap-2 border border-white/10 bg-white/5 p-2 rounded-lg">
-                                <div>
-                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Prize</h4>
-                                    <div className="text-sm font-mono text-amber-300">{selectedEvent.prize}</div>
-                                </div>
-                                <div>
-                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">When & Where</h4>
-                                    <div className="text-[10px] font-mono text-cyan-300">
-                                        {selectedEvent.day && selectedEvent.day !== '-' && `D${selectedEvent.day} • `}
-                                        {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
-                                        <br />
-                                        <span className="text-white/60">{selectedEvent.venue !== '-' ? selectedEvent.venue : 'TBA'}</span>
-                                    </div>
-                                </div>
-                                <div className="col-span-2 pt-1.5 border-t border-white/10">
-                                    <h4 className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-0.5">Contact</h4>
-                                    <div className="text-[10px] font-mono text-white/90">
-                                        {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
-                                        {selectedEvent.contact && selectedEvent.contact !== '-' && (
-                                            <span className="text-white/50 ml-1">({selectedEvent.contact})</span>
-                                        )}
-                                    </div>
+                        {/* Description */}
+                        <p className="text-[10px] md:text-[11px] text-white/40 leading-relaxed font-mono line-clamp-3 lg:line-clamp-none mb-6 max-w-lg mt-2">
+                            {selectedEvent.description}
+                        </p>
+
+                        {/* Info Boxes */}
+                        <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 mt-auto">
+                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                                <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">PRIZE</div>
+                                <div className="text-lg md:text-xl font-bold text-amber-300 font-mono tracking-tight">{selectedEvent.prize}</div>
+                            </div>
+                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                                <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">TIME</div>
+                                <div className="text-sm md:text-base font-bold text-[#23b5d3] font-mono">
+                                    {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Register button */}
+                        {/* Action Buttons */}
+                        <div className="flex gap-3">
                             <a
-                                id="modal-register-btn"
                                 href={selectedEvent.registerUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block w-full py-2.5 bg-white text-black text-center text-[10px] font-bold font-mono tracking-widest uppercase rounded-md"
+                                className="flex-1 bg-white text-black text-center py-3 md:py-4 rounded-lg font-bold text-[10px] md:text-[11px] font-mono tracking-widest uppercase hover:bg-white/90 transition-colors flex justify-between items-center px-5 md:px-6 shadow-lg active:scale-[0.98]"
                             >
-                                Register Now
+                                <span>REGISTER</span>
+                                <span>→</span>
                             </a>
-                        </div>
-
-                        {/* DESKTOP LAYOUT: unchanged side-by-side */}
-                        <div className="hidden md:flex p-8 flex-row gap-8 max-h-[85vh] overflow-y-auto">
-                            {/* Left Side: Image & Logo */}
-                            <div className="flex-shrink-0 flex flex-col items-center justify-center gap-8 w-48">
-                                <div className="relative">
-                                    <img
-                                        src={selectedEvent.planetImage}
-                                        alt={selectedEvent.title}
-                                        className="w-44 h-44 object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] animate-pulse-slow relative z-10"
-                                    />
-                                    {selectedEvent.logo && (
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-20 blur-sm scale-150">
-                                            <img src={selectedEvent.logo} alt="" className="w-full h-full object-contain grayscale" />
-                                        </div>
-                                    )}
-                                </div>
-                                {selectedEvent.logo && (
-                                    <div className="w-44 h-44 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-2 flex items-center justify-center hover:border-white/30 transition-all">
-                                        <img src={selectedEvent.logo} alt="Event Logo" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Right Side: Content */}
-                            <div className="flex-grow">
-                                <span className="inline-block text-xs font-mono text-white/50 tracking-widest uppercase mb-2 border border-white/20 px-2 py-1 rounded">
-                                    {selectedEvent.category}
-                                </span>
-
-                                <h3 className="text-4xl font-bold text-white mb-2 uppercase tracking-tight leading-tight">
-                                    {selectedEvent.title}
-                                </h3>
-
-                                <p className="text-base font-mono text-white/60 mb-6">
-                                    {selectedEvent.subtitle}
-                                </p>
-
-                                <div className="space-y-6 mb-8">
-                                    <div>
-                                        <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Description</h4>
-                                        <p className="text-base text-white/80 leading-relaxed font-light">
-                                            {selectedEvent.description}
-                                        </p>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4 border border-white/10 bg-white/5 p-4 rounded-xl backdrop-blur-sm">
-                                        <div>
-                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Prize Pool</h4>
-                                            <div className="text-xl font-mono text-amber-300">
-                                                {selectedEvent.prize}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Timing & Venue</h4>
-                                            <div className="text-sm font-mono text-cyan-300">
-                                                {selectedEvent.day && selectedEvent.day !== '-' && `Day ${selectedEvent.day} • `}
-                                                {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
-                                                <br />
-                                                <span className="text-white/60">{selectedEvent.venue !== '-' ? selectedEvent.venue : 'TBA'}</span>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-2 mt-2 pt-2 border-t border-white/10">
-                                            <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Point of Contact</h4>
-                                            <div className="text-sm font-mono text-white/90">
-                                                {selectedEvent.poc !== '-' ? selectedEvent.poc : 'TBA'}
-                                                {selectedEvent.contact && selectedEvent.contact !== '-' && (
-                                                    <span className="text-white/50 ml-2">({selectedEvent.contact})</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a
-                                    id="modal-register-btn"
-                                    href={selectedEvent.registerUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block w-full py-4 bg-white text-black text-center text-base font-bold font-mono tracking-widest hover:bg-white/90 hover:scale-[1.02] transition-all uppercase rounded-md shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                                >
-                                    Register Now
-                                </a>
-                            </div>
+                            <button className="px-5 md:px-8 py-3 md:py-4 bg-[#111114] border border-white/5 text-white/50 text-[10px] md:text-[11px] font-mono tracking-widest uppercase rounded-lg hover:bg-white/10 hover:text-white transition-colors active:scale-[0.98]">
+                                INFO
+                            </button>
                         </div>
                     </div>
                 </div>
-            )}
 
+                {/* Right Panel - Event List */}
+                <div className="flex flex-col h-full min-h-0 overflow-hidden bg-[#0a0a0c] rounded-[2.5rem] border border-white/10 relative shadow-xl">
+                    <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+                    {/* Tabs */}
+                    <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-[#0a0a0c]">
+                        <button
+                            onClick={() => setActiveTab('ALL')}
+                            className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'ALL' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
+                        >
+                            <span className="relative z-10">ALL EVENTS</span>
+                            {activeTab === 'ALL' && (
+                                <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
+                            )}
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('D1')}
+                            className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D1' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
+                        >
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 1 <span className="text-white/10 hidden md:inline">· FEB 15</span></span>
+                            {activeTab === 'D1' && (
+                                <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
+                            )}
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('D2')}
+                            className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D2' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
+                        >
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 2 <span className="text-white/10 hidden md:inline">· FEB 16</span></span>
+                            {activeTab === 'D2' && (
+                                <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
+                            )}
+                        </button>
+                    </div>
 
+                    {/* List */}
+                    <div
+                        ref={listRef}
+                        className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden touch-pan-y overscroll-contain custom-scrollbar p-2 md:p-6 pb-0 relative z-10"
+                        style={{ WebkitOverflowScrolling: 'touch' }}
+                    >
+                        {filteredEvents.map((event) => {
+                            const isSelected = selectedEvent.id === event.id;
+
+                            // Calculate a virtual index for display like "01", "02"
+                            const categoryEvents = events.filter(e => e.category === event.category);
+                            const catIndex = categoryEvents.findIndex(e => e.id === event.id) + 1;
+                            const displayIndex = catIndex.toString().padStart(2, '0');
+
+                            return (
+                                <button
+                                    key={event.id}
+                                    onClick={() => setSelectedEvent(event)}
+                                    className={`w-full text-left flex items-center p-3 md:p-3.5 border-b border-white/5 transition-all duration-300 group relative overflow-hidden z-10 ${isSelected ? 'bg-gradient-to-r from-[#23b5d3]/10 to-transparent' : 'bg-transparent hover:bg-white/[0.02]'}`}
+                                >
+                                    {/* Selected Active Border (Left) */}
+                                    <div className={`absolute left-0 top-0 bottom-0 w-0.5 bg-[#23b5d3] transition-opacity duration-300 ${isSelected ? 'opacity-100 shadow-[0_0_10px_rgba(35,181,211,0.5)]' : 'opacity-0'}`} />
+
+                                    {/* Planet Icon */}
+                                    <div className="w-7 h-7 md:w-9 md:h-9 flex-shrink-0 mr-4 md:mr-5">
+                                        <img src={event.planetImage} alt="" className={`w-full h-full object-contain ${!isSelected && 'opacity-60'} group-hover:opacity-100 transition-all duration-500`} />
+                                    </div>
+
+                                    {/* Text Info */}
+                                    <div className="flex-1 flex flex-col justify-center min-w-0 pr-2">
+                                        <div className="flex items-center gap-2 mb-0.5">
+                                            <span className={`text-[8px] md:text-[9px] font-mono tracking-widest uppercase ${isSelected ? 'text-[#23b5d3]' : 'text-white/30'} transition-colors`}>
+                                                {event.category} <span className="opacity-40 ml-1">{displayIndex}</span>
+                                            </span>
+                                        </div>
+                                        <div className={`text-[11px] md:text-sm font-bold tracking-wider uppercase truncate ${isSelected ? 'text-white' : 'text-white/60'} group-hover:text-white transition-colors`} style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                                            {event.title}
+                                        </div>
+                                    </div>
+
+                                    {/* Prize & Active Dot */}
+                                    <div className="text-right flex items-center justify-end gap-3 md:gap-5 w-20 md:w-28 flex-shrink-0">
+                                        <span className={`text-[9px] md:text-[10px] font-mono font-bold tracking-widest ${isSelected ? 'text-amber-400' : 'text-white/20'} transition-colors`}>
+                                            {event.prize}
+                                        </span>
+                                        <div className="w-[3px] h-[3px] md:w-1 md:h-1 flex-shrink-0 rounded-full bg-[#23b5d3] shadow-[0_0_8px_rgba(35,181,211,0.8)]" style={{ opacity: isSelected ? 1 : 0 }} />
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Footer Stats Line */}
+                    <div className="border-t border-white/5 px-6 md:px-8 py-4 flex justify-between items-center bg-[#0a0a0c] z-10 text-[8px] md:text-[9px] font-mono text-white/20 tracking-widest uppercase relative shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+                        <span className="opacity-60">{filteredEvents.length} EVENTS</span>
+                        <span className="text-[#23b5d3]/40">VERGE 2026</span>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 }
