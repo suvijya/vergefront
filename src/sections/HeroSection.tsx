@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import astro from '../assets/astro.png';
-import astroleft from '../assets/astroleft.png';
-import webback from '../assets/webback1.png';
-import srmLogo from '../assets/srm_logo.png';
-import naacLogo from '../assets/naacaplus.png';
+import astro from '../assets/astro.webp';
+import astroleft from '../assets/astroleft.webp';
+import webback from '../assets/webback1.webp';
+import srmLogo from '../assets/srm_logo.webp';
+import naacLogo from '../assets/naacaplus.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
