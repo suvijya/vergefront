@@ -115,16 +115,16 @@ export default function PrismaConcertSection() {
                             {/* Background Image Setup */}
                             <div className="absolute inset-0 z-0">
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity duration-700"
+                                    className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-40 transition-opacity duration-700 grayscale"
                                     style={{ backgroundImage: `url(${ankitImg})` }}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#2a0845]/90 via-[#2a0845]/60 to-[#2a0845]/10 mix-blend-multiply" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#140026] via-[#140026]/80 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
                             </div>
 
                             <div className="relative z-10 flex flex-col items-start">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
                                     <span className="text-[10px] md:text-[11px] font-mono font-bold text-white/70 tracking-[0.2em]">DAY 2</span>
                                 </div>
                                 <h3
@@ -133,10 +133,10 @@ export default function PrismaConcertSection() {
                                 >
                                     DANNY
                                 </h3>
-                                <p className="text-[9px] md:text-[10px] font-mono text-purple-200/50 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
+                                <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
                                     BOLLYWOOD NIGHT
                                 </p>
-                                <button className="px-6 py-2.5 bg-gradient-to-r from-purple-800/20 to-purple-900/20 hover:from-purple-600/30 hover:to-purple-800/30 border border-purple-500/40 hover:border-purple-400 rounded text-[10px] md:text-xs font-mono font-bold text-purple-200 tracking-[0.2em] transition-all flex items-center gap-3">
+                                <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded text-[10px] md:text-xs font-mono font-bold text-white/70 hover:text-white tracking-[0.2em] transition-all flex items-center gap-3">
                                     GET TICKETS <span>→</span>
                                 </button>
                             </div>
