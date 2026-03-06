@@ -51,7 +51,7 @@ export default function AccommodationSection() {
         {
             title: "1 DAY PASS",
             subtitle: "Accommodation + Mess",
-            price: "₹499",
+            price: "₹699",
             duration: "",
             color: "from-cyan-500/20 to-blue-500/5",
             borderColor: "border-cyan-500/30",
@@ -68,7 +68,7 @@ export default function AccommodationSection() {
         {
             title: "2 DAYS STAY",
             subtitle: "Accommodation Only",
-            price: "₹499",
+            price: "₹699",
             duration: "",
             color: "from-purple-500/20 to-pink-500/5",
             borderColor: "border-purple-500/30",
@@ -85,7 +85,7 @@ export default function AccommodationSection() {
         {
             title: "FULL STAY",
             subtitle: "Accommodation + Mess",
-            price: "₹999",
+            price: "₹1199",
             duration: "",
             color: "from-emerald-500/20 to-teal-500/5",
             borderColor: "border-emerald-500/30",
@@ -102,7 +102,7 @@ export default function AccommodationSection() {
         {
             title: "ULTIMATE COMBO",
             subtitle: "Stay + Mess + Concerts",
-            price: "₹1999",
+            price: "₹2199",
             duration: "",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
