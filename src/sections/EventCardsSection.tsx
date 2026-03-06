@@ -213,7 +213,7 @@ const events: EventCard[] = [
         bgColor: '#2d1b4e',
         planetImage: kashyk,
         logo: murdermysteryIcon,
-        registerUrl: 'https://unstop.com/competition/murder-mystery',
+        registerUrl: 'https://unstop.com/competitions/murder-mystery-verge-2026-srm-university-delhi-ncr-sonepat-1651115',
         poc: '-', contact: '-', venue: 'EB + NEB', time: '1:00-3:00am', day: 'D2'
     },
     {
@@ -265,7 +265,7 @@ const events: EventCard[] = [
         bgColor: '#2b2d42',
         planetImage: tatoon,
         logo: biddingIcon,
-        registerUrl: 'https://unstop.com/competition/bidding-wars',
+        registerUrl: 'https://unstop.com/competitions/biddin-war-verge-2026-srm-university-delhi-ncr-sonepat-1649019',
         poc: 'Shaurya', contact: '8447643031', venue: 'Lab', time: '10:00-4:00pm', day: 'D2'
     },
     {
@@ -348,7 +348,7 @@ export default function EventCardsSection() {
     }, []);
 
     return (
-        <section id="events" className="min-h-screen w-full bg-[#050505] py-20 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans relative z-10">
+        <section id="events" className="min-h-screen w-full bg-black py-20 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans relative z-10">
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 4px;
@@ -371,14 +371,14 @@ export default function EventCardsSection() {
 
                 {/* Left Panel - Event Details */}
                 <div
-                    className="relative flex flex-col min-h-0 rounded-[2.5rem] overflow-hidden border border-white/10 transition-all duration-700 h-full bg-[#0d0d11]"
+                    className="relative flex flex-col min-h-0 rounded-[2.5rem] overflow-hidden border border-white/10 transition-all duration-700 h-full bg-black"
                 >
                     {/* Background Planet Image */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[65%] md:w-[60%] opacity-[0.2] pointer-events-none mix-blend-screen transition-all duration-1000 grayscale">
                         <img src={selectedEvent.planetImage} alt="" className="w-full h-full object-contain drop-shadow-2xl" />
                     </div>
 
-                    <div className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-[#0a0a0c]/80">
+                    <div className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-black/80">
                         {/* Top Bar: Category & Logo */}
                         <div className="flex justify-between items-start mb-auto">
                             <span className="px-2.5 py-1 text-[9px] font-mono tracking-widest text-[#23b5d3] border border-[#23b5d3]/30 rounded-sm uppercase bg-[#23b5d3]/10 backdrop-blur-sm">
@@ -409,11 +409,11 @@ export default function EventCardsSection() {
 
                         {/* Info Boxes */}
                         <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 mt-auto">
-                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                            <div className="bg-black border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
                                 <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">PRIZE</div>
                                 <div className="text-lg md:text-xl font-bold text-amber-300 font-mono tracking-tight">{selectedEvent.prize}</div>
                             </div>
-                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                            <div className="bg-black border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
                                 <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">TIME</div>
                                 <div className="text-sm md:text-base font-bold text-[#23b5d3] font-mono">
                                     {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
@@ -422,7 +422,7 @@ export default function EventCardsSection() {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 mt-auto">
                             <a
                                 href={selectedEvent.registerUrl}
                                 target="_blank"
@@ -432,18 +432,15 @@ export default function EventCardsSection() {
                                 <span>REGISTER</span>
                                 <span>→</span>
                             </a>
-                            <button className="px-5 md:px-8 py-3 md:py-4 bg-[#111114] border border-white/5 text-white/50 text-[10px] md:text-[11px] font-mono tracking-widest uppercase rounded-lg hover:bg-white/10 hover:text-white transition-colors active:scale-[0.98]">
-                                INFO
-                            </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Right Panel - Event List */}
-                <div className="flex flex-col h-full min-h-0 overflow-hidden bg-[#0a0a0c] rounded-[2.5rem] border border-white/10 relative shadow-xl">
+                <div className="flex flex-col h-full min-h-0 overflow-hidden bg-black rounded-[2.5rem] border border-white/10 relative shadow-xl">
                     <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
                     {/* Tabs */}
-                    <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-[#0a0a0c]">
+                    <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-black">
                         <button
                             onClick={() => setActiveTab('ALL')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'ALL' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}

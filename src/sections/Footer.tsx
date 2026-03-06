@@ -9,10 +9,10 @@ export default function Footer({
     onNavigate?: (href: string) => void;
 }) {
     return (
-        <footer id="contact" className="relative bg-[#020202] text-white pt-8 pb-8 overflow-hidden flex flex-col justify-between font-mono border-t border-white/5">
-            <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 flex flex-col md:flex-row justify-between gap-8 md:gap-12 items-start">
+        <footer id="contact" className="relative bg-[#020202] text-white pt-8 md:pt-12 pb-8 overflow-hidden flex flex-col justify-between font-mono border-t border-white/5">
+            <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 flex flex-col md:flex-row justify-between gap-12 items-start md:items-center">
                 {/* Left Side - Title, Contact, Socials */}
-                <div className="flex flex-col gap-6 md:w-auto items-center md:items-start">
+                <div className="flex flex-col gap-6 md:w-auto items-start">
                     {/* Headline */}
                     <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                         VERGE 2026.
@@ -54,7 +54,7 @@ export default function Footer({
                 </div>
 
                 {/* Center - Quick Links & Contact columns */}
-                <div className="flex flex-row gap-16 md:gap-24 items-start mx-auto md:mx-0">
+                <div className="flex flex-row gap-16 md:gap-24 items-start mx-auto w-full justify-center">
                     {/* Column 1 - Quick Links */}
                     <div className="flex flex-col gap-4">
                         <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
@@ -148,13 +148,8 @@ export default function Footer({
             {/* Bottom Bar */}
             <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 border-t border-white/[0.05] mt-6 pt-5">
                 <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-3">
-                    {/* Made with love */}
                     <div className="text-[10px] md:text-xs font-mono text-white/40 tracking-wide flex items-center justify-center space-x-2 flex-shrink-0">
-                        <span>Made with</span>
-                        <svg className="w-3 h-3 text-red-500/80 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        <span>by</span>
+                        <span>Made by</span>
                         <a href="https://linkedin.com/in/suvijya" target="_blank" rel="noreferrer" className="text-white hover:text-gray-300 transition-colors tracking-wide pl-1">
                             Suvijya Arya
                         </a>

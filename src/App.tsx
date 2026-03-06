@@ -217,7 +217,7 @@ function App() {
 
           {/* Crew/Humans Section */}
           {view === 'crew' && (
-            <HumansSection onBack={handleBackToMain} />
+            <HumansSection />
           )}
 
           {/* Sponsors Section */}

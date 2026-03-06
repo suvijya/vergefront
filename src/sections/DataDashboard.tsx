@@ -130,11 +130,11 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const events = [
-    { name: "SRM Builds 7.0", prize: "₹ 5,00,000", desc: "The ultimate 24h hackathon event." },
-    { name: "MARK1", prize: "₹ 3,00,000", desc: "High-octane combat robotics arena." },
-    { name: "RAD CTF", prize: "₹ 2,00,000", desc: "Capture The Flag cybersecurity challenge." },
-    { name: "VELOCITY", prize: "₹ 2,50,000", desc: "Pro-level FPV drone racing tournament." },
-    { name: "Startup Expo", prize: "₹ 2,50,000", desc: "Showcase for next-gen innovation." }
+    { name: "SRM Builds 7.0", prize: "₹ 1,00,000", desc: "The ultimate 48h hackathon event." },
+    { name: "MARK1", prize: "₹ 75,000", desc: "High-octane combat robotics arena." },
+    { name: "RAD CTF", prize: "₹ 30,000", desc: "Capture The Flag cybersecurity challenge." },
+    { name: "VELOCITY", prize: "₹ 15,000", desc: "Pro-level FPV drone racing tournament." },
+    { name: "INNOWAVE", prize: "₹ 25,000", desc: "Showcase for next-gen innovation." }
   ];
 
   // Track specific "label particles" separately to ensure they exist and orbit nicely
