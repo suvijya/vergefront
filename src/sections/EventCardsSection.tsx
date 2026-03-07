@@ -20,7 +20,7 @@ import corell from '../../asset/corell.webp';
 import tatoon from '../../asset/tatoon.webp';
 import chandrila from '../../asset/chandrila.webp';
 import ryloth from '../../asset/ryloth.webp';
-import earth from '../../asset/earth.png';
+// import earth from '../../asset/earth.png';
 
 // Import Logos
 import srmbuildsIcon from '../assets/logos/srmbuilds.webp';
@@ -37,7 +37,7 @@ import mark1Icon from '../assets/logos/mark1.webp';
 import tracertIcon from '../assets/logos/tracert.webp';
 import bridgeomaniaIcon from '../assets/logos/bridgeomania.webp';
 import memocracyIcon from '../assets/logos/memocracy.webp';
-import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
+// import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
 import astroIcon from '../assets/logos/astro.webp';
 import radCtfIcon from '../assets/logos/root.webp';
 
@@ -84,7 +84,7 @@ const events: EventCard[] = [
         planetImage: mars,
         logo: mark1Icon,
         registerUrl: 'https://unstop.com/p/mark-1-robotwar-verge-2026-srm-university-delhi-ncr-sonepat-1648607',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
+        poc: 'Manas', contact: '9555155720', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
     },
     {
         id: 'radctf',
@@ -110,7 +110,7 @@ const events: EventCard[] = [
         planetImage: venus,
         logo: revvdIcon, // Fallback to Revvd style for driving/racing
         registerUrl: 'https://unstop.com/p/velocity-drone-race-verge-2026-srm-university-delhi-ncr-sonepat-1648638',
-        poc: '-', contact: '-', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
+        poc: 'Aakash', contact: '8950197304', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
     },
     {
         id: 'revvd',
@@ -123,7 +123,7 @@ const events: EventCard[] = [
         planetImage: jupiter,
         logo: revvdIcon,
         registerUrl: 'https://unstop.com/p/revvd-rc-car-racing-verge-2026-srm-university-delhi-ncr-sonepat-1648636',
-        poc: '-', contact: '-', venue: 'Sports Ground', time: '1:00-2:00pm', day: 'D2'
+        poc: 'Sanchit', contact: '9896404757', venue: 'Sports Ground', time: '1:00-2:00pm', day: 'D2'
     },
     {
         id: 'roboliga',
@@ -136,7 +136,7 @@ const events: EventCard[] = [
         planetImage: saturn,
         logo: roboligaIcon,
         registerUrl: 'https://unstop.com/p/roboliga-robo-soccer-verge-2026-srm-university-delhi-ncr-sonepat-1648596',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '12:30-2:00', day: 'D1'
+        poc: 'Manas', contact: '9555155720', venue: 'Near Admin Block', time: '12:30-2:00', day: 'D1'
     },
     {
         id: 'innowave',
@@ -240,7 +240,7 @@ const events: EventCard[] = [
         planetImage: naboo,
         logo: tracertIcon,
         registerUrl: 'https://unstop.com/p/tracert-line-follower-verge-2026-srm-university-delhi-ncr-sonepat-1648631',
-        poc: '-', contact: '-', venue: 'Near Escalators', time: '2:00-3:00', day: 'D1'
+        poc: 'Vasundhara', contact: '9548760182', venue: 'Near Escalators', time: '2:00-3:00', day: 'D1'
     },
     {
         id: 'bridgeomania',
@@ -253,7 +253,7 @@ const events: EventCard[] = [
         planetImage: corell,
         logo: bridgeomaniaIcon,
         registerUrl: 'https://unstop.com/p/bridge-o-mania-verge-2026-srm-university-delhi-ncr-sonepat-1647927',
-        poc: '-', contact: '-', venue: 'Electrical Lab', time: '12:45-2:00', day: 'D1'
+        poc: 'Yatin', contact: '9034871027', venue: 'Electrical Lab', time: '12:45-2:00', day: 'D1'
     },
     {
         id: 'biddingwars',
@@ -294,19 +294,19 @@ const events: EventCard[] = [
         registerUrl: 'https://unstop.com/p/design-a-tee-verge-2026-srm-university-delhi-ncr-sonepat-1649866',
         poc: 'Vanshika Jain', contact: '9711280104', venue: 'Lab', time: '12:00-2:00', day: 'D2'
     },
-    {
-        id: 'kurukshetra',
-        category: 'ROBOTICS',
-        title: 'KURUKSHETRA*',
-        subtitle: 'Robo Tug-of-War Battle',
-        description: 'Kurukshetra is a robotics competition where robots compete in a tug-of-war battle. Students design powerful robots capable of pulling their opponent across a line. The event tests robot strength, traction, and mechanical design.',
-        prize: '₹5,000',
-        bgColor: '#1a1a2e',
-        planetImage: earth,
-        logo: kurukshetraIcon,
-        registerUrl: 'https://unstop.com/competition/kurukshetra',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '-', day: '-'
-    },
+    // {
+    //     id: 'kurukshetra',
+    //     category: 'ROBOTICS',
+    //     title: 'KURUKSHETRA*',
+    //     subtitle: 'Robo Tug-of-War Battle',
+    //     description: 'Kurukshetra is a robotics competition where robots compete in a tug-of-war battle. Students design powerful robots capable of pulling their opponent across a line. The event tests robot strength, traction, and mechanical design.',
+    //     prize: '₹5,000',
+    //     bgColor: '#1a1a2e',
+    //     planetImage: earth,
+    //     logo: kurukshetraIcon,
+    //     registerUrl: 'https://unstop.com/competition/kurukshetra',
+    //     poc: '-', contact: '-', venue: 'Near Admin Block', time: '-', day: '-'
+    // },
 ];
 
 export default function EventCardsSection() {
