@@ -17,6 +17,15 @@ interface CrewMember {
     instagram?: string;
 }
 
+interface FacultyMember {
+    _id: string;
+    name: string;
+    photo: string;
+    linkedin: string;
+    role: string;
+    quote: string;
+}
+
 const STUDENT_CATEGORIES = [
     { id: 'ORGANIZERS', label: 'Organizers' },
     { id: 'CORE TEAM', label: 'Core Team' },
@@ -209,117 +218,104 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
     );
 }
 
-function FacultyCard({ member, index }: { member: CrewMember; index: number }) {
+function FacultyCard({ member, index }: { member: FacultyMember; index: number }) {
     const [hovered, setHovered] = useState(false);
 
     return (
         <div
-            className={`relative group cursor-pointer transition-all duration-700 w-full ${hovered ? 'scale-[1.01] -translate-y-1' : ''}`}
+            className="relative group cursor-pointer transition-all duration-700 w-full mb-8"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            style={{ animationDelay: `${index * 0.15}s` }}
+            style={{ animationDelay: `${index * 0.1}s` }}
         >
             <div
-                className={`absolute -inset-0.5 rounded-xl blur-2xl opacity-0 transition-opacity duration-700 ${hovered ? 'opacity-100' : ''}`}
-                style={{ background: `linear-gradient(90deg, ${member.deptColor}40, transparent, ${member.deptColor}40)` }}
-            />
-
-            <div
-                className="relative flex flex-col md:flex-row bg-[#030303] rounded-xl border border-white/10 overflow-hidden"
+                className="relative h-full p-1 bg-[#050505] rounded-xl border border-white/10 overflow-hidden"
                 style={{
-                    borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.08)',
+                    borderColor: hovered ? 'rgba(16, 185, 129, 0.6)' : 'rgba(255,255,255,0.08)',
                 }}
             >
-                {/* Background accent */}
-                <div className="absolute inset-0 opacity-20 transition-opacity duration-700" style={{ background: `radial-gradient(circle at right, ${hovered ? member.deptColor : 'transparent'}, transparent 70%)` }} />
-
-                {/* Scan line */}
-                {hovered && (
-                    <div
-                        className="absolute inset-0 pointer-events-none opacity-40 z-10"
-                        style={{
-                            background: `linear-gradient(transparent 50%, ${member.deptColor}10 50%)`,
-                            backgroundSize: '100% 4px',
-                        }}
-                    />
-                )}
-
-                <div className="p-6 md:p-10 flex items-center justify-center bg-black/60 border-b md:border-b-0 md:border-r border-white/10 relative z-20 overflow-hidden">
-                    {/* Background grid in avatar section */}
-                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px)', backgroundSize: '10px 10px' }} />
-
-                    {/* Spinning ring around avatar on hover */}
-                    <div className={`absolute inset-0 m-2 border-2 border-dashed rounded-full transition-all duration-1000 ${hovered ? 'animate-[spin_15s_linear_infinite] opacity-30' : 'opacity-0'}`} style={{ borderColor: member.deptColor }} />
-
-                    {/* Hexagon Avatar */}
-                    <div className="relative w-24 h-24 md:w-32 md:h-32 filter drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]">
-                        {/* Outer Hexagon (Border) */}
+                {/* Inner glass layer */}
+                <div className="relative h-full w-full bg-gradient-to-b from-white/[0.03] to-transparent p-4 md:p-6 rounded-lg flex flex-col md:flex-row gap-6">
+                    {/* Scan line */}
+                    {hovered && (
                         <div
-                            className="absolute inset-0 transition-colors duration-500"
+                            className="absolute inset-0 pointer-events-none opacity-30 z-0"
                             style={{
-                                clipPath: 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)',
-                                backgroundColor: hovered ? member.deptColor : 'rgba(255,255,255,0.15)'
+                                background: `linear-gradient(transparent 50%, rgba(16, 185, 129, 0.05) 50%)`,
+                                backgroundSize: '100% 4px',
                             }}
                         />
-                        <div
-                            className="absolute inset-[2px] md:inset-[3px] flex items-center justify-center bg-[#0a0a0a]"
-                            style={{
-                                clipPath: 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)',
-                            }}
-                        >
-                            <div className="absolute inset-0 transition-opacity duration-700" style={{ background: `linear-gradient(135deg, ${member.deptColor}30, transparent)`, opacity: hovered ? 1 : 0.5 }} />
-                            <span className="text-3xl md:text-5xl font-bold tracking-wider relative z-10 transition-all duration-500"
-                                style={{ fontFamily: "'Orbitron', monospace", color: hovered ? '#fff' : 'rgba(255,255,255,0.6)', textShadow: hovered ? `0 0 20px ${member.deptColor}` : 'none' }}>
-                                {member.initials}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                    )}
 
-                <div className="flex-grow p-6 md:p-10 flex flex-col justify-center relative z-20">
-                    <div className="flex justify-between items-start mb-6">
-                        <div className="flex flex-col">
-                            <div className="flex items-center gap-3">
-                                <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase px-3 py-1.5 bg-white/5 border backdrop-blur-sm" style={{ borderColor: `${member.deptColor}40`, color: member.deptColor }}>
-                                    {member.department}
-                                </span>
+                    {/* Image Section */}
+                    <div className="relative w-full md:w-[180px] aspect-square md:aspect-[1/1] shrink-0 rounded-lg overflow-hidden border border-white/10">
+                        <img
+                            src={member.photo}
+                            alt={member.name}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100"
+                        />
+                    </div>
+
+                    {/* Info Section */}
+                    <div className="flex flex-col flex-grow text-left py-2">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 className="text-2xl md:text-3xl font-bold text-white tracking-[0.1em] mb-1 uppercase" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    {member.name}
+                                </h3>
+                                <p className="text-xs md:text-sm font-mono text-[#10b981] tracking-[0.2em] uppercase">
+                                    {member.role || 'FACULTY'}
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-2 border border-white/10 px-3 py-1 bg-black/50 rounded-sm self-start md:self-auto">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#00ffb4] shadow-[0_0_10px_#00ffb4]" />
+                                <span className="text-[10px] font-mono text-[#00ffb4] tracking-widest uppercase font-bold">ACTIVE</span>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 border border-white/10 px-3 py-1 bg-black/50">
-                            <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/50">STATUS</span>
-                            <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726', boxShadow: `0 0 10px ${member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726'}` }} />
-                                <span className="text-[10px] font-mono tracking-[0.2em] font-bold" style={{ color: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726' }}>{member.status}</span>
+
+                        {/* Quote */}
+                        <div className="relative mb-4 flex-grow">
+                            <div className="absolute -left-4 -top-2 text-3xl text-white/5 font-serif pointer-events-none select-none">"</div>
+                            <p className="text-sm text-white/60 italic leading-snug tracking-wide">
+                                {member.quote || "Dedicated to mentoring students and pushing the boundaries of engineering excellence."}
+                            </p>
+                        </div>
+
+                        {/* Decoration & Design Consistency */}
+                        <div className="mt-auto w-full">
+                            <div className="h-px w-full bg-white/10 my-4 relative overflow-hidden">
+                                <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '15%', backgroundColor: '#10b981' }} />
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex gap-1.5">
+                                        {[1, 2, 3].map(i => (
+                                            <div key={i} className="w-1.5 h-3 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `rgba(16, 185, 129, ${i * 0.3})` : 'rgba(255,255,255,0.05)' }} />
+                                        ))}
+                                    </div>
+                                    {member.linkedin && (
+                                        <a
+                                            href={member.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`flex items-center gap-2 border border-white/10 px-3 py-1.5 bg-black/50 rounded-full transition-all duration-300 relative z-20 text-white/40 ${hovered ? 'border-[#0077B5]/40 text-white/80 [text-shadow:0_0_10px_#0077B5]' : ''} hover:bg-[#0077B5] hover:text-white hover:border-[#0077B5] hover:shadow-[0_0_20px_#0077B5]`}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {/* <span className="text-[10px] font-mono tracking-widest uppercase font-bold">LinkedIn</span> */}
+                                            <Linkedin size={14} className={hovered ? 'drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]' : ''} />
+                                        </a>
+                                    )}
+                                </div>
+                                <span className="text-[8px] font-mono text-white/20 tracking-[0.4em] uppercase">FACULTY // 00{index + 1}</span>
                             </div>
                         </div>
                     </div>
 
-                    <h3 className="text-3xl md:text-5xl font-bold text-white tracking-[0.1em] mb-3 uppercase" style={{ fontFamily: "'Orbitron', monospace", textShadow: hovered ? `0 0 30px ${member.deptColor}60` : 'none' }}>
-                        {member.name}
-                    </h3>
-
-                    <div className="flex items-center gap-6 mt-2">
-                        <div className="flex gap-1.5">
-                            {[1, 2, 3, 4, 5].map(i => (
-                                <div key={i} className="w-2 h-4 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `${member.deptColor}${i * 20 + 10}` : 'rgba(255,255,255,0.1)' }} />
-                            ))}
-                        </div>
-                        <div className="h-px bg-white/10 flex-grow relative overflow-hidden">
-                            <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '10%', backgroundColor: member.deptColor }} />
-                        </div>
-                        <p className="text-sm md:text-base font-mono text-white/70 tracking-widest uppercase whitespace-nowrap bg-black/50 px-3 py-1 rounded">
-                            {member.designation}
-                        </p>
-                    </div>
-                </div>
-
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] transition-colors duration-500 z-30" style={{ borderColor: hovered ? member.deptColor : 'transparent' }} />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] transition-colors duration-500 z-30" style={{ borderColor: hovered ? member.deptColor : 'transparent' }} />
-
-                {/* Top right / bottom left subtle accents */}
-                <div className="absolute top-4 right-4 text-[10px] font-mono text-white/20 tracking-widest uppercase z-30 hidden md:block">
-                    {member.id}
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 transition-colors duration-500" style={{ borderColor: hovered ? 'rgba(16, 185, 129, 0.4)' : 'transparent' }} />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 transition-colors duration-500" style={{ borderColor: hovered ? 'rgba(16, 185, 129, 0.4)' : 'transparent' }} />
                 </div>
             </div>
         </div>
@@ -330,6 +326,7 @@ export default function HumansSection() {
     const [activeDept, setActiveDept] = useState('Students');
     const containerRef = useRef<HTMLDivElement>(null);
     const [crewMembers, setCrewMembers] = useState<CrewMember[]>([]);
+    const [facultyMembers, setFacultyMembers] = useState<FacultyMember[]>([]);
 
     useEffect(() => {
         const ROLE_MAP: Record<string, { department: string; deptColor: string; designation: string }> = {
@@ -344,44 +341,72 @@ export default function HumansSection() {
             'social media': { department: 'SOCIAL MEDIA', deptColor: '#ffa726', designation: 'Social Media' },
             'developers': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
             'developer': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
-            'faculty': { department: 'FACULTY', deptColor: '#ff00ff', designation: 'Faculty' },
+            'faculty': { department: 'FACULTY', deptColor: '#10b981', designation: 'Faculty' },
         };
 
-        const fetchTeamData = async () => {
+        const fetchAllData = async () => {
             try {
-                const response = await axios.get('https://verge-2026-codebase-production.up.railway.app/api/team');
-                const raw = response.data.data || response.data;
-                const mapped: CrewMember[] = (Array.isArray(raw) ? raw : []).map((item: any, i: number) => {
-                    const roleKey = (item.role || '').toLowerCase();
-                    const roleInfo = ROLE_MAP[roleKey] || { department: roleKey.toUpperCase(), deptColor: '#888', designation: item.role || 'Member' };
-                    const nameParts = (item.name || '').trim().split(/\s+/);
-                    const initials = nameParts.length >= 2
-                        ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
-                        : (item.name || 'XX').substring(0, 2).toUpperCase();
+                const [teamRes, facultyRes] = await Promise.all([
+                    axios.get('https://verge-2026-codebase-production.up.railway.app/api/team'),
+                    axios.get('https://verge-2026-codebase-production.up.railway.app/api/faculty')
+                ]);
 
-                    return {
-                        id: item._id || `CM-${i + 100}`,
-                        name: (item.name || '').toUpperCase(),
-                        initials,
-                        designation: roleInfo.designation,
-                        department: roleInfo.department,
-                        deptColor: roleInfo.deptColor,
-                        status: 'ACTIVE' as const,
-                        image: item.photo || undefined,
-                        linkedin: item.linkedin || undefined,
-                        instagram: item.instagram || undefined,
-                    };
+                // Map Team Data (Students)
+                const teamRaw = teamRes.data.data || teamRes.data;
+                const mappedTeam: CrewMember[] = (Array.isArray(teamRaw) ? teamRaw : [])
+                    .map((item: any, i: number) => {
+                        const roleKey = (item.role || '').toLowerCase();
+                        const roleInfo = ROLE_MAP[roleKey] || { department: roleKey.toUpperCase(), deptColor: '#888', designation: item.role || 'Member' };
+                        const nameParts = (item.name || '').trim().split(/\s+/);
+                        const initials = nameParts.length >= 2
+                            ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+                            : (item.name || 'XX').substring(0, 2).toUpperCase();
+
+                        return {
+                            id: item._id || `CM-${i + 100}`,
+                            name: (item.name || '').toUpperCase(),
+                            initials,
+                            designation: roleInfo.designation,
+                            department: roleInfo.department,
+                            deptColor: roleInfo.deptColor,
+                            status: 'ACTIVE' as const,
+                            image: item.photo || undefined,
+                            linkedin: item.linkedin || undefined,
+                            instagram: item.instagram || undefined,
+                        };
+                    })
+                    .filter(m => m.department !== 'FACULTY'); // Prevent faculty from student list if any
+
+                // Map & Sort Faculty Data
+                const facultyRaw = facultyRes.data.data || facultyRes.data;
+                let mappedFaculty: FacultyMember[] = Array.isArray(facultyRaw) ? facultyRaw : [];
+
+                // Custom sorting: faculty coordinator > convener > all co-convener
+                const roleOrder: Record<string, number> = {
+                    'faculty coordinator': 1,
+                    'convener': 2,
+                    'co-convener': 3,
+                    'co convener': 3
+                };
+
+                mappedFaculty = [...mappedFaculty].sort((a, b) => {
+                    const orderA = roleOrder[(a.role || '').toLowerCase()] || 99;
+                    const orderB = roleOrder[(b.role || '').toLowerCase()] || 99;
+                    return orderA - orderB;
                 });
-                setCrewMembers(mapped);
+
+                setCrewMembers(mappedTeam);
+                setFacultyMembers(mappedFaculty);
             } catch (error) {
-                console.error('Error fetching team data:', error);
+                console.error('Error fetching Humans data:', error);
             }
         };
-        fetchTeamData();
+
+        fetchAllData();
     }, []);
 
-    const facultyCrew = crewMembers.filter((m) => m.department === 'FACULTY');
-    const studentCrew = crewMembers.filter((m) => m.department !== 'FACULTY');
+    const studentCrew = crewMembers;
+    const facultyCrew = facultyMembers;
 
     function CrewCategoryRow({ title, members }: { title: string; members: CrewMember[] }) {
         const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -531,9 +556,9 @@ export default function HumansSection() {
 
                 {/* Faculty List (Visible only when Faculty tab is active) */}
                 {activeDept === 'Faculty' && (
-                    <div className="max-w-6xl mx-auto flex flex-col gap-6 mb-16">
+                    <div className="max-w-6xl mx-auto px-6 flex flex-col gap-8 mb-16">
                         {facultyCrew.map((member, i) => (
-                            <FacultyCard key={member.id} member={member} index={i} />
+                            <FacultyCard key={member._id} member={member} index={i} />
                         ))}
                     </div>
                 )}
@@ -579,7 +604,7 @@ export default function HumansSection() {
                 )}
 
                 {/* Join the crew CTA */}
-                <div className="text-center mt-20 pb-16">
+                {/* <div className="text-center mt-20 pb-16">
                     <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
                     <a
                         href="mailto:team@verge2026.com"
@@ -587,7 +612,7 @@ export default function HumansSection() {
                     >
                         [ JOIN THE CREW ]
                     </a>
-                </div>
+                </div> */}
 
             </div> {/* End Content Area */}
         </section>
