@@ -9,7 +9,6 @@ import HeroSection from './sections/HeroSection';
 import DataDashboard from './sections/DataDashboard';
 import TimelineSection from './sections/TimelineSection';
 import EventCardsSection from './sections/EventCardsSection';
-import SponsorsSection from './sections/SponsorsSection';
 import SpeakersSection from './sections/SpeakersSection';
 import AccommodationSection from './sections/AccommodationSection';
 import PrismaConcertSection from './sections/PrismaConcertSection';
@@ -17,6 +16,7 @@ import HighlightsSection from './sections/HighlightsSection';
 import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
 import Footer from './sections/Footer';
+import PartnersSection from './sections/PartnersSection';
 
 import './App.css';
 
@@ -25,7 +25,13 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [view, setView] = useState<'main' | 'about' | 'crew' | 'sponsors' | 'speakers'>('main'); // specific view state
+  const [view, setView] = useState<'main' | 'about' | 'crew' | 'speakers'>(() => {
+    const path = window.location.pathname;
+    if (path === '/crew') return 'crew';
+    if (path === '/speakers') return 'speakers';
+    if (path === '/about') return 'about';
+    return 'main';
+  }); // specific view state
 
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
@@ -35,7 +41,11 @@ function App() {
       if (event.state && event.state.view) {
         setView(event.state.view);
       } else {
-        setView('main');
+        const path = window.location.pathname;
+        if (path === '/crew') setView('crew');
+        else if (path === '/speakers') setView('speakers');
+        else if (path === '/about') setView('about');
+        else setView('main');
       }
     };
 
@@ -58,23 +68,19 @@ function App() {
   }, [view, pendingScroll]);
 
   const handleCrewClick = () => {
-    window.history.pushState({ view: 'crew' }, '', '#crew');
+    window.history.pushState({ view: 'crew' }, '', '/crew');
     setView('crew');
-  };
-
-  const handleSponsorsClick = () => {
-    window.history.pushState({ view: 'sponsors' }, '', '#sponsors');
-    setView('sponsors');
+    window.scrollTo(0, 0);
   };
 
   const handleSpeakersClick = () => {
-    window.history.pushState({ view: 'speakers' }, '', '#speakers');
+    window.history.pushState({ view: 'speakers' }, '', '/speakers');
     setView('speakers');
   };
 
   const handleBackToMain = () => {
-    // specific check to avoid keeping hashes in URL if we manually click back
-    if (window.location.hash === '#crew' || window.location.hash === '#sponsors' || window.location.hash === '#speakers') {
+    // specific check to avoid keeping paths in URL if we manually click back
+    if (window.location.pathname === '/crew' || window.location.pathname === '/speakers') {
       window.history.back();
     } else {
       setView('main');
@@ -176,7 +182,6 @@ function App() {
       <Header
         onLogoClick={() => setView('main')}
         onCrewClick={handleCrewClick}
-        onSponsorsClick={handleSponsorsClick}
         onSpeakersClick={handleSpeakersClick}
         onNavigate={handleNavigation}
       />
@@ -199,11 +204,11 @@ function App() {
               <PrismaConcertSection />
               <HighlightsSection />
               <AccommodationSection />
+              <PartnersSection />
               {/* SpeakersSection moved to own page */}
               {/* SponsorsSection moved to own page */}
               {/* HumansSection moved to own page */}
               <Footer
-                onSponsorsClick={handleSponsorsClick}
                 onSpeakersClick={handleSpeakersClick}
                 onNavigate={handleNavigation}
               />
@@ -218,11 +223,6 @@ function App() {
           {/* Crew/Humans Section */}
           {view === 'crew' && (
             <HumansSection />
-          )}
-
-          {/* Sponsors Section */}
-          {view === 'sponsors' && (
-            <SponsorsSection onBack={handleBackToMain} />
           )}
 
           {/* Speakers Section */}

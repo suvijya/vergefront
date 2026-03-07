@@ -367,11 +367,11 @@ export default function EventCardsSection() {
 
             {/* Header for mobile - optional, but let's keep it clean as per screenshot */}
 
-            <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 lg:gap-8 lg:h-[75vh] lg:min-h-[550px] lg:max-h-[850px]">
+            <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 lg:gap-8 lg:h-[80vh] lg:min-h-[650px] lg:max-h-[850px]">
 
                 {/* Left Panel - Event Details */}
                 <div
-                    className="relative flex flex-col min-h-[450px] lg:min-h-0 rounded-[2.5rem] overflow-hidden border border-white/10 transition-all duration-700 lg:h-full bg-black"
+                    className="relative flex flex-col min-h-[600px] lg:min-h-0 rounded-[0.5rem] overflow-hidden border border-white/10 transition-all duration-700 lg:h-full bg-black"
                 >
                     {/* Background Planet Image */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[65%] md:w-[60%] opacity-[0.2] pointer-events-none mix-blend-screen transition-all duration-1000 grayscale">
@@ -379,8 +379,7 @@ export default function EventCardsSection() {
                     </div>
 
                     <div
-                        className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-black/80 overflow-y-auto touch-pan-y overscroll-contain custom-scrollbar"
-                        style={{ WebkitOverflowScrolling: 'touch' }}
+                        className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-black/80 overflow-hidden"
                     >
                         {/* Top Bar: Category & Logo */}
                         <div className="flex justify-between items-start shrink-0">
@@ -454,7 +453,7 @@ export default function EventCardsSection() {
                 </div>
 
                 {/* Right Panel - Event List */}
-                <div className="flex flex-col h-[500px] lg:h-full min-h-0 overflow-hidden bg-black rounded-[2.5rem] border border-white/10 relative shadow-xl">
+                <div className="flex flex-col h-[500px] lg:h-full min-h-0 overflow-hidden bg-black rounded-[0.5rem] border border-white/10 relative shadow-xl">
                     <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
                     {/* Tabs */}
                     <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-black">

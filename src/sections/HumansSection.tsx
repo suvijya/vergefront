@@ -20,7 +20,7 @@ interface CrewMember {
 const STUDENT_CATEGORIES = [
     { id: 'ORGANIZERS', label: 'Organizers' },
     { id: 'CORE TEAM', label: 'Core Team' },
-    { id: 'MANAGERS', label: 'Managers' },
+    { id: 'EVENT COORDINATORS', label: 'Event Coordinators' },
     { id: 'SOCIAL MEDIA', label: 'Social Media' },
     { id: 'DEVELOPERS', label: 'Developers' },
 ];
@@ -108,8 +108,11 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
                                 <h3 className="text-base md:text-xl font-bold text-white tracking-[0.1em] mb-0.5 uppercase" style={{ fontFamily: "'Orbitron', monospace" }}>
                                     {member.name}
                                 </h3>
+                                <p className="text-[10px] md:text-xs font-mono text-white/40 tracking-[0.2em] uppercase">
+                                    {member.designation}
+                                </p>
                                 <div className="mt-auto w-full">
-                                    <div className="h-px w-full bg-white/10 my-2 relative overflow-hidden mt-3 md:mt-4 mb-2 md:mb-3">
+                                    <div className="h-px w-full bg-white/10 my-2 relative overflow-hidden mt-2 md:mt-3 mb-2 md:mb-3">
                                         <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '20%', backgroundColor: member.deptColor }} />
                                     </div>
                                     <div className="flex justify-between items-center mt-1">
@@ -331,10 +334,16 @@ export default function HumansSection() {
     useEffect(() => {
         const ROLE_MAP: Record<string, { department: string; deptColor: string; designation: string }> = {
             'organizer': { department: 'ORGANIZERS', deptColor: '#e0e0e0', designation: 'Organizer' },
+            'organizers': { department: 'ORGANIZERS', deptColor: '#e0e0e0', designation: 'Organizer' },
             'core team': { department: 'CORE TEAM', deptColor: '#00ffb4', designation: 'Core Member' },
-            'manager': { department: 'MANAGERS', deptColor: '#ff6b9d', designation: 'Manager' },
+            'manager': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'managers': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'manger': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'event coordinator': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'event coordinators': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
             'social media': { department: 'SOCIAL MEDIA', deptColor: '#ffa726', designation: 'Social Media' },
             'developers': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
+            'developer': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
             'faculty': { department: 'FACULTY', deptColor: '#ff00ff', designation: 'Faculty' },
         };
 
@@ -436,32 +445,34 @@ export default function HumansSection() {
         if (members.length === 0) return null;
 
         return (
-            <div className="mb-20">
-                <div className="flex items-center gap-4 mb-8 px-4 md:px-0 max-w-6xl mx-auto">
+            <div className="mb-20 max-w-7xl mx-auto px-6">
+                <div className="flex items-center gap-4 mb-8">
                     <div className="h-4 w-1 bg-cyan-400" />
                     <h3 className="text-xl md:text-2xl font-bold text-white uppercase tracking-[0.2em]"
                         style={{ fontFamily: "'Orbitron', monospace" }}>
                         {title}
                     </h3>
-                    <div className="h-px w-32 bg-gradient-to-r from-white/20 to-transparent" />
+                    <div className="h-px flex-grow bg-gradient-to-r from-white/20 to-transparent" />
                 </div>
-                <div className="relative w-full group">
-                    <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="relative w-full group overflow-hidden">
+                    <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black via-black/40 to-transparent z-20 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black via-black/40 to-transparent z-20 pointer-events-none" />
 
                     <div
                         ref={scrollContainerRef}
-                        className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none py-6 px-4 md:px-[15vw]"
+                        className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none py-6"
                         onMouseDown={onMouseDown}
                         onMouseLeave={onMouseLeave}
                         onMouseUp={onMouseUp}
                         onMouseMove={onMouseMove}
                         onMouseEnter={() => setIsHovered(true)}
+                        onTouchStart={() => setIsHovered(true)}
+                        onTouchEnd={() => setIsHovered(false)}
                         style={{ scrollBehavior: 'auto' }}
                     >
-                        <div className="flex items-stretch w-max gap-4 md:gap-6">
+                        <div className="flex items-stretch w-max gap-4 md:gap-8 pr-12">
                             {marqueeMembers.map((member, i) => (
-                                <div key={`${member.id}-${i}`} className="w-[220px] md:w-[320px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
+                                <div key={`${member.id}-${i}`} className="w-[220px] md:w-[280px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
                                     <CrewCard member={member} index={i} />
                                 </div>
                             ))}
@@ -476,9 +487,7 @@ export default function HumansSection() {
         <section
             id="humans"
             ref={containerRef}
-            data-lenis-prevent
-            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden pt-10 pb-10 overscroll-contain"
-            style={{ overscrollBehavior: 'contain' }}
+            className="relative min-h-screen bg-black text-white pt-32 pb-20 px-4 md:px-0"
         >
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
@@ -499,16 +508,16 @@ export default function HumansSection() {
                 }}
             />
 
-            {/* Department Filter Tabs - Pill Style */}
-            <div className="flex justify-center mb-8 md:mb-16 px-4 md:px-0">
-                <div className="flex overflow-x-auto no-scrollbar max-w-full items-center p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+            {/* Department Filter Tabs - Absolute at top, scrolls with page */}
+            <div className="absolute top-[110px] left-1/2 -translate-x-1/2 z-[60] flex justify-center px-4 w-full max-w-xl pointer-events-none">
+                <div className="flex overflow-x-auto no-scrollbar items-center p-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md shadow-2xl pointer-events-auto">
                     {departments.map((dept) => (
                         <button
                             key={dept}
                             onClick={() => setActiveDept(dept)}
-                            className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-mono tracking-wider transition-all duration-300 whitespace-nowrap ${activeDept === dept
-                                ? 'bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)]'
-                                : 'text-white/60 hover:text-white hover:bg-white/5'
+                            className={`px-6 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-mono tracking-widest uppercase transition-all duration-300 whitespace-nowrap ${activeDept === dept
+                                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                                : 'text-white/50 hover:text-white border border-transparent hover:bg-white/5'
                                 }`}
                         >
                             {dept}
@@ -517,38 +526,70 @@ export default function HumansSection() {
                 </div>
             </div>
 
-            {/* Faculty List (Visible only when Faculty tab is active) */}
-            {activeDept === 'Faculty' && (
-                <div className="max-w-6xl mx-auto flex flex-col gap-6 mb-16">
-                    {facultyCrew.map((member, i) => (
-                        <FacultyCard key={member.id} member={member} index={i} />
-                    ))}
-                </div>
-            )}
+            {/* Content Area */}
+            <div className="w-full relative z-10 pt-28">
 
-            {/* Student Horizontal Lists */}
-            {activeDept === 'Students' && (
-                <div className="w-full">
-                    {STUDENT_CATEGORIES.map((category) => (
-                        <CrewCategoryRow
-                            key={category.id}
-                            title={category.label}
-                            members={studentCrew.filter(m => m.department === category.id)}
-                        />
-                    ))}
-                </div>
-            )}
+                {/* Faculty List (Visible only when Faculty tab is active) */}
+                {activeDept === 'Faculty' && (
+                    <div className="max-w-6xl mx-auto flex flex-col gap-6 mb-16">
+                        {facultyCrew.map((member, i) => (
+                            <FacultyCard key={member.id} member={member} index={i} />
+                        ))}
+                    </div>
+                )}
 
-            {/* Join the crew CTA */}
-            <div className="text-center mt-20 pb-16">
-                <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
-                <a
-                    href="mailto:team@verge2026.com"
-                    className="inline-block px-8 py-3 border border-white/20 text-white/80 font-mono text-xs tracking-[0.2em] hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-full"
-                >
-                    [ JOIN THE CREW ]
-                </a>
-            </div>
+                {/* Student Horizontal Lists */}
+                {activeDept === 'Students' && (
+                    <div className="w-full">
+                        {STUDENT_CATEGORIES.map((category) => {
+                            const members = studentCrew.filter(m => m.department === category.id);
+                            if (members.length === 0) return null;
+
+                            if (category.id === 'ORGANIZERS') {
+                                return (
+                                    <CrewCategoryRow
+                                        key={category.id}
+                                        title={category.label}
+                                        members={members}
+                                    />
+                                );
+                            }
+
+                            return (
+                                <div key={category.id} className="mb-20 max-w-7xl mx-auto px-6">
+                                    <div className="flex items-center gap-4 mb-10">
+                                        <div className="h-4 w-1 bg-cyan-400" />
+                                        <h3 className="text-xl md:text-2xl font-bold text-white uppercase tracking-[0.2em]"
+                                            style={{ fontFamily: "'Orbitron', monospace" }}>
+                                            {category.label}
+                                        </h3>
+                                        <div className="h-px flex-grow bg-gradient-to-r from-white/20 to-transparent" />
+                                    </div>
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                                        {members.map((member, i) => (
+                                            <div key={member.id} className="aspect-[3.2/5]">
+                                                <CrewCard member={member} index={i} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {/* Join the crew CTA */}
+                <div className="text-center mt-20 pb-16">
+                    <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
+                    <a
+                        href="mailto:team@verge2026.com"
+                        className="inline-block px-8 py-3 border border-white/20 text-white/80 font-mono text-xs tracking-[0.2em] hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-full"
+                    >
+                        [ JOIN THE CREW ]
+                    </a>
+                </div>
+
+            </div> {/* End Content Area */}
         </section>
     );
 }
