@@ -233,7 +233,7 @@ function App() {
       )}
 
       {/* Status Bar - always visible */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm border-t border-white/10">
+      {/* <div className="fixed bottom-0 left-0 right-0 z-50 px-6 py-3 bg-black/80 backdrop-blur-sm border-t border-white/10">
         <div className="relative flex justify-between items-center text-[10px] font-mono tracking-wider text-white/60">
           <div className="flex items-center gap-8">
             <span className="hidden md:inline">SINUSOID OF SPREADING: <span className="text-cosmic-green">ACTIVE</span></span>
@@ -255,7 +255,7 @@ function App() {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
