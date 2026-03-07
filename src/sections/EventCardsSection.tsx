@@ -20,7 +20,7 @@ import corell from '../../asset/corell.webp';
 import tatoon from '../../asset/tatoon.webp';
 import chandrila from '../../asset/chandrila.webp';
 import ryloth from '../../asset/ryloth.webp';
-import earth from '../../asset/earth.png';
+// import earth from '../../asset/earth.png';
 
 // Import Logos
 import srmbuildsIcon from '../assets/logos/srmbuilds.webp';
@@ -37,7 +37,7 @@ import mark1Icon from '../assets/logos/mark1.webp';
 import tracertIcon from '../assets/logos/tracert.webp';
 import bridgeomaniaIcon from '../assets/logos/bridgeomania.webp';
 import memocracyIcon from '../assets/logos/memocracy.webp';
-import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
+// import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
 import astroIcon from '../assets/logos/astro.webp';
 import radCtfIcon from '../assets/logos/root.webp';
 
