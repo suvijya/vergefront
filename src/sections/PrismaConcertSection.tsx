@@ -120,6 +120,7 @@ export default function PrismaConcertSection() {
                                     className="absolute inset-0 bg-cover bg-center"
                                     style={{ backgroundImage: `url(${dannyImg})` }}
                                 />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-colors duration-500 z-0" />
                                 <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                             </div>
 
@@ -137,8 +138,8 @@ export default function PrismaConcertSection() {
                                 <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
                                     BOLLYWOOD NIGHT
                                 </p>
-                                <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded text-[10px] md:text-xs font-mono font-bold text-white/70 hover:text-white tracking-[0.2em] transition-all flex items-center gap-3">
-                                    GET TICKETS <span>→</span>
+                                <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded text-[10px] md:text-xs font-mono font-bold text-white/50 tracking-[0.2em] flex items-center gap-3 cursor-not-allowed">
+                                    COMING SOON
                                 </button>
                             </div>
                         </div>
@@ -151,6 +152,7 @@ export default function PrismaConcertSection() {
                                     className="absolute inset-0 bg-cover bg-center"
                                     style={{ backgroundImage: `url(${sunandaImg})` }}
                                 />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-colors duration-500 z-0" />
                                 <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                             </div>
 
@@ -168,8 +170,8 @@ export default function PrismaConcertSection() {
                                 <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
                                     LOVE NIGHT
                                 </p>
-                                <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded text-[10px] md:text-xs font-mono font-bold text-white/70 hover:text-white tracking-[0.2em] transition-all flex items-center gap-3">
-                                    GET TICKETS <span>→</span>
+                                <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded text-[10px] md:text-xs font-mono font-bold text-white/50 tracking-[0.2em] flex items-center gap-3 cursor-not-allowed">
+                                    COMING SOON
                                 </button>
                             </div>
                         </div>

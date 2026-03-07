@@ -1,10 +1,7 @@
-
 export default function Footer({
-    onSponsorsClick,
     onSpeakersClick,
     onNavigate
 }: {
-    onSponsorsClick?: () => void;
     onSpeakersClick?: () => void;
     onNavigate?: (href: string) => void;
 }) {
@@ -71,7 +68,7 @@ export default function Footer({
                                 }
                             };
                             return (
-                                <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
+                                <a key={item} href={item === 'SPEAKERS' ? '/speakers' : `#${item.toLowerCase().replace(' ', '-')}`} onClick={handleClick} className="text-[11px] text-white/90 hover:text-white uppercase tracking-widest transition-colors font-medium">
                                     {item}
                                 </a>
                             );
@@ -83,12 +80,9 @@ export default function Footer({
                         <span className="text-[9px] text-white/40 font-semibold tracking-widest uppercase mb-1">
                             CONTACT
                         </span>
-                        {['SPONSORS', 'EMAIL US', 'MAPS'].map((item) => {
+                        {['EMAIL US', 'MAPS'].map((item) => {
                             const handleClick = (e: React.MouseEvent) => {
-                                if (item === 'SPONSORS' && onSponsorsClick) {
-                                    e.preventDefault();
-                                    onSponsorsClick();
-                                } else if (item === 'EMAIL US' || item === 'MAPS') {
+                                if (item === 'EMAIL US' || item === 'MAPS') {
                                     // Handle natively with href
                                 } else if (onNavigate) {
                                     e.preventDefault();
