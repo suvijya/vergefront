@@ -17,7 +17,6 @@ import mark1Icon from '../assets/logos/mark1.webp';
 import tracertIcon from '../assets/logos/tracert.webp';
 import bridgeomaniaIcon from '../assets/logos/bridgeomania.webp';
 import memocracyIcon from '../assets/logos/memocracy.webp';
-import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
 import astroIcon from '../assets/logos/astro.webp';
 import radCtfIcon from '../assets/logos/root.webp';
 
@@ -38,37 +37,52 @@ interface DaySchedule {
 
 const scheduleData: DaySchedule[] = [
     {
-        date: 'DAY 1 - 15TH FEB',
+        date: 'DAY 0 - 12TH MAR',
         events: [
-            { time: '08:30', title: 'REGISTRATION', description: 'Participant Check-in', venue: 'MAIN ENTRY' },
-            { time: '10:00', title: 'INAUGURATION', description: 'Opening Ceremony & Keynote', venue: 'AUDITORIUM' },
-            { time: '12:00', title: 'SRM BUILDS 7.0', description: '24-Hour Hackathon Kickoff', venue: 'HACKER SPACE', logo: srmbuildsIcon },
-            { time: '12:15', title: 'DESIGN-A-TEE', description: 'T-Shirt Design Contest', venue: 'DESIGN LAB' },
-            { time: '12:30', title: 'INNOWAVE 2.0', description: 'Innovation Challenge', venue: 'INNOVATION HUB', logo: innowaveIcon },
-            { time: '13:00', title: 'ROBOLIGA', description: 'Robotics Showdown', venue: 'ARENA', logo: roboligaIcon },
-            { time: '14:30', title: 'MSME PANEL', description: 'Industry Discussion', venue: 'CONF. ROOM' },
-            { time: '15:30', title: 'RAD CTF 2.0', description: 'Cybersecurity Competition', venue: 'TECH CENTER', logo: radCtfIcon },
-            { time: '16:00', title: 'SNAP SYNTAX', description: 'Speed Coding Challenge', venue: 'CS LAB', logo: snapSyntaxIcon },
-            { time: '17:00', title: 'ARTISTIC AURA', description: 'Digital Design Competition', venue: 'DESIGN CENTER', logo: artisticIcon },
-            { time: '18:30', title: 'BUG BOUNTY', description: 'Cybersecurity Challenge', venue: 'CYBER LAB', logo: bugbountyIcon },
-            { time: '20:00', title: 'TRACERT', description: 'Autonomous Robotics', venue: 'ROBOTICS LAB', logo: tracertIcon },
-            { time: '21:30', title: 'JAMMING SESSION', description: 'Music & Networking', venue: 'CENTRAL LAWN' },
+            { time: '6:30 PM - 12:00 AM', title: 'Astrophotography & Campus Exploration', description: 'Includes Funzone & Campus Exploration', venue: 'Open Ground / Terrace Area', logo: astroIcon },
         ],
     },
     {
-        date: 'DAY 2 - 16TH FEB',
+        date: 'DAY 1 - 13TH MAR',
         events: [
-            { time: '01:30', title: 'MURDER MYSTERY', description: 'Late Night Mystery', venue: 'MYSTERY HALL', logo: murdermysteryIcon },
-            { time: '08:30', title: 'CODE BLITZ', description: 'Competitive Programming', venue: 'CS LAB', logo: codeblitzIcon },
-            { time: '09:00', title: 'BRIDGE-O-MANIA', description: 'Engineering Challenge', venue: 'STRUCTURAL LAB', logo: bridgeomaniaIcon },
-            { time: '10:00', title: 'REVVD', description: 'RC Racing Tournament', venue: 'RACING TRACK', logo: revvdIcon },
-            { time: '10:30', title: 'BIDDING WARS', description: 'Strategic Auction Game', venue: 'CONF. HALL', logo: biddingIcon },
-            { time: '11:30', title: 'KURUKSHETRA', description: 'Robo Tug-of-War', venue: 'BATTLE ARENA', logo: kurukshetraIcon },
-            { time: '12:00', title: 'MARK-1', description: 'Robo Combat Competition', venue: 'BATTLE ARENA', logo: mark1Icon },
-            { time: '13:00', title: 'MEMEOCRACY', description: 'Meme Making Contest', venue: 'CREATIVE ZONE', logo: memocracyIcon },
-            { time: '14:00', title: 'SPEAKER PANEL', description: 'Expert Tech Talks', venue: 'AUDITORIUM' },
-            { time: '15:30', title: 'ASTROPHOTOGRAPHY', description: 'Celestial Captures', venue: 'OBSERVATORY', logo: astroIcon },
-            { time: '17:00', title: 'AWARDS', description: 'Closing Ceremony', venue: 'MAIN STAGE' },
+            { time: 'Till 10:00 AM', title: 'Participant Registration & Check-in', description: '', venue: 'Main Gate' },
+            { time: '8:30 AM - 11:00 AM', title: 'Hardware Setup & ATP Exploration', description: '', venue: 'New Hostel Ground' },
+            { time: '9:00 AM - 11:00 AM', title: 'Safeguard Your Tower (Part 1)', description: '', venue: 'New EB Tracert Vacant Area' },
+            { time: '10:00 AM - 11:00 AM', title: 'Inauguration Ceremony', description: '', venue: 'Sarveshwar Auditorium' },
+            { time: 'Till 12:00 PM', title: 'Hackathon Verification & Room Allocation', description: 'Last Entry at 12 PM', venue: 'New EB Main Gate' },
+            { time: '12:00 PM Onwards', title: 'Commencement of Hackathon (24 Hours)', description: '', venue: 'Allocated Classrooms - New EB', logo: srmbuildsIcon },
+            { time: '12:00 PM - 2:00 PM', title: 'Roboliga (Robo Soccer)', description: '', venue: 'Open Arena Hostel ground', logo: roboligaIcon },
+            { time: '12:30 PM - 2:00 PM', title: 'Bridge-O-Mania', description: '', venue: 'Electrical Lab', logo: bridgeomaniaIcon },
+            { time: '12:30 PM - 4:30 PM', title: 'Innowave', description: '', venue: 'Seminar Hall / Assigned Room/New EB', logo: innowaveIcon },
+            { time: '12:30 PM - 4:30 PM', title: 'Bidding Wars (Round 1)', description: 'Continues to Day 2', venue: '5th Floor Lab - New EB', logo: biddingIcon },
+            { time: '1:30 PM - 2:30 PM', title: 'Lunch Break', description: 'Only for Hackathon & Accommodation Participants', venue: 'Food Court / Mess Area' },
+            { time: '2:30 PM - 3:30 PM', title: 'Tracert (Line Following Robot)', description: '', venue: 'Tracert Area - Near Escalator, New EB', logo: tracertIcon },
+            { time: '2:30 PM - 4:30 PM', title: 'Memocracy', description: '', venue: '5th Floor Lab', logo: memocracyIcon },
+            { time: '2:30 PM - 4:30 PM', title: 'Bug Bounty', description: '', venue: '5th Floor Lab', logo: bugbountyIcon },
+            { time: '4:30 PM Onwards', title: 'Award Ceremony (Day 1 Events)', description: '', venue: 'Auditorium' },
+            { time: '5:00 PM - 5:30 PM', title: 'Hackathon Refreshments', description: '', venue: 'New EB Lobby' },
+            { time: '5:15 PM', title: 'Transport Departure (Last)/IF', description: '', venue: 'Campus Exit Gate' },
+            { time: '5:00 PM - 6:30 PM', title: 'Code Blitz', description: '', venue: 'New EB', logo: codeblitzIcon },
+            { time: '8:00 PM - 9:30 PM', title: 'Dinner Break', description: '', venue: 'Food Court / Mess Area' },
+            { time: 'Till 11:00 PM', title: 'Concert', description: '', venue: 'Open Stage Area' },
+            { time: '1:30 AM', title: 'Jamming Session', description: '', venue: 'New EB' },
+            { time: '1:30 AM - 4:30 AM', title: 'Murder Mystery (Treasure Hunt)', description: '', venue: 'Law Dept Room & Campus', logo: murdermysteryIcon },
+        ],
+    },
+    {
+        date: 'DAY 2 - 14TH MAR',
+        events: [
+            { time: '8:00 AM - 9:30 AM', title: 'Breakfast', description: '', venue: 'Food Court / Mess Area' },
+            { time: '9:30 AM - 11:00 AM', title: 'Final Evaluation Round', description: '', venue: 'Allocated Evaluation Rooms' },
+            { time: '10:30 AM - 3:30 PM', title: 'RAD', description: '', venue: 'Assigned Venue', logo: radCtfIcon },
+            { time: '11:00 AM - 11:30 AM', title: 'Project Submission', description: '', venue: 'Hackathon Hall' },
+            { time: '11:30 AM Onwards', title: 'Announcement of Finalists', description: '', venue: 'Hackathon Hall' },
+            { time: '11:00 AM - 1:00 PM', title: 'Artistic Aura', description: '', venue: '5th Floor Lab', logo: artisticIcon },
+            { time: '11:00 AM - 1:00 PM', title: 'MARK-1 (Robowar)', description: '', venue: 'Arena Ground Hostel', logo: mark1Icon },
+            { time: '12:00 PM - 2:00 PM', title: 'Design A Tee', description: '', venue: '5th Floor Lab' },
+            { time: '12:30 PM - 4:30 PM', title: 'Snap Syntax', description: '', venue: 'Computer Lab', logo: snapSyntaxIcon },
+            { time: '1:00 PM - 2:00 PM', title: 'REVVD', description: '', venue: 'Mechanical Area Hostel', logo: revvdIcon },
+            { time: '2:00 PM - 4:00 PM', title: 'Velocity', description: '', venue: 'Track Area' },
         ],
     },
 ];

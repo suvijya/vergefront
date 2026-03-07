@@ -454,7 +454,7 @@ export default function EventCardsSection() {
                             onClick={() => setActiveTab('D1')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D1' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
                         >
-                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 1 <span className="text-white/10 hidden md:inline">· FEB 15</span></span>
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 1 <span className="text-white/10 hidden md:inline">· MAR 13</span></span>
                             {activeTab === 'D1' && (
                                 <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
                             )}
@@ -463,7 +463,7 @@ export default function EventCardsSection() {
                             onClick={() => setActiveTab('D2')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D2' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
                         >
-                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 2 <span className="text-white/10 hidden md:inline">· FEB 16</span></span>
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 2 <span className="text-white/10 hidden md:inline">· MAR 14</span></span>
                             {activeTab === 'D2' && (
                                 <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
                             )}
