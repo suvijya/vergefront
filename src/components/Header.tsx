@@ -5,14 +5,12 @@ import vergeLogo from '../assets/logo.png';
 export default function Header({
   onLogoClick,
   onCrewClick,
-  onSponsorsClick,
   onSpeakersClick,
   onNavigate,
   showNav = true,
 }: {
   onLogoClick: () => void;
   onCrewClick?: () => void;
-  onSponsorsClick?: () => void;
   onSpeakersClick?: () => void;
   onNavigate?: (href: string) => void;
   showNav?: boolean;
@@ -47,12 +45,11 @@ export default function Header({
   const leftNav: NavItem[] = [
     { label: 'EVENTS', href: '#events', action: () => activeOnNavigate('#events') },
     { label: 'SCHEDULE', href: '#schedule', action: () => activeOnNavigate('#schedule') },
-    { label: 'SPONSORS', href: '#sponsors', action: onSponsorsClick },
   ];
 
   const rightNav: NavItem[] = [
-    { label: 'SPEAKERS', href: '#speakers', action: onSpeakersClick },
-    { label: 'HUMANS', href: '#humans', action: onCrewClick },
+    { label: 'SPEAKERS', href: '/speakers', action: onSpeakersClick },
+    { label: 'HUMANS', href: '/crew', action: onCrewClick },
     { label: 'CONTACT', href: '#contact', action: () => activeOnNavigate('#contact') },
   ];
 

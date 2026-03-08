@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import ankitImg from '../../asset/ankit_cropped_.png';
+import dannyImg from '../../asset/danny.jpeg';
+import sunandaImg from '../../asset/sunanda.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -115,17 +117,17 @@ export default function PrismaConcertSection() {
                             {/* Background Image Setup */}
                             <div className="absolute inset-0 z-0">
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-40 transition-opacity duration-700 grayscale"
-                                    style={{ backgroundImage: `url(${ankitImg})` }}
+                                    className="absolute inset-0 bg-cover bg-center"
+                                    style={{ backgroundImage: `url(${dannyImg})` }}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-colors duration-500 z-0" />
+                                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                             </div>
 
                             <div className="relative z-10 flex flex-col items-start">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
-                                    <span className="text-[10px] md:text-[11px] font-mono font-bold text-white/70 tracking-[0.2em]">DAY 2</span>
+                                    <span className="text-[10px] md:text-[11px] font-mono font-bold text-white/70 tracking-[0.2em]">DAY 1</span>
                                 </div>
                                 <h3
                                     className="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-1 mt-1 leading-none"
@@ -136,8 +138,8 @@ export default function PrismaConcertSection() {
                                 <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
                                     BOLLYWOOD NIGHT
                                 </p>
-                                <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded text-[10px] md:text-xs font-mono font-bold text-white/70 hover:text-white tracking-[0.2em] transition-all flex items-center gap-3">
-                                    GET TICKETS <span>→</span>
+                                <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded text-[10px] md:text-xs font-mono font-bold text-white/50 tracking-[0.2em] flex items-center gap-3 cursor-not-allowed">
+                                    COMING SOON
                                 </button>
                             </div>
                         </div>
@@ -147,17 +149,17 @@ export default function PrismaConcertSection() {
                             {/* Background Image Setup */}
                             <div className="absolute inset-0 z-0">
                                 <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-40 transition-opacity duration-700 grayscale"
-                                    style={{ backgroundImage: `url(${ankitImg})` }}
+                                    className="absolute inset-0 bg-cover bg-center"
+                                    style={{ backgroundImage: `url(${sunandaImg})` }}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-colors duration-500 z-0" />
+                                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                             </div>
 
                             <div className="relative z-10 flex flex-col items-start">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)]" />
-                                    <span className="text-[10px] md:text-[11px] font-mono font-bold text-white/70 tracking-[0.2em]">DAY 1</span>
+                                    <span className="text-[10px] md:text-[11px] font-mono font-bold text-white/70 tracking-[0.2em]">DAY 2</span>
                                 </div>
                                 <h3
                                     className="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-1 mt-1 leading-[0.9]"
@@ -168,8 +170,8 @@ export default function PrismaConcertSection() {
                                 <p className="text-[9px] md:text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mb-8 md:mb-10 font-bold">
                                     LOVE NIGHT
                                 </p>
-                                <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded text-[10px] md:text-xs font-mono font-bold text-white/70 hover:text-white tracking-[0.2em] transition-all flex items-center gap-3">
-                                    GET TICKETS <span>→</span>
+                                <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded text-[10px] md:text-xs font-mono font-bold text-white/50 tracking-[0.2em] flex items-center gap-3 cursor-not-allowed">
+                                    COMING SOON
                                 </button>
                             </div>
                         </div>

@@ -20,7 +20,7 @@ import corell from '../../asset/corell.webp';
 import tatoon from '../../asset/tatoon.webp';
 import chandrila from '../../asset/chandrila.webp';
 import ryloth from '../../asset/ryloth.webp';
-import earth from '../../asset/earth.png';
+// import earth from '../../asset/earth.png';
 
 // Import Logos
 import srmbuildsIcon from '../assets/logos/srmbuilds.webp';
@@ -37,7 +37,7 @@ import mark1Icon from '../assets/logos/mark1.webp';
 import tracertIcon from '../assets/logos/tracert.webp';
 import bridgeomaniaIcon from '../assets/logos/bridgeomania.webp';
 import memocracyIcon from '../assets/logos/memocracy.webp';
-import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
+// import kurukshetraIcon from '../assets/logos/kurukshetra.webp';
 import astroIcon from '../assets/logos/astro.webp';
 import radCtfIcon from '../assets/logos/root.webp';
 
@@ -71,7 +71,7 @@ const events: EventCard[] = [
         planetImage: mercury,
         logo: srmbuildsIcon,
         registerUrl: 'https://unstop.com/p/srm-builds-70-verge-2026-srm-university-delhi-ncr-sonepat-1648620',
-        poc: '-', contact: '-', venue: 'NEB', time: '12:00', day: 'D1'
+        poc: 'Ashish', contact: '9931190218', venue: 'NEB', time: '12:00', day: 'D1'
     },
     {
         id: 'mark1',
@@ -84,7 +84,7 @@ const events: EventCard[] = [
         planetImage: mars,
         logo: mark1Icon,
         registerUrl: 'https://unstop.com/p/mark-1-robotwar-verge-2026-srm-university-delhi-ncr-sonepat-1648607',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
+        poc: 'Manas', contact: '9555155720', venue: 'Near Admin Block', time: '11:00-1:00', day: 'D2'
     },
     {
         id: 'radctf',
@@ -97,7 +97,7 @@ const events: EventCard[] = [
         planetImage: neptune,
         logo: radCtfIcon,
         registerUrl: 'https://unstop.com/p/rad-cyber-ctf-verge-2026-srm-university-delhi-ncr-sonepat-1647956',
-        poc: 'Kanishk', contact: '9811564912', venue: 'Lab', time: '10:00-3:30pm', day: 'D2'
+        poc: 'Kanishk', contact: '9811564912', venue: 'Assigned Venue', time: '10:30-3:30pm', day: 'D2'
     },
     {
         id: 'velocity',
@@ -110,7 +110,7 @@ const events: EventCard[] = [
         planetImage: venus,
         logo: revvdIcon, // Fallback to Revvd style for driving/racing
         registerUrl: 'https://unstop.com/p/velocity-drone-race-verge-2026-srm-university-delhi-ncr-sonepat-1648638',
-        poc: '-', contact: '-', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
+        poc: 'Aakash', contact: '8950197304', venue: 'Sports Ground', time: '2:00-4:00pm', day: 'D2'
     },
     {
         id: 'revvd',
@@ -123,7 +123,7 @@ const events: EventCard[] = [
         planetImage: jupiter,
         logo: revvdIcon,
         registerUrl: 'https://unstop.com/p/revvd-rc-car-racing-verge-2026-srm-university-delhi-ncr-sonepat-1648636',
-        poc: '-', contact: '-', venue: 'Sports Ground', time: '1:00-2:00pm', day: 'D2'
+        poc: 'Sanchit', contact: '9896404757', venue: 'Sports Ground', time: '1:00-2:00pm', day: 'D2'
     },
     {
         id: 'roboliga',
@@ -136,7 +136,7 @@ const events: EventCard[] = [
         planetImage: saturn,
         logo: roboligaIcon,
         registerUrl: 'https://unstop.com/p/roboliga-robo-soccer-verge-2026-srm-university-delhi-ncr-sonepat-1648596',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '12:30-2:00', day: 'D1'
+        poc: 'Manas', contact: '9555155720', venue: 'Open Arena Hostel ground', time: '12:00-2:00', day: 'D1'
     },
     {
         id: 'innowave',
@@ -149,7 +149,7 @@ const events: EventCard[] = [
         planetImage: uranus,
         logo: innowaveIcon,
         registerUrl: 'https://unstop.com/p/innowave-verge-2026-srm-university-delhi-ncr-sonepat-1648577',
-        poc: 'Khushi', contact: '7250810227', venue: 'NEB Room', time: '12:15-4:30', day: 'D1'
+        poc: 'Khushi', contact: '7250810227', venue: 'Seminar Hall / Assigned Room/New EB', time: '12:30-4:30', day: 'D1'
     },
     {
         id: 'bugbounty',
@@ -162,7 +162,7 @@ const events: EventCard[] = [
         planetImage: pluto,
         logo: bugbountyIcon,
         registerUrl: 'https://unstop.com/p/bug-bounty-srm-university-delhi-ncr-sonepat-1647952',
-        poc: 'Vritti', contact: '9315606580', venue: 'Lab', time: '2:00-4:30pm', day: 'D1'
+        poc: 'Vritti', contact: '9315606580', venue: '5th Floor Lab', time: '2:30-4:30pm', day: 'D1'
     },
     {
         id: 'snapsyntax',
@@ -175,7 +175,7 @@ const events: EventCard[] = [
         planetImage: moon,
         logo: snapSyntaxIcon,
         registerUrl: 'https://unstop.com/p/snap-syntax-verge-2026-srm-university-delhi-ncr-sonepat-1646246',
-        poc: 'Rashi', contact: '9729216244', venue: 'Lab', time: '4:45-6:00pm', day: 'D1'
+        poc: 'Rashi', contact: '9729216244', venue: 'Computer Lab', time: '12:30-4:30pm', day: 'D2'
     },
     {
         id: 'codeblitz',
@@ -188,7 +188,7 @@ const events: EventCard[] = [
         planetImage: sun,
         logo: codeblitzIcon,
         registerUrl: 'https://unstop.com/p/code-blitz-verge-2026-srm-university-delhi-ncr-sonepat-1647917',
-        poc: 'Aryan', contact: '9306882773', venue: 'Lab', time: '10:00-11:30pm', day: 'D1'
+        poc: 'Aryan', contact: '9306882773', venue: 'New EB', time: '5:00-6:30pm', day: 'D1'
     },
     {
         id: 'artisticaura',
@@ -213,8 +213,8 @@ const events: EventCard[] = [
         bgColor: '#2d1b4e',
         planetImage: kashyk,
         logo: murdermysteryIcon,
-        registerUrl: 'https://unstop.com/competition/murder-mystery',
-        poc: '-', contact: '-', venue: 'EB + NEB', time: '1:00-3:00am', day: 'D2'
+        registerUrl: 'https://unstop.com/competitions/murder-mystery-verge-2026-srm-university-delhi-ncr-sonepat-1651115',
+        poc: 'Kanika', contact: '8130477306', venue: 'Law Dept Room & Campus', time: '1:30-4:30am', day: 'D2'
     },
     {
         id: 'astrophotography',
@@ -227,7 +227,7 @@ const events: EventCard[] = [
         planetImage: genosis,
         logo: astroIcon,
         registerUrl: 'https://unstop.com/p/astro-photography-verge-2026-srm-university-delhi-ncr-sonepat-1649867',
-        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Sports Ground', time: '6:00pm.. 10:00-2:00', day: 'D0'
+        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Open Ground / Terrace Area', time: '6:30pm-12:00am', day: 'D0'
     },
     {
         id: 'tracert',
@@ -240,7 +240,7 @@ const events: EventCard[] = [
         planetImage: naboo,
         logo: tracertIcon,
         registerUrl: 'https://unstop.com/p/tracert-line-follower-verge-2026-srm-university-delhi-ncr-sonepat-1648631',
-        poc: '-', contact: '-', venue: 'Near Escalators', time: '2:00-3:00', day: 'D1'
+        poc: 'Vasundhara', contact: '9548760182', venue: 'Tracert Area - Near Escalator, New EB', time: '2:30-3:30', day: 'D1'
     },
     {
         id: 'bridgeomania',
@@ -253,7 +253,7 @@ const events: EventCard[] = [
         planetImage: corell,
         logo: bridgeomaniaIcon,
         registerUrl: 'https://unstop.com/p/bridge-o-mania-verge-2026-srm-university-delhi-ncr-sonepat-1647927',
-        poc: '-', contact: '-', venue: 'Electrical Lab', time: '12:45-2:00', day: 'D1'
+        poc: 'Yatin', contact: '9034871027', venue: 'Electrical Lab', time: '12:30-2:00', day: 'D1'
     },
     {
         id: 'biddingwars',
@@ -265,8 +265,8 @@ const events: EventCard[] = [
         bgColor: '#2b2d42',
         planetImage: tatoon,
         logo: biddingIcon,
-        registerUrl: 'https://unstop.com/competition/bidding-wars',
-        poc: 'Shaurya', contact: '8447643031', venue: 'Lab', time: '10:00-4:00pm', day: 'D2'
+        registerUrl: 'https://unstop.com/competitions/biddin-war-verge-2026-srm-university-delhi-ncr-sonepat-1649019',
+        poc: 'Shaurya', contact: '8447643031', venue: '5th Floor Lab - New EB', time: '12:30-4:30pm', day: 'D1'
     },
     {
         id: 'memeocracy',
@@ -274,12 +274,12 @@ const events: EventCard[] = [
         title: 'MEMEOCRACY*',
         subtitle: 'Meme Making Competition',
         description: 'Memeocracy is a creative competition where students create memes based on given themes or topics. Participants showcase humor, creativity, and communication skills through digital content creation.',
-        prize: '₹2,500',
+        prize: '₹2,000',
         bgColor: '#1a3c40',
         planetImage: chandrila,
         logo: memocracyIcon,
         registerUrl: 'https://unstop.com/p/memocracy-verge-2026-srm-university-delhi-ncr-sonepat-1647981',
-        poc: 'Hriday', contact: '9818650375', venue: 'Lab', time: '12:00-2:00pm', day: 'D1'
+        poc: 'Hriday', contact: '9818650375', venue: '5th Floor Lab', time: '2:30-4:30pm', day: 'D1'
     },
     {
         id: 'designatee',
@@ -294,19 +294,19 @@ const events: EventCard[] = [
         registerUrl: 'https://unstop.com/p/design-a-tee-verge-2026-srm-university-delhi-ncr-sonepat-1649866',
         poc: 'Vanshika Jain', contact: '9711280104', venue: 'Lab', time: '12:00-2:00', day: 'D2'
     },
-    {
-        id: 'kurukshetra',
-        category: 'ROBOTICS',
-        title: 'KURUKSHETRA*',
-        subtitle: 'Robo Tug-of-War Battle',
-        description: 'Kurukshetra is a robotics competition where robots compete in a tug-of-war battle. Students design powerful robots capable of pulling their opponent across a line. The event tests robot strength, traction, and mechanical design.',
-        prize: '₹5,000',
-        bgColor: '#1a1a2e',
-        planetImage: earth,
-        logo: kurukshetraIcon,
-        registerUrl: 'https://unstop.com/competition/kurukshetra',
-        poc: '-', contact: '-', venue: 'Near Admin Block', time: '-', day: '-'
-    },
+    // {
+    //     id: 'kurukshetra',
+    //     category: 'ROBOTICS',
+    //     title: 'KURUKSHETRA*',
+    //     subtitle: 'Robo Tug-of-War Battle',
+    //     description: 'Kurukshetra is a robotics competition where robots compete in a tug-of-war battle. Students design powerful robots capable of pulling their opponent across a line. The event tests robot strength, traction, and mechanical design.',
+    //     prize: '₹5,000',
+    //     bgColor: '#1a1a2e',
+    //     planetImage: earth,
+    //     logo: kurukshetraIcon,
+    //     registerUrl: 'https://unstop.com/competition/kurukshetra',
+    //     poc: '-', contact: '-', venue: 'Near Admin Block', time: '-', day: '-'
+    // },
 ];
 
 export default function EventCardsSection() {
@@ -348,7 +348,7 @@ export default function EventCardsSection() {
     }, []);
 
     return (
-        <section id="events" className="min-h-screen w-full bg-[#050505] py-20 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center font-sans relative z-10">
+        <section id="events" className="min-h-screen w-full bg-black py-20 px-4 md:px-8 lg:px-16 flex flex-col lg:items-center lg:justify-center font-sans relative z-10">
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 4px;
@@ -367,20 +367,22 @@ export default function EventCardsSection() {
 
             {/* Header for mobile - optional, but let's keep it clean as per screenshot */}
 
-            <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 lg:gap-8 h-[75vh] min-h-[550px] max-h-[850px]">
+            <div className="max-w-[1300px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 lg:gap-8 lg:h-[80vh] lg:min-h-[650px] lg:max-h-[850px]">
 
                 {/* Left Panel - Event Details */}
                 <div
-                    className="relative flex flex-col min-h-0 rounded-[2.5rem] overflow-hidden border border-white/10 transition-all duration-700 h-full bg-[#0d0d11]"
+                    className="relative flex flex-col min-h-[600px] lg:min-h-0 rounded-[0.5rem] overflow-hidden border border-white/10 transition-all duration-700 lg:h-full bg-black"
                 >
                     {/* Background Planet Image */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[65%] md:w-[60%] opacity-[0.2] pointer-events-none mix-blend-screen transition-all duration-1000 grayscale">
                         <img src={selectedEvent.planetImage} alt="" className="w-full h-full object-contain drop-shadow-2xl" />
                     </div>
 
-                    <div className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-[#0a0a0c]/80">
+                    <div
+                        className="relative z-10 p-5 md:p-8 flex flex-col h-full bg-gradient-to-b from-transparent to-black/80 overflow-hidden"
+                    >
                         {/* Top Bar: Category & Logo */}
-                        <div className="flex justify-between items-start mb-auto">
+                        <div className="flex justify-between items-start shrink-0">
                             <span className="px-2.5 py-1 text-[9px] font-mono tracking-widest text-[#23b5d3] border border-[#23b5d3]/30 rounded-sm uppercase bg-[#23b5d3]/10 backdrop-blur-sm">
                                 {selectedEvent.category}
                             </span>
@@ -390,7 +392,7 @@ export default function EventCardsSection() {
                         </div>
 
                         {/* Title Section */}
-                        <div className="mt-8 mb-3">
+                        <div className="mt-8 mb-3 shrink-0">
                             <h2
                                 className="text-3xl md:text-4xl lg:text-5xl lg:text-[3.25rem] font-black text-white italic tracking-tighter uppercase mb-2 drop-shadow-xl"
                                 style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '-0.02em', lineHeight: '1.1' }}
@@ -403,26 +405,40 @@ export default function EventCardsSection() {
                         </div>
 
                         {/* Description */}
-                        <p className="text-[10px] md:text-[11px] text-white/40 leading-relaxed font-mono line-clamp-3 lg:line-clamp-none mb-6 max-w-lg mt-2">
+                        <p className="text-[10px] md:text-[11px] text-white/40 leading-relaxed font-mono mb-6 max-w-lg mt-2 shrink-0">
                             {selectedEvent.description}
                         </p>
 
                         {/* Info Boxes */}
-                        <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 mt-auto">
-                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                        <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 mt-auto shrink-0">
+                            <div className="bg-black border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
                                 <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">PRIZE</div>
                                 <div className="text-lg md:text-xl font-bold text-amber-300 font-mono tracking-tight">{selectedEvent.prize}</div>
                             </div>
-                            <div className="bg-[#111114] border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
+                            <div className="bg-black border border-white/5 rounded-xl p-3 md:p-4 shadow-inner">
                                 <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1.5">TIME</div>
                                 <div className="text-sm md:text-base font-bold text-[#23b5d3] font-mono">
                                     {selectedEvent.time !== '-' ? selectedEvent.time : 'TBA'}
                                 </div>
                             </div>
+                            {selectedEvent.poc && selectedEvent.poc !== '-' && (
+                                <div className="bg-black border border-white/5 rounded-xl p-2 md:p-3 shadow-inner col-span-2 flex justify-between items-center">
+                                    <div className="px-2">
+                                        <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1">POC</div>
+                                        <div className="text-xs md:text-sm font-bold text-white font-mono">{selectedEvent.poc}</div>
+                                    </div>
+                                    {selectedEvent.contact && selectedEvent.contact !== '-' && (
+                                        <div className="text-right px-2">
+                                            <div className="text-[8px] md:text-[9px] font-mono text-white/30 tracking-widest uppercase mb-1">CONTACT</div>
+                                            <a href={`tel:${selectedEvent.contact}`} className="text-xs md:text-sm font-bold text-[#23b5d3] hover:text-white transition-colors font-mono">{selectedEvent.contact}</a>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 mt-auto shrink-0">
                             <a
                                 href={selectedEvent.registerUrl}
                                 target="_blank"
@@ -432,18 +448,15 @@ export default function EventCardsSection() {
                                 <span>REGISTER</span>
                                 <span>→</span>
                             </a>
-                            <button className="px-5 md:px-8 py-3 md:py-4 bg-[#111114] border border-white/5 text-white/50 text-[10px] md:text-[11px] font-mono tracking-widest uppercase rounded-lg hover:bg-white/10 hover:text-white transition-colors active:scale-[0.98]">
-                                INFO
-                            </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Right Panel - Event List */}
-                <div className="flex flex-col h-full min-h-0 overflow-hidden bg-[#0a0a0c] rounded-[2.5rem] border border-white/10 relative shadow-xl">
+                <div className="flex flex-col h-[500px] lg:h-full min-h-0 overflow-hidden bg-black rounded-[0.5rem] border border-white/10 relative shadow-xl">
                     <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
                     {/* Tabs */}
-                    <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-[#0a0a0c]">
+                    <div className="flex justify-between border-b border-white/10 px-2 md:px-6 relative z-10 bg-black">
                         <button
                             onClick={() => setActiveTab('ALL')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'ALL' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
@@ -457,7 +470,7 @@ export default function EventCardsSection() {
                             onClick={() => setActiveTab('D1')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D1' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
                         >
-                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 1 <span className="text-white/10 hidden md:inline">· FEB 15</span></span>
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 1 <span className="text-white/10 hidden md:inline">· MAR 13</span></span>
                             {activeTab === 'D1' && (
                                 <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
                             )}
@@ -466,7 +479,7 @@ export default function EventCardsSection() {
                             onClick={() => setActiveTab('D2')}
                             className={`py-5 md:py-6 px-2 md:px-4 text-[9px] md:text-[10px] font-mono tracking-widest uppercase relative outline-none transition-colors ${activeTab === 'D2' ? 'text-[#23b5d3] font-bold' : 'text-white/30 hover:text-white/60'}`}
                         >
-                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 2 <span className="text-white/10 hidden md:inline">· FEB 16</span></span>
+                            <span className="relative z-10 flex gap-1 md:gap-2">DAY 2 <span className="text-white/10 hidden md:inline">· MAR 14</span></span>
                             {activeTab === 'D2' && (
                                 <div className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#23b5d3] shadow-[0_0_10px_rgba(35,181,211,0.3)]" />
                             )}

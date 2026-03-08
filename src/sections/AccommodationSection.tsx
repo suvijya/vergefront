@@ -51,7 +51,7 @@ export default function AccommodationSection() {
         {
             title: "1 DAY PASS",
             subtitle: "Accommodation + Mess",
-            price: "₹499",
+            price: "₹699",
             duration: "",
             color: "from-cyan-500/20 to-blue-500/5",
             borderColor: "border-cyan-500/30",
@@ -68,7 +68,7 @@ export default function AccommodationSection() {
         {
             title: "2 DAYS STAY",
             subtitle: "Accommodation Only",
-            price: "₹499",
+            price: "₹699",
             duration: "",
             color: "from-purple-500/20 to-pink-500/5",
             borderColor: "border-purple-500/30",
@@ -85,7 +85,7 @@ export default function AccommodationSection() {
         {
             title: "FULL STAY",
             subtitle: "Accommodation + Mess",
-            price: "₹999",
+            price: "₹1199",
             duration: "",
             color: "from-emerald-500/20 to-teal-500/5",
             borderColor: "border-emerald-500/30",
@@ -102,7 +102,7 @@ export default function AccommodationSection() {
         {
             title: "ULTIMATE COMBO",
             subtitle: "Stay + Mess + Concerts",
-            price: "₹1999",
+            price: "₹1849",
             duration: "",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
@@ -185,14 +185,14 @@ export default function AccommodationSection() {
                 {/* Pricing Cards */}
                 <div
                     ref={cardsRef}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-4"
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-2 md:px-4"
                 >
                     {packages.map((tier, index) => {
                         const isUltimate = index === 3;
                         return (
                             <div
                                 key={index}
-                                className={`accom-card relative w-full max-w-[350px] lg:max-w-none h-full group rounded-xl md:rounded-2xl border ${isUltimate ? 'border-amber-500/50' : tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:scale-[1.03] flex flex-col ${isUltimate ? 'ultimate-pulse z-20' : 'z-10 hover:z-20'}`}
+                                className={`accom-card relative w-full max-w-[350px] lg:max-w-none h-full group rounded-xl md:rounded-2xl border ${isUltimate ? 'border-amber-500/50' : tier.borderColor} bg-gradient-to-b ${tier.color} backdrop-blur-md p-3 md:p-5 lg:p-6 overflow-hidden transition-all duration-500 hover:scale-[1.03] flex flex-col ${isUltimate ? 'ultimate-pulse z-20' : 'z-10 hover:z-20'}`}
                                 style={{
                                     boxShadow: isUltimate ? 'none' : `0 10px 40px -10px ${tier.glowColor}, inset 0 0 20px -10px ${tier.glowColor}`
                                 }}
@@ -208,35 +208,35 @@ export default function AccommodationSection() {
 
                                 {/* Card Content */}
                                 <div className="relative z-10 flex flex-col h-full">
-                                    <h3 className={`text-base md:text-xl font-bold tracking-wider md:tracking-widest ${tier.accent} mb-0.5 drop-shadow-[0_0_8px_currentColor]`} style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    <h3 className={`text-sm md:text-xl font-bold tracking-wider md:tracking-widest ${tier.accent} mb-0.5 drop-shadow-[0_0_8px_currentColor]`} style={{ fontFamily: "'Orbitron', monospace" }}>
                                         {tier.title}
                                     </h3>
-                                    <div className="text-[10px] md:text-xs font-mono text-white/50 tracking-wider mb-4 md:mb-8 uppercase group-hover:text-white/80 transition-colors">
+                                    <div className="text-[8px] md:text-xs font-mono text-white/50 tracking-wider mb-3 md:mb-8 uppercase group-hover:text-white/80 transition-colors">
                                         {tier.subtitle}
                                     </div>
 
-                                    <div className="flex items-baseline gap-2 mb-4 md:mb-8">
-                                        <span className="text-3xl md:text-5xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] transition-all" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    <div className="flex items-baseline gap-1 md:gap-2 mb-3 md:mb-8">
+                                        <span className="text-2xl md:text-5xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] transition-all" style={{ fontFamily: "'Orbitron', monospace" }}>
                                             {tier.price}
                                         </span>
-                                        <span className="text-xs md:text-sm font-mono text-emerald-400 font-bold mb-1 md:mb-2 tracking-widest">
+                                        <span className="text-[9px] md:text-sm font-mono text-emerald-400 font-bold mb-1 md:mb-2 tracking-widest">
                                             {tier.duration}
                                         </span>
                                     </div>
 
                                     {/* Glowing Separator */}
-                                    <div className={`h-px w-full bg-gradient-to-r from-transparent via-${isUltimate ? 'amber-500/50' : 'white/20'} to-transparent mb-4 md:mb-8 group-hover:via-${isUltimate ? 'amber-400' : 'white/60'} transition-all duration-500`} />
+                                    <div className={`h-px w-full bg-gradient-to-r from-transparent via-${isUltimate ? 'amber-500/50' : 'white/20'} to-transparent mb-3 md:mb-8 group-hover:via-${isUltimate ? 'amber-400' : 'white/60'} transition-all duration-500`} />
 
-                                    <ul className="space-y-3 md:space-y-5 mb-6 md:mb-10">
+                                    <ul className="space-y-2 md:space-y-5 mb-4 md:mb-10">
                                         {tier.features.map((feature, fIndex) => (
-                                            <li key={fIndex} className="flex items-start gap-3 group/item">
+                                            <li key={fIndex} className="flex items-start gap-2 md:gap-3 group/item">
                                                 {/* Tech Reticle SVG */}
-                                                <svg className={`w-4 h-4 md:w-5 md:h-5 ${tier.accent} shrink-0 tech-spin opacity-70 group-hover/item:opacity-100 transition-opacity drop-shadow-[0_0_5px_currentColor]`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <svg className={`w-3 h-3 md:w-5 md:h-5 ${tier.accent} shrink-0 tech-spin opacity-70 group-hover/item:opacity-100 transition-opacity drop-shadow-[0_0_5px_currentColor]`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                     <circle cx="12" cy="12" r="10" strokeWidth="1" strokeDasharray="4 4" />
                                                     <circle cx="12" cy="12" r="4" strokeWidth="1" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 2v4m0 12v4m10-10h-4M6 12H2" />
                                                 </svg>
-                                                <span className="text-xs md:text-sm font-mono text-white/70 leading-relaxed group-hover/item:text-white transition-colors duration-300">
+                                                <span className="text-[9px] md:text-sm font-mono text-white/70 leading-tight md:leading-relaxed group-hover/item:text-white transition-colors duration-300">
                                                     {feature}
                                                 </span>
                                             </li>
@@ -250,7 +250,7 @@ export default function AccommodationSection() {
                                         className="block mt-auto relative"
                                     >
                                         <button
-                                            className={`w-full py-3 md:py-4 rounded bg-white/5 border border-white/10 text-[10px] md:text-xs font-mono tracking-[0.15em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-${isUltimate ? 'amber-500/20' : 'white/10'} hover:border-${isUltimate ? 'amber-400/80' : 'white/50'} hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden`}
+                                            className={`w-full py-2 md:py-4 rounded bg-white/5 border border-white/10 text-[8px] md:text-xs font-mono tracking-[0.1em] md:tracking-[0.2em] text-white uppercase transition-all duration-300 group-hover:bg-${isUltimate ? 'amber-500/20' : 'white/10'} hover:border-${isUltimate ? 'amber-400/80' : 'white/50'} hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden`}
                                         >
                                             <span className="relative z-10 flex flex-col items-center justify-center">
                                                 <span className="group-hover:-translate-y-4 group-hover:opacity-0 transition-all duration-300">

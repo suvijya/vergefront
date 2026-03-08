@@ -1,13 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
 import { Linkedin, Instagram } from 'lucide-react';
+import axios from 'axios';
 
-import agrimImg from '../../asset/people/Agrim_Sangotra_organ.png';
-import harsithImg from '../../asset/people/HARSITH_CHANDRASEKARAN_organ.png';
-import shivamImg from '../../asset/people/Shivam_Jaiswal_organ..png';
-import ashishImg from '../../asset/people/ashish_kumar_organizer.png';
-import suvijyaImg from '../../asset/people/suvijya_arya_organ.png';
-import vanshikaImg from '../../asset/people/vanshika_jain_organ..png';
+// Cloudinary images replace the local ones.
 
 interface CrewMember {
     id: string;
@@ -22,32 +17,19 @@ interface CrewMember {
     instagram?: string;
 }
 
-const crew: CrewMember[] = [
-    { id: 'CM-101', name: 'AGRIM SANGOTRA', initials: 'AS', designation: 'General Secretary', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: agrimImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-102', name: 'HARSITH C.', initials: 'HC', designation: 'Festival Coordinator', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: harsithImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-103', name: 'SHIVAM JAISWAL', initials: 'SJ', designation: 'Event Manager', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: shivamImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-104', name: 'ASHISH KUMAR', initials: 'AK', designation: 'Tech Lead', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: ashishImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-105', name: 'SUVIJYA ARYA', initials: 'SA', designation: 'Web Developer', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: suvijyaImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-106', name: 'VANSHIKA JAIN', initials: 'VJ', designation: 'Creative Head', department: 'ORGANIZERS', deptColor: '#e0e0e0', status: 'ACTIVE', image: vanshikaImg, linkedin: '#', instagram: '#' },
-    { id: 'CM-003', name: 'VIVEK KUMAR', initials: 'VK', designation: 'Operations Lead', department: 'CORE TEAM', deptColor: '#00ffb4', status: 'ACTIVE' },
-    { id: 'CM-015', name: 'KAVYA REDDY', initials: 'KR', designation: 'Finance Lead', department: 'CORE TEAM', deptColor: '#00ffb4', status: 'ACTIVE' },
-    { id: 'CM-007', name: 'ZARA KHAN', initials: 'ZK', designation: 'Publicity Manager', department: 'MANAGERS', deptColor: '#ff6b9d', status: 'ACTIVE' },
-    { id: 'CM-008', name: 'DEV SHARMA', initials: 'DS', designation: 'Sponsorship Manager', department: 'MANAGERS', deptColor: '#ff6b9d', status: 'ACTIVE' },
-    { id: 'CM-009', name: 'TARA NAIR', initials: 'TN', designation: 'Logistics Manager', department: 'MANAGERS', deptColor: '#ff6b9d', status: 'ON MISSION' },
-    { id: 'CM-010', name: 'KABIR MEHTA', initials: 'KM', designation: 'Social Media Lead', department: 'SOCIAL MEDIA', deptColor: '#ffa726', status: 'ACTIVE' },
-    { id: 'CM-011', name: 'RIYA GUPTA', initials: 'RG', designation: 'Content Creator', department: 'SOCIAL MEDIA', deptColor: '#ffa726', status: 'ACTIVE' },
-    { id: 'CM-012', name: 'AMIT VERMA', initials: 'AV', designation: 'Video Editor', department: 'SOCIAL MEDIA', deptColor: '#ffa726', status: 'ACTIVE' },
-    { id: 'CM-004', name: 'ANIKA SINGH', initials: 'AS', designation: 'Lead Engineer', department: 'DEVELOPERS', deptColor: '#00d4ff', status: 'ACTIVE' },
-    { id: 'CM-005', name: 'ROHAN DAS', initials: 'RD', designation: 'Backend Architect', department: 'DEVELOPERS', deptColor: '#00d4ff', status: 'ACTIVE' },
-    { id: 'CM-006', name: 'MEERA IYER', initials: 'MI', designation: 'Frontend Engineer', department: 'DEVELOPERS', deptColor: '#00d4ff', status: 'ON MISSION' },
-    { id: 'CM-013', name: 'DR. S. KUMAR', initials: 'SK', designation: 'Head of Department', department: 'FACULTY', deptColor: '#ffffff', status: 'ACTIVE' },
-    { id: 'CM-014', name: 'PROF. R. DEVI', initials: 'RD', designation: 'Faculty coordinator', department: 'FACULTY', deptColor: '#ffffff', status: 'ACTIVE' },
-];
+interface FacultyMember {
+    _id: string;
+    name: string;
+    photo: string;
+    linkedin: string;
+    role: string;
+    quote: string;
+}
 
 const STUDENT_CATEGORIES = [
     { id: 'ORGANIZERS', label: 'Organizers' },
     { id: 'CORE TEAM', label: 'Core Team' },
-    { id: 'MANAGERS', label: 'Managers' },
+    { id: 'EVENT COORDINATORS', label: 'Event Coordinators' },
     { id: 'SOCIAL MEDIA', label: 'Social Media' },
     { id: 'DEVELOPERS', label: 'Developers' },
 ];
@@ -56,6 +38,7 @@ const departments = ['Students', 'Faculty'];
 
 function CrewCard({ member, index }: { member: CrewMember; index: number }) {
     const [hovered, setHovered] = useState(false);
+
 
     return (
         <div
@@ -134,8 +117,11 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
                                 <h3 className="text-base md:text-xl font-bold text-white tracking-[0.1em] mb-0.5 uppercase" style={{ fontFamily: "'Orbitron', monospace" }}>
                                     {member.name}
                                 </h3>
+                                <p className="text-[10px] md:text-xs font-mono text-white/40 tracking-[0.2em] uppercase">
+                                    {member.designation}
+                                </p>
                                 <div className="mt-auto w-full">
-                                    <div className="h-px w-full bg-white/10 my-2 relative overflow-hidden mt-3 md:mt-4 mb-2 md:mb-3">
+                                    <div className="h-px w-full bg-white/10 my-2 relative overflow-hidden mt-2 md:mt-3 mb-2 md:mb-3">
                                         <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '20%', backgroundColor: member.deptColor }} />
                                     </div>
                                     <div className="flex justify-between items-center mt-1">
@@ -232,138 +218,195 @@ function CrewCard({ member, index }: { member: CrewMember; index: number }) {
     );
 }
 
-function FacultyCard({ member, index }: { member: CrewMember; index: number }) {
+function FacultyCard({ member, index }: { member: FacultyMember; index: number }) {
     const [hovered, setHovered] = useState(false);
 
     return (
         <div
-            className={`relative group cursor-pointer transition-all duration-700 w-full ${hovered ? 'scale-[1.01] -translate-y-1' : ''}`}
+            className="relative group cursor-pointer transition-all duration-700 w-full mb-8"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            style={{ animationDelay: `${index * 0.15}s` }}
+            style={{ animationDelay: `${index * 0.1}s` }}
         >
             <div
-                className={`absolute -inset-0.5 rounded-xl blur-2xl opacity-0 transition-opacity duration-700 ${hovered ? 'opacity-100' : ''}`}
-                style={{ background: `linear-gradient(90deg, ${member.deptColor}40, transparent, ${member.deptColor}40)` }}
-            />
-
-            <div
-                className="relative flex flex-col md:flex-row bg-[#030303] rounded-xl border border-white/10 overflow-hidden"
+                className="relative h-full p-1 bg-[#050505] rounded-xl border border-white/10 overflow-hidden"
                 style={{
-                    borderColor: hovered ? `${member.deptColor}80` : 'rgba(255,255,255,0.08)',
+                    borderColor: hovered ? 'rgba(16, 185, 129, 0.6)' : 'rgba(255,255,255,0.08)',
                 }}
             >
-                {/* Background accent */}
-                <div className="absolute inset-0 opacity-20 transition-opacity duration-700" style={{ background: `radial-gradient(circle at right, ${hovered ? member.deptColor : 'transparent'}, transparent 70%)` }} />
-
-                {/* Scan line */}
-                {hovered && (
-                    <div
-                        className="absolute inset-0 pointer-events-none opacity-40 z-10"
-                        style={{
-                            background: `linear-gradient(transparent 50%, ${member.deptColor}10 50%)`,
-                            backgroundSize: '100% 4px',
-                        }}
-                    />
-                )}
-
-                <div className="p-6 md:p-10 flex items-center justify-center bg-black/60 border-b md:border-b-0 md:border-r border-white/10 relative z-20 overflow-hidden">
-                    {/* Background grid in avatar section */}
-                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px)', backgroundSize: '10px 10px' }} />
-
-                    {/* Spinning ring around avatar on hover */}
-                    <div className={`absolute inset-0 m-2 border-2 border-dashed rounded-full transition-all duration-1000 ${hovered ? 'animate-[spin_15s_linear_infinite] opacity-30' : 'opacity-0'}`} style={{ borderColor: member.deptColor }} />
-
-                    {/* Hexagon Avatar */}
-                    <div className="relative w-24 h-24 md:w-32 md:h-32 filter drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]">
-                        {/* Outer Hexagon (Border) */}
+                {/* Inner glass layer */}
+                <div className="relative h-full w-full bg-gradient-to-b from-white/[0.03] to-transparent p-4 md:p-6 rounded-lg flex flex-col md:flex-row gap-6">
+                    {/* Scan line */}
+                    {hovered && (
                         <div
-                            className="absolute inset-0 transition-colors duration-500"
+                            className="absolute inset-0 pointer-events-none opacity-30 z-0"
                             style={{
-                                clipPath: 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)',
-                                backgroundColor: hovered ? member.deptColor : 'rgba(255,255,255,0.15)'
+                                background: `linear-gradient(transparent 50%, rgba(16, 185, 129, 0.05) 50%)`,
+                                backgroundSize: '100% 4px',
                             }}
                         />
-                        <div
-                            className="absolute inset-[2px] md:inset-[3px] flex items-center justify-center bg-[#0a0a0a]"
-                            style={{
-                                clipPath: 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)',
-                            }}
-                        >
-                            <div className="absolute inset-0 transition-opacity duration-700" style={{ background: `linear-gradient(135deg, ${member.deptColor}30, transparent)`, opacity: hovered ? 1 : 0.5 }} />
-                            <span className="text-3xl md:text-5xl font-bold tracking-wider relative z-10 transition-all duration-500"
-                                style={{ fontFamily: "'Orbitron', monospace", color: hovered ? '#fff' : 'rgba(255,255,255,0.6)', textShadow: hovered ? `0 0 20px ${member.deptColor}` : 'none' }}>
-                                {member.initials}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                    )}
 
-                <div className="flex-grow p-6 md:p-10 flex flex-col justify-center relative z-20">
-                    <div className="flex justify-between items-start mb-6">
-                        <div className="flex flex-col">
-                            <div className="flex items-center gap-3">
-                                <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase px-3 py-1.5 bg-white/5 border backdrop-blur-sm" style={{ borderColor: `${member.deptColor}40`, color: member.deptColor }}>
-                                    {member.department}
-                                </span>
+                    {/* Image Section */}
+                    <div className="relative w-full md:w-[180px] aspect-square md:aspect-[1/1] shrink-0 rounded-lg overflow-hidden border border-white/10">
+                        <img
+                            src={member.photo}
+                            alt={member.name}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-100"
+                        />
+                    </div>
+
+                    {/* Info Section */}
+                    <div className="flex flex-col flex-grow text-left py-2">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 className="text-2xl md:text-3xl font-bold text-white tracking-[0.1em] mb-1 uppercase" style={{ fontFamily: "'Orbitron', monospace" }}>
+                                    {member.name}
+                                </h3>
+                                <p className="text-xs md:text-sm font-mono text-[#10b981] tracking-[0.2em] uppercase">
+                                    {member.role || 'FACULTY'}
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-2 border border-white/10 px-3 py-1 bg-black/50 rounded-sm self-start md:self-auto">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#00ffb4] shadow-[0_0_10px_#00ffb4]" />
+                                <span className="text-[10px] font-mono text-[#00ffb4] tracking-widest uppercase font-bold">ACTIVE</span>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 border border-white/10 px-3 py-1 bg-black/50">
-                            <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/50">STATUS</span>
-                            <div className="flex items-center gap-1.5">
-                                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726', boxShadow: `0 0 10px ${member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726'}` }} />
-                                <span className="text-[10px] font-mono tracking-[0.2em] font-bold" style={{ color: member.status === 'ACTIVE' ? '#00ffb4' : '#ffa726' }}>{member.status}</span>
+
+                        {/* Quote */}
+                        <div className="relative mb-4 flex-grow">
+                            <div className="absolute -left-4 -top-2 text-3xl text-white/5 font-serif pointer-events-none select-none">"</div>
+                            <p className="text-sm text-white/60 italic leading-snug tracking-wide">
+                                {member.quote || "Dedicated to mentoring students and pushing the boundaries of engineering excellence."}
+                            </p>
+                        </div>
+
+                        {/* Decoration & Design Consistency */}
+                        <div className="mt-auto w-full">
+                            <div className="h-px w-full bg-white/10 my-4 relative overflow-hidden">
+                                <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '15%', backgroundColor: '#10b981' }} />
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex gap-1.5">
+                                        {[1, 2, 3].map(i => (
+                                            <div key={i} className="w-1.5 h-3 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `rgba(16, 185, 129, ${i * 0.3})` : 'rgba(255,255,255,0.05)' }} />
+                                        ))}
+                                    </div>
+                                    {member.linkedin && (
+                                        <a
+                                            href={member.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`flex items-center gap-2 border border-white/10 px-3 py-1.5 bg-black/50 rounded-full transition-all duration-300 relative z-20 text-white/40 ${hovered ? 'border-[#0077B5]/40 text-white/80 [text-shadow:0_0_10px_#0077B5]' : ''} hover:bg-[#0077B5] hover:text-white hover:border-[#0077B5] hover:shadow-[0_0_20px_#0077B5]`}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {/* <span className="text-[10px] font-mono tracking-widest uppercase font-bold">LinkedIn</span> */}
+                                            <Linkedin size={14} className={hovered ? 'drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]' : ''} />
+                                        </a>
+                                    )}
+                                </div>
+                                <span className="text-[8px] font-mono text-white/20 tracking-[0.4em] uppercase">FACULTY // 00{index + 1}</span>
                             </div>
                         </div>
                     </div>
 
-                    <h3 className="text-3xl md:text-5xl font-bold text-white tracking-[0.1em] mb-3 uppercase" style={{ fontFamily: "'Orbitron', monospace", textShadow: hovered ? `0 0 30px ${member.deptColor}60` : 'none' }}>
-                        {member.name}
-                    </h3>
-
-                    <div className="flex items-center gap-6 mt-2">
-                        <div className="flex gap-1.5">
-                            {[1, 2, 3, 4, 5].map(i => (
-                                <div key={i} className="w-2 h-4 skew-x-[-20deg] transition-all duration-300" style={{ backgroundColor: hovered ? `${member.deptColor}${i * 20 + 10}` : 'rgba(255,255,255,0.1)' }} />
-                            ))}
-                        </div>
-                        <div className="h-px bg-white/10 flex-grow relative overflow-hidden">
-                            <div className={`absolute left-0 top-0 h-full transition-all duration-700 ease-out`} style={{ width: hovered ? '100%' : '10%', backgroundColor: member.deptColor }} />
-                        </div>
-                        <p className="text-sm md:text-base font-mono text-white/70 tracking-widest uppercase whitespace-nowrap bg-black/50 px-3 py-1 rounded">
-                            {member.designation}
-                        </p>
-                    </div>
-                </div>
-
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] transition-colors duration-500 z-30" style={{ borderColor: hovered ? member.deptColor : 'transparent' }} />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] transition-colors duration-500 z-30" style={{ borderColor: hovered ? member.deptColor : 'transparent' }} />
-
-                {/* Top right / bottom left subtle accents */}
-                <div className="absolute top-4 right-4 text-[10px] font-mono text-white/20 tracking-widest uppercase z-30 hidden md:block">
-                    {member.id}
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 transition-colors duration-500" style={{ borderColor: hovered ? 'rgba(16, 185, 129, 0.4)' : 'transparent' }} />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 transition-colors duration-500" style={{ borderColor: hovered ? 'rgba(16, 185, 129, 0.4)' : 'transparent' }} />
                 </div>
             </div>
         </div>
     );
 }
 
-export default function HumansSection({ onBack }: { onBack?: () => void }) {
+export default function HumansSection() {
     const [activeDept, setActiveDept] = useState('Students');
     const containerRef = useRef<HTMLDivElement>(null);
+    const [crewMembers, setCrewMembers] = useState<CrewMember[]>([]);
+    const [facultyMembers, setFacultyMembers] = useState<FacultyMember[]>([]);
 
-    const facultyCrew = crew.filter((m) => m.department === 'FACULTY');
-    const studentCrew = crew.filter((m) => m.department !== 'FACULTY');
+    useEffect(() => {
+        const ROLE_MAP: Record<string, { department: string; deptColor: string; designation: string }> = {
+            'organizer': { department: 'ORGANIZERS', deptColor: '#e0e0e0', designation: 'Organizer' },
+            'organizers': { department: 'ORGANIZERS', deptColor: '#e0e0e0', designation: 'Organizer' },
+            'core team': { department: 'CORE TEAM', deptColor: '#00ffb4', designation: 'Core Member' },
+            'manager': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'managers': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'manger': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'event coordinator': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'event coordinators': { department: 'EVENT COORDINATORS', deptColor: '#ff6b9d', designation: 'Event Coordinator' },
+            'social media': { department: 'SOCIAL MEDIA', deptColor: '#ffa726', designation: 'Social Media' },
+            'developers': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
+            'developer': { department: 'DEVELOPERS', deptColor: '#00d4ff', designation: 'Developer' },
+            'faculty': { department: 'FACULTY', deptColor: '#10b981', designation: 'Faculty' },
+        };
 
-    // Animation handlers for back button (same as AboutSection)
-    const onEnter = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
-        gsap.to(currentTarget, { scale: 1.05, duration: 0.2 });
-    };
+        const fetchAllData = async () => {
+            try {
+                const [teamRes, facultyRes] = await Promise.all([
+                    axios.get('https://verge-2026-codebase-production.up.railway.app/api/team'),
+                    axios.get('https://verge-2026-codebase-production.up.railway.app/api/faculty')
+                ]);
 
-    const onLeave = ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
-        gsap.to(currentTarget, { scale: 1, duration: 0.2 });
-    };
+                // Map Team Data (Students)
+                const teamRaw = teamRes.data.data || teamRes.data;
+                const mappedTeam: CrewMember[] = (Array.isArray(teamRaw) ? teamRaw : [])
+                    .map((item: any, i: number) => {
+                        const roleKey = (item.role || '').toLowerCase();
+                        const roleInfo = ROLE_MAP[roleKey] || { department: roleKey.toUpperCase(), deptColor: '#888', designation: item.role || 'Member' };
+                        const nameParts = (item.name || '').trim().split(/\s+/);
+                        const initials = nameParts.length >= 2
+                            ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+                            : (item.name || 'XX').substring(0, 2).toUpperCase();
+
+                        return {
+                            id: item._id || `CM-${i + 100}`,
+                            name: (item.name || '').toUpperCase(),
+                            initials,
+                            designation: roleInfo.designation,
+                            department: roleInfo.department,
+                            deptColor: roleInfo.deptColor,
+                            status: 'ACTIVE' as const,
+                            image: item.photo || undefined,
+                            linkedin: item.linkedin || undefined,
+                            instagram: item.instagram || undefined,
+                        };
+                    })
+                    .filter(m => m.department !== 'FACULTY'); // Prevent faculty from student list if any
+
+                // Map & Sort Faculty Data
+                const facultyRaw = facultyRes.data.data || facultyRes.data;
+                let mappedFaculty: FacultyMember[] = Array.isArray(facultyRaw) ? facultyRaw : [];
+
+                // Custom sorting: faculty coordinator > convener > all co-convener
+                const roleOrder: Record<string, number> = {
+                    'faculty coordinator': 1,
+                    'convener': 2,
+                    'co-convener': 3,
+                    'co convener': 3
+                };
+
+                mappedFaculty = [...mappedFaculty].sort((a, b) => {
+                    const orderA = roleOrder[(a.role || '').toLowerCase()] || 99;
+                    const orderB = roleOrder[(b.role || '').toLowerCase()] || 99;
+                    return orderA - orderB;
+                });
+
+                setCrewMembers(mappedTeam);
+                setFacultyMembers(mappedFaculty);
+            } catch (error) {
+                console.error('Error fetching Humans data:', error);
+            }
+        };
+
+        fetchAllData();
+    }, []);
+
+    const studentCrew = crewMembers;
+    const facultyCrew = facultyMembers;
 
     function CrewCategoryRow({ title, members }: { title: string; members: CrewMember[] }) {
         const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -427,32 +470,34 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
         if (members.length === 0) return null;
 
         return (
-            <div className="mb-20">
-                <div className="flex items-center gap-4 mb-8 px-4 md:px-0 max-w-6xl mx-auto">
+            <div className="mb-20 max-w-7xl mx-auto px-6">
+                <div className="flex items-center gap-4 mb-8">
                     <div className="h-4 w-1 bg-cyan-400" />
                     <h3 className="text-xl md:text-2xl font-bold text-white uppercase tracking-[0.2em]"
                         style={{ fontFamily: "'Orbitron', monospace" }}>
                         {title}
                     </h3>
-                    <div className="h-px w-32 bg-gradient-to-r from-white/20 to-transparent" />
+                    <div className="h-px flex-grow bg-gradient-to-r from-white/20 to-transparent" />
                 </div>
-                <div className="relative w-full group">
-                    <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+                <div className="relative w-full group overflow-hidden">
+                    <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black via-black/40 to-transparent z-20 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black via-black/40 to-transparent z-20 pointer-events-none" />
 
                     <div
                         ref={scrollContainerRef}
-                        className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none py-6 px-4 md:px-[15vw]"
+                        className="flex overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none py-6"
                         onMouseDown={onMouseDown}
                         onMouseLeave={onMouseLeave}
                         onMouseUp={onMouseUp}
                         onMouseMove={onMouseMove}
                         onMouseEnter={() => setIsHovered(true)}
+                        onTouchStart={() => setIsHovered(true)}
+                        onTouchEnd={() => setIsHovered(false)}
                         style={{ scrollBehavior: 'auto' }}
                     >
-                        <div className="flex items-stretch w-max gap-4 md:gap-6">
+                        <div className="flex items-stretch w-max gap-4 md:gap-8 pr-12">
                             {marqueeMembers.map((member, i) => (
-                                <div key={`${member.id}-${i}`} className="w-[220px] md:w-[320px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
+                                <div key={`${member.id}-${i}`} className="w-[220px] md:w-[280px] flex-shrink-0" onClick={(e) => { if (isDragging) e.preventDefault(); }}>
                                     <CrewCard member={member} index={i} />
                                 </div>
                             ))}
@@ -467,9 +512,7 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
         <section
             id="humans"
             ref={containerRef}
-            data-lenis-prevent
-            className="fixed inset-0 z-50 bg-black text-white overflow-y-auto overflow-x-hidden pt-24 pb-10 overscroll-contain"
-            style={{ overscrollBehavior: 'contain' }}
+            className="relative min-h-screen bg-black text-white pt-32 pb-20 px-4 md:px-0"
         >
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
@@ -490,48 +533,16 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
                 }}
             />
 
-            {/* Section Header */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 mt-10 md:mt-16 relative flex flex-col items-center justify-center min-h-[80px]">
-                {/* Back Button positioned absolute on desktop, relative on mobile */}
-                {onBack && (
-                    <div className="mb-8 md:mb-0 md:absolute md:left-4 lg:left-8 z-20 w-fit self-center md:self-start md:top-1/2 md:-translate-y-1/2">
-                        <button
-                            onClick={onBack}
-                            onMouseEnter={onEnter}
-                            onMouseLeave={onLeave}
-                            className="group flex flex-col md:flex-row items-center gap-2 md:gap-4 text-white/50 hover:text-cyan-400 transition-colors"
-                        >
-                            <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/10 transition-all bg-black/50 backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                                </svg>
-                            </div>
-                            <span className="font-mono text-[10px] md:text-sm tracking-[0.25em] uppercase md:mt-1">Return</span>
-                        </button>
-                    </div>
-                )}
-
-                <div className="flex flex-col items-center justify-center z-10 w-full text-center md:px-32">
-                    <span className="text-white/40 font-mono text-[10px] md:text-xs tracking-[0.4em] mb-3 uppercase">Manifest</span>
-                    <h2
-                        className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
-                        style={{ fontFamily: "'Orbitron', sans-serif" }}
-                    >
-                        PEOPLE AND THE<br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">IDEAS BEHIND</span>
-                    </h2>
-                </div>
-            </div>
-
-            {/* Department Filter Tabs - Pill Style */}
-            <div className="flex justify-center mb-8 md:mb-16 px-4 md:px-0">
-                <div className="flex overflow-x-auto no-scrollbar max-w-full items-center p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+            {/* Department Filter Tabs - Absolute at top, scrolls with page */}
+            <div className="absolute top-[110px] left-1/2 -translate-x-1/2 z-[60] flex justify-center px-4 w-full max-w-xl pointer-events-none">
+                <div className="flex overflow-x-auto no-scrollbar items-center p-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md shadow-2xl pointer-events-auto">
                     {departments.map((dept) => (
                         <button
                             key={dept}
                             onClick={() => setActiveDept(dept)}
-                            className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-mono tracking-wider transition-all duration-300 whitespace-nowrap ${activeDept === dept
-                                ? 'bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)]'
-                                : 'text-white/60 hover:text-white hover:bg-white/5'
+                            className={`px-6 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-mono tracking-widest uppercase transition-all duration-300 whitespace-nowrap ${activeDept === dept
+                                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                                : 'text-white/50 hover:text-white border border-transparent hover:bg-white/5'
                                 }`}
                         >
                             {dept}
@@ -540,38 +551,70 @@ export default function HumansSection({ onBack }: { onBack?: () => void }) {
                 </div>
             </div>
 
-            {/* Faculty List (Visible only when Faculty tab is active) */}
-            {activeDept === 'Faculty' && (
-                <div className="max-w-6xl mx-auto flex flex-col gap-6 mb-16">
-                    {facultyCrew.map((member, i) => (
-                        <FacultyCard key={member.id} member={member} index={i} />
-                    ))}
-                </div>
-            )}
+            {/* Content Area */}
+            <div className="w-full relative z-10 pt-28">
 
-            {/* Student Horizontal Lists */}
-            {activeDept === 'Students' && (
-                <div className="w-full">
-                    {STUDENT_CATEGORIES.map((category) => (
-                        <CrewCategoryRow
-                            key={category.id}
-                            title={category.label}
-                            members={studentCrew.filter(m => m.department === category.id)}
-                        />
-                    ))}
-                </div>
-            )}
+                {/* Faculty List (Visible only when Faculty tab is active) */}
+                {activeDept === 'Faculty' && (
+                    <div className="max-w-6xl mx-auto px-6 flex flex-col gap-8 mb-16">
+                        {facultyCrew.map((member, i) => (
+                            <FacultyCard key={member._id} member={member} index={i} />
+                        ))}
+                    </div>
+                )}
 
-            {/* Join the crew CTA */}
-            <div className="text-center mt-20 pb-16">
-                <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
-                <a
-                    href="mailto:team@verge2026.com"
-                    className="inline-block px-8 py-3 border border-white/20 text-white/80 font-mono text-xs tracking-[0.2em] hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-full"
-                >
-                    [ JOIN THE CREW ]
-                </a>
-            </div>
+                {/* Student Horizontal Lists */}
+                {activeDept === 'Students' && (
+                    <div className="w-full">
+                        {STUDENT_CATEGORIES.map((category) => {
+                            const members = studentCrew.filter(m => m.department === category.id);
+                            if (members.length === 0) return null;
+
+                            if (category.id === 'ORGANIZERS') {
+                                return (
+                                    <CrewCategoryRow
+                                        key={category.id}
+                                        title={category.label}
+                                        members={members}
+                                    />
+                                );
+                            }
+
+                            return (
+                                <div key={category.id} className="mb-20 max-w-7xl mx-auto px-6">
+                                    <div className="flex items-center gap-4 mb-10">
+                                        <div className="h-4 w-1 bg-cyan-400" />
+                                        <h3 className="text-xl md:text-2xl font-bold text-white uppercase tracking-[0.2em]"
+                                            style={{ fontFamily: "'Orbitron', monospace" }}>
+                                            {category.label}
+                                        </h3>
+                                        <div className="h-px flex-grow bg-gradient-to-r from-white/20 to-transparent" />
+                                    </div>
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                                        {members.map((member, i) => (
+                                            <div key={member.id} className="aspect-[3.2/5]">
+                                                <CrewCard member={member} index={i} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {/* Join the crew CTA */}
+                {/* <div className="text-center mt-20 pb-16">
+                    <p className="text-white/40 font-mono text-sm mb-6">WANT TO BE PART OF THE LEGACY?</p>
+                    <a
+                        href="mailto:team@verge2026.com"
+                        className="inline-block px-8 py-3 border border-white/20 text-white/80 font-mono text-xs tracking-[0.2em] hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-full"
+                    >
+                        [ JOIN THE CREW ]
+                    </a>
+                </div> */}
+
+            </div> {/* End Content Area */}
         </section>
     );
 }
