@@ -274,7 +274,7 @@ const events: EventCard[] = [
         title: 'MEMEOCRACY*',
         subtitle: 'Meme Making Competition',
         description: 'Memeocracy is a creative competition where students create memes based on given themes or topics. Participants showcase humor, creativity, and communication skills through digital content creation.',
-        prize: '₹2,500',
+        prize: '₹2,000',
         bgColor: '#1a3c40',
         planetImage: chandrila,
         logo: memocracyIcon,
