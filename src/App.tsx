@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { Analytics } from '@vercel/analytics/react';
 
 import Header from './components/Header';
 import BootSequence from './sections/BootSequence';
@@ -159,6 +160,7 @@ function App() {
 
   return (
     <div ref={mainRef} className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <Analytics />
       {/* Global noise overlay */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]">
         <svg className="w-full h-full">
