@@ -97,7 +97,7 @@ const events: EventCard[] = [
         planetImage: neptune,
         logo: radCtfIcon,
         registerUrl: 'https://unstop.com/p/rad-cyber-ctf-verge-2026-srm-university-delhi-ncr-sonepat-1647956',
-        poc: 'Kanishk', contact: '9811564912', venue: 'Lab', time: '10:00-3:30pm', day: 'D2'
+        poc: 'Kanishk', contact: '9811564912', venue: 'Assigned Venue', time: '10:30-3:30pm', day: 'D2'
     },
     {
         id: 'velocity',
@@ -136,7 +136,7 @@ const events: EventCard[] = [
         planetImage: saturn,
         logo: roboligaIcon,
         registerUrl: 'https://unstop.com/p/roboliga-robo-soccer-verge-2026-srm-university-delhi-ncr-sonepat-1648596',
-        poc: 'Manas', contact: '9555155720', venue: 'Near Admin Block', time: '12:30-2:00', day: 'D1'
+        poc: 'Manas', contact: '9555155720', venue: 'Open Arena Hostel ground', time: '12:00-2:00', day: 'D1'
     },
     {
         id: 'innowave',
@@ -149,7 +149,7 @@ const events: EventCard[] = [
         planetImage: uranus,
         logo: innowaveIcon,
         registerUrl: 'https://unstop.com/p/innowave-verge-2026-srm-university-delhi-ncr-sonepat-1648577',
-        poc: 'Khushi', contact: '7250810227', venue: 'NEB Room', time: '12:15-4:30', day: 'D1'
+        poc: 'Khushi', contact: '7250810227', venue: 'Seminar Hall / Assigned Room/New EB', time: '12:30-4:30', day: 'D1'
     },
     {
         id: 'bugbounty',
@@ -162,7 +162,7 @@ const events: EventCard[] = [
         planetImage: pluto,
         logo: bugbountyIcon,
         registerUrl: 'https://unstop.com/p/bug-bounty-srm-university-delhi-ncr-sonepat-1647952',
-        poc: 'Vritti', contact: '9315606580', venue: 'Lab', time: '2:00-4:30pm', day: 'D1'
+        poc: 'Vritti', contact: '9315606580', venue: '5th Floor Lab', time: '2:30-4:30pm', day: 'D1'
     },
     {
         id: 'snapsyntax',
@@ -175,7 +175,7 @@ const events: EventCard[] = [
         planetImage: moon,
         logo: snapSyntaxIcon,
         registerUrl: 'https://unstop.com/p/snap-syntax-verge-2026-srm-university-delhi-ncr-sonepat-1646246',
-        poc: 'Rashi', contact: '9729216244', venue: 'Lab', time: '4:45-6:00pm', day: 'D1'
+        poc: 'Rashi', contact: '9729216244', venue: 'Computer Lab', time: '12:30-4:30pm', day: 'D2'
     },
     {
         id: 'codeblitz',
@@ -188,7 +188,7 @@ const events: EventCard[] = [
         planetImage: sun,
         logo: codeblitzIcon,
         registerUrl: 'https://unstop.com/p/code-blitz-verge-2026-srm-university-delhi-ncr-sonepat-1647917',
-        poc: 'Aryan', contact: '9306882773', venue: 'Lab', time: '10:00-11:30pm', day: 'D1'
+        poc: 'Aryan', contact: '9306882773', venue: 'New EB', time: '5:00-6:30pm', day: 'D1'
     },
     {
         id: 'artisticaura',
@@ -214,7 +214,7 @@ const events: EventCard[] = [
         planetImage: kashyk,
         logo: murdermysteryIcon,
         registerUrl: 'https://unstop.com/competitions/murder-mystery-verge-2026-srm-university-delhi-ncr-sonepat-1651115',
-        poc: 'Kanika', contact: '8130477306', venue: 'EB + NEB', time: '1:00-3:00am', day: 'D2'
+        poc: 'Kanika', contact: '8130477306', venue: 'Law Dept Room & Campus', time: '1:30-4:30am', day: 'D2'
     },
     {
         id: 'astrophotography',
@@ -227,7 +227,7 @@ const events: EventCard[] = [
         planetImage: genosis,
         logo: astroIcon,
         registerUrl: 'https://unstop.com/p/astro-photography-verge-2026-srm-university-delhi-ncr-sonepat-1649867',
-        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Sports Ground', time: '6:00pm.. 10:00-2:00', day: 'D0'
+        poc: 'Shivam Jaiswal', contact: '7542052390', venue: 'Open Ground / Terrace Area', time: '6:30pm-12:00am', day: 'D0'
     },
     {
         id: 'tracert',
@@ -240,7 +240,7 @@ const events: EventCard[] = [
         planetImage: naboo,
         logo: tracertIcon,
         registerUrl: 'https://unstop.com/p/tracert-line-follower-verge-2026-srm-university-delhi-ncr-sonepat-1648631',
-        poc: 'Vasundhara', contact: '9548760182', venue: 'Near Escalators', time: '2:00-3:00', day: 'D1'
+        poc: 'Vasundhara', contact: '9548760182', venue: 'Tracert Area - Near Escalator, New EB', time: '2:30-3:30', day: 'D1'
     },
     {
         id: 'bridgeomania',
@@ -253,7 +253,7 @@ const events: EventCard[] = [
         planetImage: corell,
         logo: bridgeomaniaIcon,
         registerUrl: 'https://unstop.com/p/bridge-o-mania-verge-2026-srm-university-delhi-ncr-sonepat-1647927',
-        poc: 'Yatin', contact: '9034871027', venue: 'Electrical Lab', time: '12:45-2:00', day: 'D1'
+        poc: 'Yatin', contact: '9034871027', venue: 'Electrical Lab', time: '12:30-2:00', day: 'D1'
     },
     {
         id: 'biddingwars',
@@ -266,7 +266,7 @@ const events: EventCard[] = [
         planetImage: tatoon,
         logo: biddingIcon,
         registerUrl: 'https://unstop.com/competitions/biddin-war-verge-2026-srm-university-delhi-ncr-sonepat-1649019',
-        poc: 'Shaurya', contact: '8447643031', venue: 'Lab', time: '10:00-4:00pm', day: 'D2'
+        poc: 'Shaurya', contact: '8447643031', venue: '5th Floor Lab - New EB', time: '12:30-4:30pm', day: 'D1'
     },
     {
         id: 'memeocracy',
@@ -279,7 +279,7 @@ const events: EventCard[] = [
         planetImage: chandrila,
         logo: memocracyIcon,
         registerUrl: 'https://unstop.com/p/memocracy-verge-2026-srm-university-delhi-ncr-sonepat-1647981',
-        poc: 'Hriday', contact: '9818650375', venue: 'Lab', time: '12:00-2:00pm', day: 'D1'
+        poc: 'Hriday', contact: '9818650375', venue: '5th Floor Lab', time: '2:30-4:30pm', day: 'D1'
     },
     {
         id: 'designatee',
