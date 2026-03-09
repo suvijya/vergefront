@@ -48,7 +48,7 @@ export default function DataDashboard() {
           {/* Center: Prize Pool */}
           <div ref={counterRef} className="pointer-events-auto flex flex-col items-center flex-1">
             <div className="text-5xl md:text-8xl font-black text-white tracking-tighter text-center whitespace-nowrap" style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 30px rgba(0,255,180,0.5)' }}>
-              {formatCurrency(prizePool)}
+              ₹ 15,00,000+
             </div>
             <div className="text-xs md:text-sm font-bold font-mono text-emerald-400/80 mt-2 tracking-[0.3em] uppercase">
               Total Prize Pool
@@ -134,7 +134,7 @@ function DebrisEarth({ debrisCount }: { debrisCount: number }) {
     { name: "MARK1", prize: "₹ 75,000", desc: "High-octane combat robotics arena." },
     { name: "RAD CTF", prize: "₹ 30,000", desc: "Capture The Flag cybersecurity challenge." },
     { name: "VELOCITY", prize: "₹ 15,000", desc: "Pro-level FPV drone racing tournament." },
-    { name: "INNOWAVE", prize: "₹ 25,000", desc: "Showcase for next-gen innovation." }
+    { name: "INNOWAVE", prize: "₹ 15,000", desc: "Showcase for next-gen innovation." }
   ];
 
   // Track specific "label particles" separately to ensure they exist and orbit nicely
