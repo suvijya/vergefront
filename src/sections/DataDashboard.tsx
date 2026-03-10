@@ -6,13 +6,13 @@ export default function DataDashboard() {
   const earthRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
 
-  const prizePool = 1500000;
+  // const prizePool = 1500000;
   const participants = 5000;
   const footfall = 10000;
 
-  const formatCurrency = (num: number) => {
-    return '₹ ' + num.toLocaleString('en-IN');
-  };
+  // const formatCurrency = (num: number) => {
+  //   return '₹ ' + num.toLocaleString('en-IN');
+  // };
 
   return (
     <section
