@@ -18,6 +18,9 @@ import HumansSection from './sections/HumansSection';
 import AboutSection from './sections/AboutSection';
 import Footer from './sections/Footer';
 import PartnersSection from './sections/PartnersSection';
+import PrivacyPolicy from './sections/PrivacyPolicy';
+import AccountDeletion from './sections/AccountDeletion';
+
 
 import './App.css';
 
@@ -26,13 +29,17 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [bootComplete, setBootComplete] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [view, setView] = useState<'main' | 'about' | 'crew' | 'speakers'>(() => {
+  const [view, setView] = useState<'main' | 'about' | 'crew' | 'speakers' | 'privacy' | 'delete-account'>(() => {
     const path = window.location.pathname;
     if (path === '/crew') return 'crew';
     if (path === '/speakers') return 'speakers';
     if (path === '/about') return 'about';
+    if (path === '/privacy-policy') return 'privacy';
+    if (path === '/delete-account') return 'delete-account';
     return 'main';
+
   }); // specific view state
+
 
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
@@ -46,7 +53,11 @@ function App() {
         if (path === '/crew') setView('crew');
         else if (path === '/speakers') setView('speakers');
         else if (path === '/about') setView('about');
+        else if (path === '/privacy-policy') setView('privacy');
+        else if (path === '/delete-account') setView('delete-account');
         else setView('main');
+
+
       }
     };
 
@@ -81,7 +92,8 @@ function App() {
 
   const handleBackToMain = () => {
     // specific check to avoid keeping paths in URL if we manually click back
-    if (window.location.pathname === '/crew' || window.location.pathname === '/speakers') {
+    if (window.location.pathname === '/crew' || window.location.pathname === '/speakers' || window.location.pathname === '/privacy-policy' || window.location.pathname === '/delete-account') {
+
       window.history.back();
     } else {
       setView('main');
@@ -231,7 +243,19 @@ function App() {
           {view === 'speakers' && (
             <SpeakersSection onBack={handleBackToMain} />
           )}
+
+          {/* Privacy Policy Section */}
+          {view === 'privacy' && (
+            <PrivacyPolicy onBack={handleBackToMain} />
+          )}
+
+          {/* Account Deletion Section */}
+          {view === 'delete-account' && (
+            <AccountDeletion onBack={handleBackToMain} />
+          )}
         </>
+
+
       )}
 
       {/* Status Bar - always visible */}
