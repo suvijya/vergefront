@@ -102,7 +102,7 @@ export default function AccommodationSection() {
         {
             title: "ULTIMATE COMBO",
             subtitle: "Stay + Mess + Concerts",
-            price: "₹1849",
+            price: "₹2199",
             duration: "",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
@@ -112,6 +112,24 @@ export default function AccommodationSection() {
                 "Stay for Day 1 and Day 2",
                 "Mess Included",
                 "2 Day Concert Pass",
+                "1 Bed Available"
+            ],
+            buttonText: "BOOK COMBO",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSf..." // REPLACE WITH ACTUAL LINK
+        },
+        {
+            title: "Only Night Stay",
+            subtitle: "No food included",
+            price: "₹349",
+            duration: "",
+            color: "from-amber-500/20 to-orange-500/5",
+            borderColor: "border-amber-500/30",
+            glowColor: "rgba(245, 158, 11, 0.15)",
+            accent: "text-amber-400",
+            features: [
+                // "Stay for Day 1 and Day 2",
+                "No Food Included",
+                // "2 Day Concert Pass",
                 "1 Bed Available"
             ],
             buttonText: "BOOK COMBO",
@@ -185,7 +203,7 @@ export default function AccommodationSection() {
                 {/* Pricing Cards */}
                 <div
                     ref={cardsRef}
-                    className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-2 md:px-4"
+                    className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 justify-items-center w-full max-w-[1400px] mx-auto px-2 md:px-4"
                 >
                     {packages.map((tier, index) => {
                         const isUltimate = index === 3;
@@ -257,7 +275,7 @@ export default function AccommodationSection() {
                                                     {tier.buttonText}
                                                 </span>
                                                 <span className="absolute translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 text-cyan-300">
-                                                    &gt; INITIATE_TRANSFER
+                                                    INITIATE_TRANSFER
                                                 </span>
                                             </span>
                                         </button>
