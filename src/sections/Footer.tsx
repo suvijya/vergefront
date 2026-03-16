@@ -142,9 +142,12 @@ export default function Footer({
             {/* Bottom Bar */}
             <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-24 border-t border-white/[0.05] mt-6 pt-5">
                 <div className="flex flex-col sm:flex-row justify-center items-center w-full gap-3">
-                    {/* Copyright */}
-                    <div className="text-[10px] tracking-[0.1em] text-white/50 font-mono flex uppercase text-center">
-                        <span>© 2026 VERGE TECHFEST.</span>
+                    {/* Copyright & Maker */}
+                    <div className="text-[10px] tracking-[0.1em] text-white/50 font-mono flex flex-col items-center justify-center text-center gap-1.5 mt-1">
+                        <span className="uppercase">© 2026 VERGE TECHFEST.</span>
+                        <a href="https://www.linkedin.com/in/suvijya-arya-564404325/" target="_blank" rel="noopener noreferrer" className="normal-case tracking-normal opacity-90 text-[12px] hover:text-white transition-colors">
+                            Made with ❤️ by Suvijya Arya
+                        </a>
                     </div>
                 </div>
             </div>
