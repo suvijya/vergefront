@@ -102,7 +102,7 @@ export default function AccommodationSection() {
         {
             title: "ULTIMATE COMBO",
             subtitle: "Stay + Mess + Concerts",
-            price: "₹2399",
+            price: "₹2699",
             duration: "",
             color: "from-amber-500/20 to-orange-500/5",
             borderColor: "border-amber-500/30",
