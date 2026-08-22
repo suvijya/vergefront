@@ -1,8 +1,30 @@
 import { useState, useRef, useEffect } from 'react';
 import { Linkedin, Instagram } from 'lucide-react';
+import suvijyaPhoto from '../../asset/people/web/suvijya_arya_organ.webp';
+import shivamPhoto from '../../asset/people/web/Shivam_Jaiswal_organ..webp';
+import vanshikaPhoto from '../../asset/people/web/vanshika_jain_organ..webp';
+import ashishPhoto from '../../asset/people/web/ashish_kumar_organizer.webp';
+import agrimPhoto from '../../asset/people/web/Agrim_Sangotra_organ.webp';
+import harsithPhoto from '../../asset/people/web/HARSITH_CHANDRASEKARAN_organ.webp';
+import karunaPhoto from '../../asset/people/web/karuna_leekha.webp';
+import mohanPhoto from '../../asset/people/web/Dr. M. Mohan Faculty Coordinator.webp';
+import ajayPhoto from '../../asset/people/web/(Prof.) Dr. Ajay Sharma fest convener.webp';
 // import axios from 'axios';
 
-// Cloudinary images replace the local ones.
+const LOCAL_PEOPLE_PHOTOS: Record<string, string> = {
+    'suvijya arya': suvijyaPhoto,
+    'shivam jaiswal': shivamPhoto,
+    'vanshika jain': vanshikaPhoto,
+    'ashish kumar': ashishPhoto,
+    'agrim sangotra': agrimPhoto,
+    'harsith chandrasekaran': harsithPhoto,
+    'karuna': karunaPhoto,
+};
+
+const LOCAL_FACULTY_PHOTOS: Record<string, string> = {
+    'dr. m. mohan': mohanPhoto,
+    '(prof.) dr. ajay sharma': ajayPhoto,
+};
 
 interface CrewMember {
     id: string;
@@ -412,7 +434,9 @@ export default function HumansSection() {
                     department: roleInfo.department,
                     deptColor: roleInfo.deptColor,
                     status: 'ACTIVE' as const,
-                    image: item.photo || undefined,
+                    // Only use bundled portraits. Cloudinary is no longer available;
+                    // members without a local portrait keep the intentional initials card.
+                    image: LOCAL_PEOPLE_PHOTOS[(item.name || '').trim().toLowerCase()],
                     linkedin: item.linkedin || undefined,
                     instagram: item.instagram || undefined,
                 };
@@ -443,7 +467,7 @@ export default function HumansSection() {
             ? faculty.map((f: any, i: number) => ({
                 _id: typeof f._id === 'string' ? f._id : (f._id?.$oid || `FM-${i + 1}`),
                 name: f.name,
-                photo: f.photo,
+                photo: LOCAL_FACULTY_PHOTOS[(f.name || '').trim().toLowerCase()],
                 linkedin: f.linkedin,
                 role: f.role,
                 quote: f.quote,
